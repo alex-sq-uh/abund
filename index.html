@@ -206,8 +206,8 @@ canvas{width:100%!important}
 .modal-body strong{color:var(--text);font-weight:600}
 .modal-body h4{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--sky-dark);margin:1rem 0 0.4rem}
 
-/* MINIONS VISUAL */
-.minions-row{display:flex;gap:6px;align-items:flex-end;margin:1rem 0;overflow:hidden}
+/* dinerites VISUAL */
+.dinerites-row{display:flex;gap:6px;align-items:flex-end;margin:1rem 0;overflow:hidden}
 .minion{font-size:1.2rem;transition:var(--transition)}
 .minion-stack{display:flex;flex-direction:column;align-items:center;gap:2px}
 .minion-label{font-size:0.6rem;color:var(--text-dim);text-align:center}
@@ -267,17 +267,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 <!-- ═══════════════════════════════════════ -->
 <div class="screen active" id="s0">
   <div class="eyebrow">Una app de tu amigo Alex</div>
-  <h1 class="headline">Si llegaste hasta aquí, es porque alguien quiere que tus <em>minions verdes</em> trabajen para ti 💚</h1>
-  <p class="subline">Alex te comparte esta app porque cree que mereces que tu dinero trabaje mientras tú vives. En 5 minutos diseñamos juntos tu primer plan inversor.</p>
+  <h1 class="headline">Si llegaste hasta aquí, es porque alguien quiere que tu <em>dinerite</em> trabaje para ti 💚</h1>
+  <p class="subline">En 5 minutos diseñamos juntos tu primer plan inversor.</p>
 
-  <!-- MINIONS METÁFORA -->
+  <!-- dinerites METÁFORA -->
   <div class="card" style="margin-bottom:1rem;background:linear-gradient(135deg,#f0fff4,#e8f8f5);border-color:#a9dfbf">
-    <div style="font-size:0.82rem;font-weight:600;color:#1e8449;margin-bottom:0.5rem">¿Qué son los minions verdes? 💚</div>
-    <p style="font-size:0.85rem;color:#2e7d4f;line-height:1.65">Imagina que cada euro que inviertes se convierte en un <strong>minion verde</strong> que sale a trabajar por ti. Mientras tú duermes, comes o estás de vacaciones, tus minions están ahí fuera, generando más minions. Con el tiempo, tienes un ejército de minions trabajando las 24h para traerte dinero a casa. <strong>Eso es el interés compuesto.</strong></p>
-    <div class="minions-row" style="justify-content:center;margin-top:0.75rem">
+    <div style="font-size:0.82rem;font-weight:600;color:#1e8449;margin-bottom:0.5rem">¿Qué son los dinerites? 💚</div>
+    <p style="font-size:0.85rem;color:#2e7d4f;line-height:1.65">Imagina que cada euro que inviertes se convierte en un <strong>petit dinerite</strong> que sale a trabajar por ti. Mientras tú duermes, comes o estás de vacaciones, tus dinerites están ahí fuera, generando más dinerites. Con el tiempo, tienes un ejército de dinerites trabajando las 24h para traerte dinero a casa. <strong>Eso es el interés compuesto.</strong></p>
+    <div class="dinerites-row" style="justify-content:center;margin-top:0.75rem">
       <div class="minion-stack"><div>💚</div><div class="minion-label">Año 1<br>1 minion</div></div>
       <div style="color:var(--text-dim);font-size:0.8rem;align-self:center">→</div>
-      <div class="minion-stack"><div>💚💚💚</div><div class="minion-label">Año 5<br>3 minions</div></div>
+      <div class="minion-stack"><div>💚💚💚</div><div class="minion-label">Año 5<br>3 dinerites</div></div>
       <div style="color:var(--text-dim);font-size:0.8rem;align-self:center">→</div>
       <div class="minion-stack"><div>💚💚💚💚💚💚💚</div><div class="minion-label">Año 15<br>¡Muchos!</div></div>
     </div>
@@ -295,7 +295,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div style="font-size:0.72rem;color:var(--text-dim);margin-top:0.4rem">Tu mensaje llegará directamente a Alex.</div>
   </div>
 
-  <button class="btn-primary" onclick="goTo('s_edu_choice')">Quiero mis minions verdes →</button>
+  <button class="btn-primary" onclick="goTo('s_edu_choice')">Quiero mis dinerites verdes →</button>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -334,7 +334,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       <!-- TARJETA 2: INTERÉS COMPUESTO -->
       <div class="edu-card">
         <div class="edu-icon">💚</div>
-        <div class="edu-title">El interés compuesto: tus minions generan minions</div>
+        <div class="edu-title">El interés compuesto: tus dinerites generan dinerites</div>
         <div class="edu-body">Cuando tu inversión genera un 7% este año, ese 7% se suma a tu capital. El año que viene, el 7% se calcula sobre un capital más grande. Y así cada año.<br><br>Es lento al principio. <strong>Imparable a largo plazo.</strong> Por eso cuanto antes empiezas, mejor.
           <div class="edu-visual"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center"><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 10</div><div style="font-size:1.1rem;font-weight:700;color:var(--amber);font-family:var(--font-display)">33.000€</div><div style="font-size:0.65rem;color:var(--text-dim)">200€/mes</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 20</div><div style="font-size:1.1rem;font-weight:700;color:var(--sky-dark);font-family:var(--font-display)">104.000€</div><div style="font-size:0.65rem;color:var(--text-dim)">200€/mes</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 30</div><div style="font-size:1.1rem;font-weight:700;color:var(--green);font-family:var(--font-display)">243.000€</div><div style="font-size:0.65rem;color:var(--text-dim)">200€/mes</div></div></div></div>
         </div>
