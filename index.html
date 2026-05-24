@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abund — Tu primer paso inversor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & BASE ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0a0a0f;
+  color: #f0ede8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============ CSS VARIABLES ============ */
+:root {
+  --green: #b8f04a;
+  --green-dim: #7aad1f;
+  --green-dark: #1a2e00;
+  --surface: #13131a;
+  --surface2: #1c1c27;
+  --surface3: #252535;
+  --border: #2a2a3d;
+  --text: #f0ede8;
+  --text-sec: #9b97a0;
+  --text-dim: #5a5670;
+  --red: #ff5e5e;
+  --amber: #f5a623;
+  --blue: #5b8df5;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============ LAYOUT ============ */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 1rem 4rem;
+  position: relative;
+}
+
+.app-shell::before {
+  content: '';
+  position: fixed;
+  top: -30%;
+  left: -20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(184,240,74,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 560px;
+  padding-top: 3rem;
+  animation: fadeUp 0.35s ease forwards;
+  position: relative;
+  z-index: 1;
+}
+.screen.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ HEADER / NAV ============ */
+.top-bar {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0 0;
+  position: relative;
+  z-index: 10;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: -0.02em;
+}
+.back-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-sec);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex; align-items: center; gap: 6px;
+}
+.back-btn:hover { background: var(--surface3); color: var(--text); }
+.back-btn.hidden { visibility: hidden; }
+
+/* ============ PROGRESS ============ */
+.progress-bar {
+  width: 100%;
+  max-width: 560px;
+  height: 2px;
+  background: var(--surface3);
+  margin-top: 1rem;
+  border-radius: 2px;
+  position: relative;
+  z-index: 1;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.progress-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  text-align: right;
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ============ TYPOGRAPHY ============ */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.75rem;
+}
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+.headline em { color: var(--green); font-style: normal; }
+.subline {
+  font-size: 0.95rem;
+  color: var(--text-sec);
+  line-height: 1.65;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+/* ============ CARDS ============ */
+.card-grid { display: grid; gap: 10px; }
+.card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.option-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.option-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(184,240,74,0.04), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+.option-card:hover { border-color: rgba(184,240,74,0.3); }
+.option-card:hover::before { opacity: 1; }
+.option-card.selected {
+  border-color: var(--green);
+  background: rgba(184,240,74,0.05);
+}
+.option-card.selected::before { opacity: 1; }
+.option-card .check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  position: absolute;
+  top: 1rem; right: 1rem;
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.option-card.selected .check {
+  background: var(--green);
+  border-color: var(--green);
+}
+.option-card.selected .check::after {
+  content: '✓';
+  font-size: 11px;
+  color: #0a0a0f;
+  font-weight: 700;
+}
+.card-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.card-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.card-desc { font-size: 0.8rem; color: var(--text-sec); line-height: 1.5; }
+
+/* Profile cards */
+.profile-card { text-align: center; padding: 1.5rem 1rem; }
+.profile-card .card-icon { font-size: 2rem; }
+.profile-card .tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 50px;
+  margin-bottom: 0.5rem;
+}
+.tag-green { background: rgba(184,240,74,0.15); color: var(--green); }
+.tag-amber { background: rgba(245,166,35,0.15); color: var(--amber); }
+.tag-blue { background: rgba(91,141,245,0.15); color: var(--blue); }
+
+/* ============ BUTTONS ============ */
+.btn-primary {
+  background: var(--green);
+  color: #0a0a0f;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.5rem;
+  transition: var(--transition);
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover { background: #c9f55e; transform: translateY(-1px); }
+.btn-primary:disabled {
+  background: var(--surface3);
+  color: var(--text-dim);
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--text-sec);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 12px 28px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.75rem;
+  transition: var(--transition);
+}
+.btn-secondary:hover { border-color: var(--text-sec); color: var(--text); }
+.btn-ghost {
+  background: none; border: none;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: var(--transition);
+  font-family: var(--font-body);
+}
+.btn-ghost:hover { color: var(--text-sec); }
+
+/* ============ SLIDERS ============ */
+.slider-wrap { margin-bottom: 1.5rem; }
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+.slider-name { font-size: 0.85rem; color: var(--text-sec); }
+.slider-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--green);
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--surface3);
+  border-radius: 3px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+  border: 3px solid #0a0a0f;
+  box-shadow: 0 0 0 2px var(--green);
+}
+
+/* ============ HIGHLIGHT BOX ============ */
+.highlight-box {
+  background: rgba(184,240,74,0.07);
+  border: 1px solid rgba(184,240,74,0.2);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  margin: 1rem 0;
+}
+.highlight-box p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.6; }
+.highlight-box strong { color: var(--green); font-weight: 600; }
+
+.warning-box {
+  background: rgba(245,166,35,0.07);
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  margin: 1rem 0;
+}
+.warning-box p { font-size: 0.85rem; color: #c4843a; line-height: 1.6; }
+
+/* ============ CHART ============ */
+.chart-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-sec);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+canvas { width: 100% !important; }
+.chart-legend {
+  display: flex; gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; color: var(--text-sec);
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ============ EDUCATION CARDS (Swipeable) ============ */
+.edu-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  touch-action: pan-y;
+}
+.edu-track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.edu-card {
+  min-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+}
+.edu-card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.edu-card-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.edu-card-body {
+  font-size: 0.9rem;
+  color: var(--text-sec);
+  line-height: 1.7;
+  flex: 1;
+}
+.edu-card-body strong { color: var(--green); font-weight: 500; }
+.edu-card-visual {
+  margin-top: 1.25rem;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+}
+.edu-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.edu-dots {
+  display: flex; gap: 6px; align-items: center;
+}
+.edu-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--surface3);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.edu-dot.active {
+  background: var(--green);
+  width: 20px;
+  border-radius: 3px;
+}
+.edu-arrow {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-sec);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+}
+.edu-arrow:hover { background: var(--surface3); color: var(--text); }
+.edu-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ============ PROBABILITY BARS ============ */
+.prob-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 50px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.prob-label { font-size: 0.8rem; color: var(--text-sec); }
+.prob-bar-bg {
+  height: 8px;
+  background: var(--surface3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.prob-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease;
+}
+.prob-pct { font-size: 0.8rem; font-weight: 600; text-align: right; }
+
+/* ============ ETF CARDS ============ */
+.etf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.etf-pct {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  min-width: 55px;
+  color: var(--green);
+}
+.etf-info { flex: 1; }
+.etf-name { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.etf-ticker { font-size: 0.75rem; color: var(--text-dim); }
+.etf-bar {
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 6px;
+}
+.isin-badge {
+  font-size: 0.65rem;
+  background: var(--surface2);
+  color: var(--text-dim);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* ============ STEPS (Journey) ============ */
+.steps-list { list-style: none; margin-top: 0.5rem; }
+.step-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.step-item:last-child { border-bottom: none; }
+.step-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(184,240,74,0.1);
+  border: 1.5px solid rgba(184,240,74,0.3);
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-content {}
+.step-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.step-desc { font-size: 0.82rem; color: var(--text-sec); line-height: 1.55; }
+.broker-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.broker-tag {
+  font-size: 0.7rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-sec);
+  padding: 3px 10px;
+  border-radius: 50px;
+}
+
+/* ============ SUMMARY GRID ============ */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+.summary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+}
+.summary-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.summary-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--green);
+}
+.summary-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
+
+/* ============ SECTION TITLE ============ */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* ============ TOOLTIP ============ */
+.tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: var(--green-dim);
+  font-size: 0.8rem;
+  border-bottom: 1px dashed rgba(184,240,74,0.3);
+}
+.tooltip-box {
+  display: none;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-sec);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+.tooltip-box.open { display: block; }
+
+/* ============ DISCLAIMER ============ */
+.disclaimer {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding: 1rem;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin-top: 1.5rem;
+}
+
+/* ============ MONETARY FUND CARD ============ */
+.fund-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.fund-name { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+.fund-meta { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
+.fund-return {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--amber);
+  text-align: right;
+  flex-shrink: 0;
+}
+.fund-return-label { font-size: 0.65rem; color: var(--text-dim); }
+
+/* ============ DIVIDER ============ */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.5rem 0;
+}
+
+/* ============ RADIO GROUP ============ */
+.radio-group { display: flex; gap: 8px; flex-direction: column; }
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.radio-item:hover { border-color: rgba(184,240,74,0.3); }
+.radio-item.selected { border-color: var(--green); background: rgba(184,240,74,0.05); }
+.radio-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.radio-item.selected .radio-dot { border-color: var(--green); }
+.radio-item.selected .radio-dot::after {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.radio-text { font-size: 0.9rem; color: var(--text); }
+.radio-sub { font-size: 0.75rem; color: var(--text-sec); margin-top: 1px; }
+
+/* ============ NUMBER INPUT ============ */
+.input-group { margin-bottom: 1rem; }
+.input-label { font-size: 0.82rem; color: var(--text-sec); margin-bottom: 0.4rem; display: block; }
+.input-field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  outline: none;
+  transition: var(--transition);
+}
+.input-field:focus { border-color: rgba(184,240,74,0.5); }
+.input-field::placeholder { color: var(--text-dim); font-weight: 400; }
+.input-hint { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.3rem; }
+
+/* ============ FINAL SECTION CARDS ============ */
+.edu-final-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.edu-final-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.edu-final-body {
+  font-size: 0.85rem;
+  color: var(--text-sec);
+  line-height: 1.65;
+}
+.edu-final-body strong { color: var(--green); font-weight: 500; }
+
+/* ============ WITHDRAWAL CALC ============ */
+.withdrawal-result {
+  background: rgba(184,240,74,0.07);
+  border: 1px solid rgba(184,240,74,0.2);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+.withdrawal-amount {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--green);
+  margin-bottom: 0.25rem;
+}
+.withdrawal-sub { font-size: 0.82rem; color: var(--text-sec); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- TOP BAR -->
+  <div class="top-bar" id="topBar">
+    <div class="logo">Abund</div>
+    <button class="back-btn hidden" id="backBtn" onclick="goBack()">← Volver</button>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-label" id="progressLabel"></div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 0: BIENVENIDA -->
+  <!-- ============================================================ -->
+  <div class="screen active" id="s0">
+    <div class="eyebrow">Bienvenido/a</div>
+    <h1 class="headline">Tu dinero puede trabajar <em>solo</em> mientras vives</h1>
+    <p class="subline">En 5 minutos diseñamos juntos tu primer plan inversor. Sin jerga, sin trampa, sin productos raros. Solo una estrategia probada que funciona desde hace décadas.</p>
+
+    <div class="card-grid" style="margin-bottom:1rem">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.4rem">🌱</span>
+        <div>
+          <div style="font-size:0.85rem;font-weight:500;color:var(--text);margin-bottom:3px">Estrategia real y probada</div>
+          <div style="font-size:0.78rem;color:var(--text-sec);line-height:1.5">Basada en fondos indexados pasivos. La misma que usa Warren Buffett para su familia.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.4rem">⏱️</span>
+        <div>
+          <div style="font-size:0.85rem;font-weight:500;color:var(--text);margin-bottom:3px">Menos de 1h al año</div>
+          <div style="font-size:0.78rem;color:var(--text-sec);line-height:1.5">Una vez configurado, apenas requiere atención. El tiempo hace el trabajo.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.4rem">🔒</span>
+        <div>
+          <div style="font-size:0.85rem;font-weight:500;color:var(--text);margin-bottom:3px">Tus datos son tuyos</div>
+          <div style="font-size:0.78rem;color:var(--text-sec);line-height:1.5">No pedimos email. No vendemos nada. Solo te ayudamos a entender qué hacer.</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="goTo('s_edu_choice')">Empezar mi plan →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: ¿QUIERES APRENDER PRIMERO? -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_edu_choice">
+    <div class="eyebrow">Antes de empezar</div>
+    <h1 class="headline">¿Quieres entender <em>por qué</em> esto funciona?</h1>
+    <p class="subline">Mucha gente prefiere ir directo al grano. Otros quieren entender antes de actuar. Tú eliges.</p>
+
+    <div class="card-grid">
+      <div class="option-card" onclick="selectEdu(this, true)" data-val="true">
+        <div class="check"></div>
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Sí, quiero entenderlo</div>
+        <div class="card-desc">6 conceptos clave en tarjetas visuales. Menos de 5 minutos. Te harán invertir con mucha más confianza.</div>
+      </div>
+      <div class="option-card" onclick="selectEdu(this, false)" data-val="false">
+        <div class="check"></div>
+        <div class="card-icon">🎯</div>
+        <div class="card-title">No, vamos al grano</div>
+        <div class="card-desc">Directo a tu plan personalizado. Siempre puedes aprender los conceptos después.</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btnEduChoice" disabled onclick="handleEduChoice()">Continuar →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: FORMACIÓN INICIAL (6 tarjetas deslizables) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_edu">
+    <div class="eyebrow">Formación express</div>
+    <h1 class="headline" style="font-size:1.4rem">Lo que necesitas saber antes de invertir</h1>
+
+    <div class="edu-container" id="eduContainer">
+      <div class="edu-track" id="eduTrack">
+
+        <!-- TARJETA 1: Inflación -->
+        <div class="edu-card">
+          <div class="edu-card-icon">🔥</div>
+          <div class="edu-card-title">El enemigo silencioso: la inflación</div>
+          <div class="edu-card-body">
+            Tu dinero parado en el banco <strong>pierde valor cada año</strong>. Si la inflación es del 3% y tu cuenta da un 0%, en 10 años tu dinero vale un 26% menos en términos reales.<br><br>
+            No hacer nada <strong>también es una decisión</strong> — y casi siempre es la peor.
+            <div class="edu-card-visual">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center">
+                <div>
+                  <div style="font-size:1.4rem;font-weight:700;color:var(--red);font-family:var(--font-display)">-26%</div>
+                  <div style="font-size:0.72rem;color:var(--text-dim)">Poder adquisitivo perdido en 10 años si no inviertes</div>
+                </div>
+                <div>
+                  <div style="font-size:1.4rem;font-weight:700;color:var(--green);font-family:var(--font-display)">+97%</div>
+                  <div style="font-size:0.72rem;color:var(--text-dim)">Lo que habrías ganado invirtiendo en un índice global</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 2: DCA + Diversificación -->
+        <div class="edu-card">
+          <div class="edu-card-icon">📅</div>
+          <div class="edu-card-title">Invertir poco a poco: el DCA</div>
+          <div class="edu-card-body">
+            DCA significa <strong>Dollar Cost Averaging</strong>: invertir una cantidad fija cada mes, pase lo que pase. Cuando la bolsa baja, compras más barato. Cuando sube, tus participaciones valen más.<br><br>
+            No necesitas saber si el mercado va a subir o bajar. <strong>El tiempo hace el trabajo.</strong>
+            <div class="edu-card-visual">
+              <div style="font-size:0.78rem;color:var(--text-sec);line-height:1.6">
+                📌 <strong style="color:var(--text)">Ejemplo:</strong> Si inviertes 200€/mes durante 20 años con una rentabilidad media del 7%, habrás puesto 48.000€ y tendrás aproximadamente <strong style="color:var(--green)">104.000€</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 3: Interés compuesto -->
+        <div class="edu-card">
+          <div class="edu-card-icon">⚡</div>
+          <div class="edu-card-title">El interés compuesto: dinero que genera dinero</div>
+          <div class="edu-card-body">
+            El interés compuesto significa que <strong>ganas rentabilidad sobre tu rentabilidad</strong>. Cada año, tus ganancias se suman al capital y generan más ganancias.<br><br>
+            Einstein lo llamó "la octava maravilla del mundo". El secreto es <strong>empezar pronto y no interrumpir</strong>.
+            <div class="edu-card-visual">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center">
+                <div>
+                  <div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 10</div>
+                  <div style="font-size:1rem;font-weight:700;color:var(--amber);font-family:var(--font-display)">33.000€</div>
+                  <div style="font-size:0.6rem;color:var(--text-dim)">200€/mes</div>
+                </div>
+                <div>
+                  <div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 20</div>
+                  <div style="font-size:1rem;font-weight:700;color:var(--amber);font-family:var(--font-display)">104.000€</div>
+                  <div style="font-size:0.6rem;color:var(--text-dim)">200€/mes</div>
+                </div>
+                <div>
+                  <div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 30</div>
+                  <div style="font-size:1rem;font-weight:700;color:var(--green);font-family:var(--font-display)">243.000€</div>
+                  <div style="font-size:0.6rem;color:var(--text-dim)">200€/mes</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 4: Indexados pasivos vs activos -->
+        <div class="edu-card">
+          <div class="edu-card-icon">📊</div>
+          <div class="edu-card-title">¿Por qué los fondos indexados ganan siempre?</div>
+          <div class="edu-card-body">
+            Los fondos activos tienen gestores que intentan "batir al mercado". <strong>El 90% no lo consiguen a 15 años.</strong> Y encima cobran comisiones 10 veces más altas.<br><br>
+            Los fondos indexados simplemente <strong>replican el mercado</strong> con comisiones mínimas. No intentan ser listos — y por eso ganan.
+            <div class="edu-card-visual">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div>
+                  <div style="font-size:0.7rem;color:var(--text-dim);margin-bottom:4px">Fondo activo típico</div>
+                  <div style="font-size:0.8rem;color:var(--red)">❌ 1,5% comisión anual</div>
+                  <div style="font-size:0.8rem;color:var(--red)">❌ 90% pierde vs índice</div>
+                </div>
+                <div>
+                  <div style="font-size:0.7rem;color:var(--text-dim);margin-bottom:4px">Fondo indexado</div>
+                  <div style="font-size:0.8rem;color:var(--green)">✓ 0,10-0,20% comisión</div>
+                  <div style="font-size:0.8rem;color:var(--green)">✓ Replica el mercado</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 5: Probabilidad de perder dinero según años -->
+        <div class="edu-card">
+          <div class="edu-card-icon">🛡️</div>
+          <div class="edu-card-title">El tiempo es tu escudo</div>
+          <div class="edu-card-body">
+            Cuanto más tiempo estás en el mercado, <strong>menor es la probabilidad de perder dinero</strong>. Los datos del MSCI World desde 1970 lo confirman.
+            <div class="edu-card-visual" style="padding-top:0.75rem">
+              <div class="prob-row"><span class="prob-label">1 año</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:30%;background:var(--red)"></div></div><span class="prob-pct" style="color:var(--red)">30%</span></div>
+              <div class="prob-row"><span class="prob-label">3 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:18%;background:var(--amber)"></div></div><span class="prob-pct" style="color:var(--amber)">18%</span></div>
+              <div class="prob-row"><span class="prob-label">5 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:10%;background:var(--amber)"></div></div><span class="prob-pct" style="color:var(--amber)">10%</span></div>
+              <div class="prob-row"><span class="prob-label">10 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:3%;background:var(--green)"></div></div><span class="prob-pct" style="color:var(--green)">3%</span></div>
+              <div class="prob-row"><span class="prob-label">15 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:0.5%;background:var(--green)"></div></div><span class="prob-pct" style="color:var(--green)">~0%</span></div>
+              <div style="font-size:0.7rem;color:var(--text-dim);margin-top:8px">Probabilidad histórica de pérdida — MSCI World (1970-2024)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 6: Psicología del inversor -->
+        <div class="edu-card">
+          <div class="edu-card-icon">🧘</div>
+          <div class="edu-card-title">La hucha que no miramos</div>
+          <div class="edu-card-body">
+            El mayor enemigo del inversor es él mismo. Cuando la bolsa cae, el miedo nos empuja a vender. Cuando sube, la euforia nos empuja a comprar más. <strong>Ambas reacciones son errores.</strong><br><br>
+            La estrategia es sencilla: <strong>meter dinero en la hucha cada mes y no mirarla habitualmente</strong>. Una revisión al año es suficiente.
+            <div class="edu-card-visual">
+              <div style="font-size:0.78rem;color:var(--text-sec);line-height:1.6">
+                💡 Los inversores que miraban su cartera menos de una vez al año <strong style="color:var(--green)">obtuvieron mejores resultados</strong> que los que la monitorizaban a diario. (Fuente: Fidelity Investments)
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /edu-track -->
+    </div><!-- /edu-container -->
+
+    <div class="edu-nav" style="margin-top:1rem">
+      <button class="edu-arrow" id="eduPrev" onclick="eduNav(-1)" disabled>←</button>
+      <div class="edu-dots" id="eduDots"></div>
+      <button class="edu-arrow" id="eduNext" onclick="eduNav(1)">→</button>
+    </div>
+
+    <button class="btn-primary" id="btnEduDone" style="margin-top:1rem" onclick="goTo('s_objetivo')">Ya entiendo, diseña mi plan →</button>
+    <button class="btn-ghost" onclick="goTo('s_objetivo')" style="display:block;width:100%;text-align:center;margin-top:0.5rem">Saltar formación</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: OBJETIVO -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_objetivo">
+    <div class="eyebrow">Tu objetivo</div>
+    <h1 class="headline">¿Para qué quieres <em>hacer crecer</em> tu dinero?</h1>
+    <p class="subline">El objetivo cambia la estrategia. Sé honesto/a — no hay respuesta incorrecta.</p>
+
+    <div class="card-grid">
+      <div class="option-card" onclick="selectObjetivo(this,'casa')">
+        <div class="check"></div>
+        <div class="card-icon">🏠</div>
+        <div class="card-title">Comprar una casa</div>
+        <div class="card-desc">Quiero acumular para la entrada y los gastos de compra en un plazo definido.</div>
+      </div>
+      <div class="option-card" onclick="selectObjetivo(this,'jubilacion_complemento')">
+        <div class="check"></div>
+        <div class="card-icon">🌅</div>
+        <div class="card-title">Complementar mi jubilación</div>
+        <div class="card-desc">Seguiré trabajando hasta la edad normal, pero quiero un extra cuando me jubile.</div>
+      </div>
+      <div class="option-card" onclick="selectObjetivo(this,'jubilacion_anticipada')">
+        <div class="check"></div>
+        <div class="card-icon">🏄</div>
+        <div class="card-title">Jubilación anticipada / FIRE</div>
+        <div class="card-desc">Quiero tener la opción de dejar de trabajar antes de los 65. Total o parcialmente.</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btnObjetivo" disabled onclick="handleObjetivo()">Continuar →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: DATOS CASA -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_casa">
+    <div class="eyebrow">Tu objetivo — Casa</div>
+    <h1 class="headline">Cuéntame un poco más sobre <em>la casa</em></h1>
+    <p class="subline">Con estos datos calcularemos exactamente cuánto necesitas y si vas bien de tiempo.</p>
+
+    <div class="input-group">
+      <label class="input-label">¿Cuánto cuesta aproximadamente la casa que quieres?</label>
+      <input type="number" class="input-field" id="casa_precio" placeholder="250.000" oninput="checkCasaInputs()">
+      <div class="input-hint">Precio total en €. Calcularemos el 12% para entrada + gastos automáticamente.</div>
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿En cuántos años quieres comprarla?</label>
+      <input type="number" class="input-field" id="casa_años" placeholder="5" min="1" max="30" oninput="checkCasaInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto tienes ahorrado actualmente?</label>
+      <input type="number" class="input-field" id="casa_ahorros" placeholder="15.000" oninput="checkCasaInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto puedes ahorrar cada mes?</label>
+      <input type="number" class="input-field" id="casa_mensual" placeholder="400" oninput="checkCasaInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Qué edad tienes?</label>
+      <input type="number" class="input-field" id="casa_edad" placeholder="30" min="18" max="70" oninput="checkCasaInputs()">
+    </div>
+
+    <button class="btn-primary" id="btnCasa" disabled onclick="calcularCasa()">Ver mi análisis →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: DATOS JUBILACIÓN COMPLEMENTO -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_jub_comp">
+    <div class="eyebrow">Tu objetivo — Jubilación complemento</div>
+    <h1 class="headline">Tu <em>colchón extra</em> para la jubilación</h1>
+    <p class="subline">La pensión pública probablemente no será suficiente. Vamos a calcular cuánto más puedes generar.</p>
+
+    <div class="input-group">
+      <label class="input-label">¿Qué edad tienes?</label>
+      <input type="number" class="input-field" id="jc_edad" placeholder="35" min="18" max="64" oninput="checkJCInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto tienes ahorrado/invertido actualmente?</label>
+      <input type="number" class="input-field" id="jc_ahorros" placeholder="10.000" oninput="checkJCInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto puedes invertir cada mes?</label>
+      <input type="number" class="input-field" id="jc_mensual" placeholder="300" oninput="checkJCInputs()">
+    </div>
+
+    <button class="btn-primary" id="btnJC" disabled onclick="calcularJubComp()">Ver mi proyección →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: DATOS JUBILACIÓN ANTICIPADA -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_jub_ant">
+    <div class="eyebrow">Tu objetivo — Jubilación anticipada</div>
+    <h1 class="headline">Diseñando tu <em>libertad financiera</em></h1>
+    <p class="subline">Vamos a calcular cuándo podrías dejar de depender de un sueldo, y qué necesitas para lograrlo.</p>
+
+    <div class="input-group">
+      <label class="input-label">¿Qué edad tienes?</label>
+      <input type="number" class="input-field" id="ja_edad" placeholder="32" min="18" max="60" oninput="checkJAInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿A qué edad te gustaría poder jubilarte?</label>
+      <input type="number" class="input-field" id="ja_edad_obj" placeholder="50" min="30" max="65" oninput="checkJAInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto tienes ahorrado/invertido actualmente?</label>
+      <input type="number" class="input-field" id="ja_ahorros" placeholder="20.000" oninput="checkJAInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto puedes invertir cada mes?</label>
+      <input type="number" class="input-field" id="ja_mensual" placeholder="500" oninput="checkJAInputs()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">¿Cuánto necesitarías gastar al mes en tu jubilación?</label>
+      <input type="number" class="input-field" id="ja_gasto" placeholder="2.000" oninput="checkJAInputs()">
+    </div>
+
+    <button class="btn-primary" id="btnJA" disabled onclick="calcularJubAnt()">Ver mi proyección →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: PROYECCIÓN VISUAL -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_proyeccion">
+    <div class="eyebrow">Tu proyección</div>
+    <h1 class="headline" id="proyTitle">Esto es lo que puede pasar con <em>tu dinero</em></h1>
+    <p class="subline" id="proySubline">Basado en datos históricos reales. No es una promesa — es lo que ha pasado históricamente.</p>
+
+    <div id="proyResultado"></div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Evolución proyectada de tu patrimonio</div>
+      <canvas id="proyChart" height="220"></canvas>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#5b8df5"></div>Cuenta corriente (0%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Depósito / Monetario (~3%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Índice global (~7%)</div>
+      </div>
+    </div>
+
+    <div id="proyAdvice"></div>
+
+    <button class="btn-primary" onclick="goTo('s_confianza')">Entendido, seguimos →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: NIVEL DE CONFIANZA -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_confianza">
+    <div class="eyebrow">Tu ritmo</div>
+    <h1 class="headline">¿Cómo te sientes con <em>empezar a invertir</em>?</h1>
+    <p class="subline">No hay respuesta correcta. Lo importante es que te sientas cómodo/a con el proceso desde el principio.</p>
+
+    <div class="radio-group" id="confianzaGroup">
+      <div class="radio-item" onclick="selectConfianza(this,'todo')">
+        <div class="radio-dot"></div>
+        <div>
+          <div class="radio-text">Me siento cómodo/a invirtiendo todo o casi todo</div>
+          <div class="radio-sub">Entiendo que hay volatilidad y estoy dispuesto/a a asumir el plan completo desde el inicio.</div>
+        </div>
+      </div>
+      <div class="radio-item" onclick="selectConfianza(this,'poco_a_poco')">
+        <div class="radio-dot"></div>
+        <div>
+          <div class="radio-text">Prefiero empezar poco a poco</div>
+          <div class="radio-sub">Quiero ganar confianza antes de comprometer grandes cantidades. Empezar pequeño y crecer.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confianzaMsg" style="display:none"></div>
+
+    <button class="btn-primary" id="btnConfianza" disabled onclick="goTo('s_perfil')">Continuar →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: PERFIL -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_perfil">
+    <div class="eyebrow">Tu estilo</div>
+    <h1 class="headline">¿Cuánto quieres <em>complicarte</em> la vida?</h1>
+    <p class="subline">Los tres funcionan. El mejor es el que realmente vayas a mantener. La simplicidad gana a largo plazo.</p>
+
+    <div class="card-grid cols-3">
+      <div class="option-card profile-card" onclick="selectPerfil(this,'mega_sencilla')">
+        <div class="check"></div>
+        <div class="card-icon">😌</div>
+        <span class="tag tag-green">Mega sencilla</span>
+        <div class="card-title" style="font-size:0.82rem">1 fondo global</div>
+        <div class="card-desc">Lo configuras una vez. Una revisión al año.</div>
+      </div>
+      <div class="option-card profile-card" onclick="selectPerfil(this,'confi')">
+        <div class="check"></div>
+        <div class="card-icon">📊</div>
+        <span class="tag tag-amber">Confi</span>
+        <div class="card-title" style="font-size:0.82rem">3-fund portfolio</div>
+        <div class="card-desc">Máxima diversificación. Revisión anual.</div>
+      </div>
+      <div class="option-card profile-card" onclick="selectPerfil(this,'turbo')">
+        <div class="check"></div>
+        <div class="card-icon">🚀</div>
+        <span class="tag tag-blue">Turbo</span>
+        <div class="card-title" style="font-size:0.82rem">RV + RF optimizado</div>
+        <div class="card-desc">Máximo control. Para los que quieren aprender.</div>
+      </div>
+    </div>
+
+    <div id="perfilExplainer" style="display:none;margin-top:1rem"></div>
+
+    <button class="btn-primary" id="btnPerfil" disabled onclick="generarPlan()">Ver mi plan completo →</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: PLAN FINAL -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_plan">
+    <div class="eyebrow">Tu plan personal</div>
+    <h1 class="headline" id="planTitle">Tu <em>hoja de ruta</em></h1>
+
+    <div id="planSummary"></div>
+    <div id="planPortfolio"></div>
+    <div id="planSteps"></div>
+
+    <div class="divider"></div>
+
+    <!-- Formación final voluntaria -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem">
+      <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.4rem">¿Quieres ir un paso más allá? 📚</div>
+      <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem">Hemos preparado una guía sobre fiscalidad y qué hacer cuando te acerques a tu objetivo.</div>
+      <button class="btn-secondary" style="margin-top:0" onclick="goTo('s_edu_final')">Ver guía avanzada</button>
+    </div>
+
+    <div class="disclaimer">⚠️ Esta herramienta es educativa y no constituye asesoramiento financiero profesional. La rentabilidad pasada no garantiza la futura. Los fondos indexados y ETFs conllevan riesgo de pérdida de capital. Consulta con un asesor financiero registrado antes de tomar decisiones de inversión importantes.</div>
+
+    <button class="btn-ghost" onclick="goTo('s0')" style="display:block;width:100%;text-align:center;margin-top:1rem">Empezar de nuevo</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: FORMACIÓN FINAL -->
+  <!-- ============================================================ -->
+  <div class="screen" id="s_edu_final">
+    <div class="eyebrow">Guía avanzada</div>
+    <h1 class="headline">Lo que necesitas saber <em>después</em></h1>
+    <p class="subline" id="eduFinalSubline">Fiscalidad, transición y cómo cerrar el círculo cuando llegues a tu objetivo.</p>
+
+    <div id="eduFinalContent"></div>
+
+    <div id="withdrawalCalc" style="display:none">
+      <div class="divider"></div>
+      <div class="section-title">Calculadora de retirada (Regla del 4%)</div>
+      <div class="slider-wrap">
+        <div class="slider-header">
+          <span class="slider-name">Capital acumulado estimado</span>
+          <span class="slider-value" id="withdrawCapital">300.000€</span>
+        </div>
+        <input type="range" min="50000" max="1000000" step="10000" value="300000" oninput="updateWithdrawal(this.value)">
+      </div>
+      <div class="slider-wrap">
+        <div class="slider-header">
+          <span class="slider-name">Tasa de retirada</span>
+          <span class="slider-value" id="withdrawRate">4%</span>
+        </div>
+        <input type="range" min="3" max="5" step="0.5" value="4" oninput="updateWithdrawalRate(this.value)">
+      </div>
+      <div class="withdrawal-result">
+        <div class="withdrawal-amount" id="withdrawResult">12.000€/año</div>
+        <div class="withdrawal-sub" id="withdrawResultMonth">1.000€ al mes</div>
+        <div style="font-size:0.72rem;color:var(--text-dim);margin-top:0.5rem">Capital sostenible indefinidamente (históricamente)</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" style="margin-top:1.5rem" onclick="goTo('s_plan')">← Volver a mi plan</button>
+  </div>
+
+</div><!-- /app-shell -->
+
+<!-- Chart.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<script>
+// ============================================================
+// DATOS — Edita aquí sin tocar la lógica
+// ============================================================
+
+const FONDOS = {
+  mega_sencilla: [
+    { pct: 100, name: 'Vanguard Global Stock Index Fund', ticker: 'Fondo indexado', isin: 'IE00B03HD191', color: '#b8f04a', broker: 'MyInvestor' }
+  ],
+  confi: [
+    { pct: 60, name: 'Vanguard Global Stock Index Fund', ticker: 'Mundo desarrollado', isin: 'IE00B03HD191', color: '#b8f04a', broker: 'MyInvestor' },
+    { pct: 25, name: 'Vanguard Emerging Markets Stock Index', ticker: 'Mercados emergentes', isin: 'IE0031786142', color: '#f5a623', broker: 'MyInvestor' },
+    { pct: 15, name: 'Vanguard Global Bond Index Fund', ticker: 'Renta fija global', isin: 'IE00B18GC888', color: '#5b8df5', broker: 'MyInvestor' }
+  ],
+  turbo: [
+    { pct: 55, name: 'iShares Core MSCI World UCITS ETF', ticker: 'IWDA', isin: 'IE00B4L5Y983', color: '#b8f04a', broker: 'Trade Republic' },
+    { pct: 20, name: 'iShares Core MSCI EM IMI UCITS ETF', ticker: 'EIMI', isin: 'IE00BKM4GZ66', color: '#f5a623', broker: 'Trade Republic' },
+    { pct: 15, name: 'iShares MSCI World Small Cap UCITS ETF', ticker: 'WSML', isin: 'IE00BF4RFH31', color: '#7b6ff5', broker: 'Trade Republic' },
+    { pct: 10, name: 'iShares Core Global Aggregate Bond UCITS', ticker: 'AGGH', isin: 'IE00BDBRDM35', color: '#5b8df5', broker: 'Trade Republic' }
+  ]
+};
+
+const FONDOS_MONETARIOS = [
+  { name: 'Groupama Trésorerie IC', isin: 'FR0000989626', ret: 3.22, ter: 0.15, broker: 'MyInvestor', nota: 'El más popular en España' },
+  { name: 'AXA Trésor Court Terme C', isin: 'FR0000447823', ret: 3.19, ter: 0.06, broker: 'MyInvestor', nota: 'El más barato en comisiones' }
+];
+
+const DEPOSITO = { name: 'Deutsche Bank Depósito Confianza', ret: 3.25, plazo: '12 meses', min: '10.000€', nota: 'Datos mayo 2026' };
+
+const TOOLTIPS = {
+  'fondo indexado': 'Un fondo indexado replica un índice bursátil (como el MSCI World) comprando todas sus empresas. No tiene gestores que decidan qué comprar — simplemente sigue al mercado.',
+  'DCA': 'Dollar Cost Averaging: invertir una cantidad fija cada mes independientemente del precio. Reduce el riesgo de invertir todo en un mal momento.',
+  'TER': 'Total Expense Ratio: el coste anual total del fondo expresado como porcentaje. A menor TER, más rentabilidad te queda a ti.',
+  'renta fija': 'Inversión en bonos (deuda de gobiernos y empresas). Menor rentabilidad esperada que la renta variable, pero también menor volatilidad. Actúa como estabilizador de cartera.',
+  'regla del 4%': 'Principio que dice que puedes retirar el 4% de tu cartera cada año sin agotarla. Con 300.000€, podrías retirar 12.000€/año indefinidamente.'
+};
+
+// ============================================================
+// ESTADO — Lo que el usuario va eligiendo
+// ============================================================
+const state = {
+  quiereFormacion: null,
+  objetivo: null,
+  edad: null,
+  ahorros: null,
+  mensual: null,
+  horizonte: null,
+  confianza: null,
+  perfil: null,
+  // Específicos casa
+  casa_precio: null,
+  casa_años: null,
+  // Específico jubilación anticipada
+  ja_edad_obj: null,
+  ja_gasto: null,
+  // Calculados
+  capital_proyectado: 0,
+  // Historial de pantallas
+  history: ['s0']
+};
+
+// ============================================================
+// NAVEGACIÓN
+// ============================================================
+function goTo(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  if (screenId !== 's0') {
+    state.history.push(screenId);
+  }
+  updateProgress(screenId);
+  updateBackBtn(screenId);
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  if (state.history.length > 1) {
+    state.history.pop();
+    const prev = state.history[state.history.length - 1];
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+    updateProgress(prev);
+    updateBackBtn(prev);
+    window.scrollTo(0, 0);
+  }
+}
+
+const PROGRESS_MAP = {
+  's0': 0, 's_edu_choice': 5, 's_edu': 15,
+  's_objetivo': 20, 's_casa': 30, 's_jub_comp': 30, 's_jub_ant': 30,
+  's_proyeccion': 50, 's_confianza': 65, 's_perfil': 80,
+  's_plan': 100, 's_edu_final': 100
+};
+
+const PROGRESS_LABELS = {
+  's0': '', 's_edu_choice': 'Paso 1 de 7',
+  's_edu': 'Formación opcional', 's_objetivo': 'Paso 2 de 7',
+  's_casa': 'Paso 3 de 7', 's_jub_comp': 'Paso 3 de 7', 's_jub_ant': 'Paso 3 de 7',
+  's_proyeccion': 'Paso 4 de 7', 's_confianza': 'Paso 5 de 7',
+  's_perfil': 'Paso 6 de 7', 's_plan': '¡Tu plan listo!', 's_edu_final': 'Guía avanzada'
+};
+
+function updateProgress(id) {
+  const pct = PROGRESS_MAP[id] || 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = PROGRESS_LABELS[id] || '';
+}
+
+function updateBackBtn(id) {
+  const btn = document.getElementById('backBtn');
+  if (id === 's0') { btn.classList.add('hidden'); }
+  else { btn.classList.remove('hidden'); }
+}
+
+// ============================================================
+// FORMACIÓN INICIAL
+// ============================================================
+let eduIndex = 0;
+const EDU_TOTAL = 6;
+
+function selectEdu(el, val) {
+  document.querySelectorAll('#s_edu_choice .option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.quiereFormacion = val;
+  document.getElementById('btnEduChoice').disabled = false;
+}
+
+function handleEduChoice() {
+  if (state.quiereFormacion) {
+    initEduDots();
+    goTo('s_edu');
+  } else {
+    goTo('s_objetivo');
+  }
+}
+
+function initEduDots() {
+  const dots = document.getElementById('eduDots');
+  dots.innerHTML = '';
+  for (let i = 0; i < EDU_TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'edu-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => eduGoTo(i);
+    dots.appendChild(d);
+  }
+}
+
+function eduNav(dir) {
+  eduGoTo(eduIndex + dir);
+}
+
+function eduGoTo(idx) {
+  if (idx < 0 || idx >= EDU_TOTAL) return;
+  eduIndex = idx;
+  document.getElementById('eduTrack').style.transform = `translateX(-${idx * 100}%)`;
+  document.querySelectorAll('.edu-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  document.getElementById('eduPrev').disabled = idx === 0;
+  document.getElementById('eduNext').disabled = idx === EDU_TOTAL - 1;
+}
+
+// Touch swipe for edu cards
+let touchStartX = 0;
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('eduContainer');
+  if (container) {
+    container.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    container.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) eduNav(diff > 0 ? 1 : -1);
+    });
+  }
+  initEduDots();
+});
+
+// ============================================================
+// OBJETIVO
+// ============================================================
+function selectObjetivo(el, val) {
+  document.querySelectorAll('#s_objetivo .option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.objetivo = val;
+  document.getElementById('btnObjetivo').disabled = false;
+}
+
+function handleObjetivo() {
+  if (state.objetivo === 'casa') goTo('s_casa');
+  else if (state.objetivo === 'jubilacion_complemento') goTo('s_jub_comp');
+  else goTo('s_jub_ant');
+}
+
+// ============================================================
+// VALIDACIONES DE INPUTS
+// ============================================================
+function checkCasaInputs() {
+  const p = document.getElementById('casa_precio').value;
+  const a = document.getElementById('casa_años').value;
+  const ah = document.getElementById('casa_ahorros').value;
+  const m = document.getElementById('casa_mensual').value;
+  const e = document.getElementById('casa_edad').value;
+  document.getElementById('btnCasa').disabled = !(p && a && ah && m && e);
+}
+
+function checkJCInputs() {
+  const e = document.getElementById('jc_edad').value;
+  const a = document.getElementById('jc_ahorros').value;
+  const m = document.getElementById('jc_mensual').value;
+  document.getElementById('btnJC').disabled = !(e && a && m);
+}
+
+function checkJAInputs() {
+  const e = document.getElementById('ja_edad').value;
+  const eo = document.getElementById('ja_edad_obj').value;
+  const a = document.getElementById('ja_ahorros').value;
+  const m = document.getElementById('ja_mensual').value;
+  const g = document.getElementById('ja_gasto').value;
+  document.getElementById('btnJA').disabled = !(e && eo && a && m && g);
+}
+
+// ============================================================
+// CÁLCULOS FINANCIEROS
+// ============================================================
+function calcFV(pv, pmt, r_annual, years) {
+  // Future Value: capital inicial + aportaciones mensuales
+  const r = r_annual / 12;
+  const n = years * 12;
+  const fv_pv = pv * Math.pow(1 + r, n);
+  const fv_pmt = r > 0 ? pmt * ((Math.pow(1 + r, n) - 1) / r) : pmt * n;
+  return fv_pv + fv_pmt;
+}
+
+function fmt(n) {
+  return Math.round(n).toLocaleString('es-ES') + '€';
+}
+
+function rfPct(edad) {
+  if (edad < 40) return 0;
+  if (edad <= 50) return 0.10;
+  if (edad <= 60) return 0.25;
+  return 0.40;
+}
+
+// ============================================================
+// CÁLCULO CASA
+// ============================================================
+function calcularCasa() {
+  state.casa_precio = parseFloat(document.getElementById('casa_precio').value);
+  state.casa_años = parseInt(document.getElementById('casa_años').value);
+  state.ahorros = parseFloat(document.getElementById('casa_ahorros').value);
+  state.mensual = parseFloat(document.getElementById('casa_mensual').value);
+  state.edad = parseInt(document.getElementById('casa_edad').value);
+  state.horizonte = state.casa_años;
+
+  const necesitas = state.casa_precio * 0.30; // 20% entrada + 12% gastos ~ 30% aprox
+  const gastosExtra = state.casa_precio * 0.12;
+  const entrada = state.casa_precio * 0.20;
+  const totalNecesario = entrada + gastosExtra;
+
+  state.capital_necesario = totalNecesario;
+
+  // Proyección
+  const fv7 = calcFV(state.ahorros, state.mensual, 0.07, state.casa_años);
+  const fv3 = calcFV(state.ahorros, state.mensual, 0.03, state.casa_años);
+  const fv0 = calcFV(state.ahorros, state.mensual, 0.00, state.casa_años);
+
+  state.capital_proyectado = state.casa_años < 5 ? fv3 : fv7;
+
+  // ¿Cuántos años para llegar sin inversión?
+  let añosSinInversion = 0;
+  let acum = state.ahorros;
+  while (acum < totalNecesario && añosSinInversion < 50) {
+    acum += state.mensual * 12;
+    añosSinInversion++;
+  }
+
+  // ¿Cuántos años invirtiendo?
+  let añosInvirtiendo = 0;
+  let acumInv = state.ahorros;
+  const r_mensual = 0.03 / 12;
+  while (acumInv < totalNecesario && añosInvirtiendo < 50) {
+    acumInv = acumInv * (1 + r_mensual) + state.mensual;
+    añosInvirtiendo++;
+    acumInv = acumInv / 12;
+    acumInv = calcFV(state.ahorros, state.mensual, 0.03, añosInvirtiendo / 12 + añosInvirtiendo);
+    break;
+  }
+
+  const resultEl = document.getElementById('proyResultado');
+  resultEl.innerHTML = `
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Entrada + gastos necesarios</div>
+        <div class="summary-value">${fmt(totalNecesario)}</div>
+        <div class="summary-sub">20% entrada + 12% gastos (notaría, impuestos...)</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Tu capital en ${state.casa_años} años</div>
+        <div class="summary-value">${fmt(state.casa_años < 5 ? fv3 : fv7)}</div>
+        <div class="summary-sub">Con ${state.casa_años < 5 ? 'fondo monetario ~3%' : 'índice global ~7%'}</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Sin invertir acumularías</div>
+        <div class="summary-value" style="color:var(--text-sec)">${fmt(fv0)}</div>
+        <div class="summary-sub">Solo ahorrando en cuenta corriente</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Diferencia invirtiendo</div>
+        <div class="summary-value" style="color:var(--green)">+${fmt((state.casa_años < 5 ? fv3 : fv7) - fv0)}</div>
+        <div class="summary-sub">Lo que ganas por invertir correctamente</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('proyTitle').textContent = `Lo que pasa con tu dinero si lo \u00a0inviertes`;
+
+  const adviceEl = document.getElementById('proyAdvice');
+  if (state.casa_años < 5) {
+    adviceEl.innerHTML = `
+      <div class="warning-box">
+        <p>⚠️ <strong>Con un horizonte de ${state.casa_años} años, los fondos indexados no son la opción ideal.</strong> Históricamente hay un 18-30% de probabilidad de pérdidas en plazos cortos. Para el dinero de la entrada, recomendamos algo más conservador.</p>
+      </div>
+      <div class="section-title">Opciones recomendadas para tu horizonte corto</div>
+      ${renderFondosMonetarios()}
+    `;
+  } else {
+    adviceEl.innerHTML = `
+      <div class="highlight-box">
+        <p>✅ Con <strong>${state.casa_años} años</strong> de horizonte, tienes tiempo suficiente para beneficiarte de un índice global. La probabilidad histórica de pérdida a este plazo es inferior al 10%.</p>
+      </div>
+    `;
+  }
+
+  renderChart(state.ahorros, state.mensual, state.casa_años);
+  goTo('s_proyeccion');
+}
+
+// ============================================================
+// CÁLCULO JUBILACIÓN COMPLEMENTO
+// ============================================================
+function calcularJubComp() {
+  state.edad = parseInt(document.getElementById('jc_edad').value);
+  state.ahorros = parseFloat(document.getElementById('jc_ahorros').value);
+  state.mensual = parseFloat(document.getElementById('jc_mensual').value);
+  state.horizonte = 65 - state.edad;
+
+  const fv7 = calcFV(state.ahorros, state.mensual, 0.07, state.horizonte);
+  const fv3 = calcFV(state.ahorros, state.mensual, 0.03, state.horizonte);
+  const fv0 = calcFV(state.ahorros, state.mensual, 0.00, state.horizonte);
+
+  state.capital_proyectado = fv7;
+
+  const retiro4 = fv7 * 0.04;
+  const retiroMensual = retiro4 / 12;
+
+  document.getElementById('proyResultado').innerHTML = `
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Capital a los 65 años</div>
+        <div class="summary-value">${fmt(fv7)}</div>
+        <div class="summary-sub">Con índice global ~7% anual</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Renta extra mensual</div>
+        <div class="summary-value">${fmt(retiroMensual)}</div>
+        <div class="summary-sub">Regla del 4% — capital sostenible</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Años invirtiendo</div>
+        <div class="summary-value" style="color:var(--amber)">${state.horizonte}</div>
+        <div class="summary-sub">De ${state.edad} a 65 años</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Sin invertir tendrías</div>
+        <div class="summary-value" style="color:var(--text-sec)">${fmt(fv0)}</div>
+        <div class="summary-sub">Solo ahorrando sin invertir</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p>Con <strong>${fmt(fv7)}</strong> acumulados, podrías complementar tu pensión con <strong>${fmt(retiroMensual)}/mes</strong> de forma indefinida, sin agotar el capital. Eso usando la regla del 4%. <span class="tooltip-trigger" onclick="toggleTooltip('tt_4pct')">¿Qué es la regla del 4%? ↓</span></p>
+      <div class="tooltip-box" id="tt_4pct">Si retiras el 4% de tu cartera cada año, históricamente el capital ha durado indefinidamente. Con 300.000€ → retiras 12.000€/año → 1.000€/mes.</div>
+    </div>
+  `;
+
+  document.getElementById('proyTitle').innerHTML = 'Tu jubilación puede ser <em>diferente</em>';
+  document.getElementById('proyAdvice').innerHTML = '';
+  renderChart(state.ahorros, state.mensual, state.horizonte);
+  goTo('s_proyeccion');
+}
+
+// ============================================================
+// CÁLCULO JUBILACIÓN ANTICIPADA
+// ============================================================
+function calcularJubAnt() {
+  state.edad = parseInt(document.getElementById('ja_edad').value);
+  state.ja_edad_obj = parseInt(document.getElementById('ja_edad_obj').value);
+  state.ahorros = parseFloat(document.getElementById('ja_ahorros').value);
+  state.mensual = parseFloat(document.getElementById('ja_mensual').value);
+  state.ja_gasto = parseFloat(document.getElementById('ja_gasto').value);
+  state.horizonte = state.ja_edad_obj - state.edad;
+
+  const fv7 = calcFV(state.ahorros, state.mensual, 0.07, state.horizonte);
+  const fv0 = calcFV(state.ahorros, state.mensual, 0.00, state.horizonte);
+
+  state.capital_proyectado = fv7;
+
+  // Capital necesario para cubrir el gasto mensual con regla del 4%
+  const capitalNecesario = state.ja_gasto * 12 / 0.04;
+  const retiro4 = fv7 * 0.04 / 12;
+
+  // ¿A qué edad llegarías al capital necesario?
+  let añosParaFIRE = 0;
+  let acum = state.ahorros;
+  const r = 0.07 / 12;
+  for (let m = 0; m < 600; m++) {
+    acum = acum * (1 + r) + state.mensual;
+    if (acum >= capitalNecesario) { añosParaFIRE = Math.ceil(m / 12); break; }
+  }
+  const edadFIRE = state.edad + añosParaFIRE;
+
+  document.getElementById('proyResultado').innerHTML = `
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Capital a los ${state.ja_edad_obj} años</div>
+        <div class="summary-value">${fmt(fv7)}</div>
+        <div class="summary-sub">Con índice global ~7% anual</div>
+      </div>
+      <div class="summary-card">
+        <      <div class="summary-card">
+        <div class="summary-label">Renta mensual disponible</div>
+        <div class="summary-value">${fmt(retiro4)}</div>
+        <div class="summary-sub">Regla del 4% — capital sostenible</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Capital necesario para FIRE</div>
+        <div class="summary-value" style="color:var(--amber)">${fmt(capitalNecesario)}</div>
+        <div class="summary-sub">Para ${fmt(state.ja_gasto)}/mes sin trabajar</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Edad de libertad financiera</div>
+        <div class="summary-value" style="color:${edadFIRE <= state.ja_edad_obj ? 'var(--green)' : 'var(--amber)'}">${edadFIRE <= 67 ? edadFIRE : '67+'} años</div>
+        <div class="summary-sub">${edadFIRE <= state.ja_edad_obj ? '¡Antes de tu objetivo!' : edadFIRE - state.ja_edad_obj + ' años después de tu objetivo'}</div>
+      </div>
+    </div>
+    ${edadFIRE > state.ja_edad_obj
+      ? '<div class="warning-box"><p>Para alcanzar tu objetivo en el plazo deseado necesitarías aumentar el ahorro mensual o ajustar el gasto objetivo.</p></div>'
+      : '<div class="highlight-box"><p>🎉 ¡Vas camino de conseguirlo! Con tu plan actual alcanzarías la libertad financiera a los <strong>' + edadFIRE + ' años</strong>.</p></div>'}
+  `;
+
+  document.getElementById('proyTitle').innerHTML = 'Tu camino hacia la <em>libertad financiera</em>';
+  document.getElementById('proyAdvice').innerHTML = '';
+  renderChart(state.ahorros, state.mensual, state.horizonte);
+  goTo('s_proyeccion');
+}
+
+// ============================================================
+// GRÁFICO
+// ============================================================
+let chartInstance = null;
+function renderChart(pv, pmt, years) {
+  if (chartInstance) { chartInstance.destroy(); }
+  const labels = [], data0 = [], data3 = [], data7 = [];
+  const steps = Math.min(years, 30);
+  for (let y = 0; y <= steps; y++) {
+    labels.push('Año ' + y);
+    data0.push(Math.round(calcFV(pv, pmt, 0.00, y)));
+    data3.push(Math.round(calcFV(pv, pmt, 0.03, y)));
+    data7.push(Math.round(calcFV(pv, pmt, 0.07, y)));
+  }
+  const ctx = document.getElementById('proyChart').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Cuenta corriente', data: data0, borderColor: '#5b8df5', backgroundColor: 'rgba(91,141,245,0.05)', borderWidth: 2, tension: 0.3, pointRadius: 0 },
+        { label: 'Monetario/Depósito', data: data3, borderColor: '#f5a623', backgroundColor: 'rgba(245,166,35,0.05)', borderWidth: 2, tension: 0.3, pointRadius: 0 },
+        { label: 'Índice global', data: data7, borderColor: '#b8f04a', backgroundColor: 'rgba(184,240,74,0.08)', borderWidth: 2.5, tension: 0.3, pointRadius: 0, fill: true }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1c1c27', borderColor: '#2a2a3d', borderWidth: 1,
+          titleColor: '#9b97a0', bodyColor: '#f0ede8',
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + Math.round(ctx.raw).toLocaleString('es-ES') + '€' }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#5a5670', font: { size: 11 } }, grid: { color: '#1c1c27' } },
+        y: { ticks: { color: '#5a5670', font: { size: 11 }, callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k€' : v+'€' }, grid: { color: '#1c1c27' } }
+      }
+    }
+  });
+}
+
+// ============================================================
+// FONDOS MONETARIOS
+// ============================================================
+function renderFondosMonetarios() {
+  return FONDOS_MONETARIOS.map(f => `
+    <div class="fund-card">
+      <div>
+        <div class="fund-name">${f.name}</div>
+        <div class="fund-meta">ISIN: ${f.isin} · TER: ${f.ter}% · ${f.broker} · ${f.nota}</div>
+      </div>
+      <div><div class="fund-return">${f.ret}%</div><div class="fund-return-label">rentabilidad anual</div></div>
+    </div>
+  `).join('') + (DEPOSITO.ret > FONDOS_MONETARIOS[0].ret ? `
+    <div style="font-size:0.78rem;color:var(--text-dim);margin:0.5rem 0 0.25rem">Alternativa — depósito (sin ventaja fiscal pero mayor TAE garantizada):</div>
+    <div class="fund-card">
+      <div>
+        <div class="fund-name">${DEPOSITO.name}</div>
+        <div class="fund-meta">Plazo: ${DEPOSITO.plazo} · Mínimo: ${DEPOSITO.min} · ${DEPOSITO.nota}</div>
+      </div>
+      <div><div class="fund-return" style="color:var(--amber)">${DEPOSITO.ret}%</div><div class="fund-return-label">TAE garantizada</div></div>
+    </div>
+  ` : '');
+}
+
+// ============================================================
+// CONFIANZA
+// ============================================================
+function selectConfianza(el, val) {
+  document.querySelectorAll('.radio-item').forEach(r => r.classList.remove('selected'));
+  el.classList.add('selected');
+  state.confianza = val;
+  document.getElementById('btnConfianza').disabled = false;
+  const msgEl = document.getElementById('confianzaMsg');
+  msgEl.style.display = 'block';
+  msgEl.innerHTML = val === 'todo'
+    ? '<div class="highlight-box"><p>💪 Perfecto. Diseñaremos tu plan completo desde el inicio. El tiempo en el mercado es el factor más importante.</p></div>'
+    : '<div class="highlight-box"><p>🌱 Genial. Te proponemos empezar con <strong>600€ iniciales</strong> y repetir cada 6 meses hasta que te sientas cómodo/a aumentando. Sin prisa — la constancia es lo que importa.</p></div>';
+}
+
+// ============================================================
+// PERFIL
+// ============================================================
+function selectPerfil(el, val) {
+  document.querySelectorAll('#s_perfil .option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.perfil = val;
+  document.getElementById('btnPerfil').disabled = false;
+  const rf = rfPct(state.edad || 30);
+  const rfMsg = rf > 0 ? '<br><br>💡 Con tu edad, añadimos <strong>' + (rf*100) + '% de renta fija</strong> como estabilizador.' : '';
+  const msgs = {
+    mega_sencilla: '<div class="highlight-box"><p>😌 <strong>1 fondo, cero complicaciones.</strong> El Vanguard Global Stock Index cubre +1.500 empresas en 23 países. Lo configuras, aportas cada mes y lo olvidas casi todo el año.' + rfMsg + '</p></div>',
+    confi: '<div class="highlight-box"><p>📊 <strong>3-fund portfolio clásico.</strong> Mundo desarrollado + Emergentes + Renta fija. La cartera boglehead estándar para europeos. Revisión anual.' + rfMsg + '</p></div>',
+    turbo: '<div class="highlight-box"><p>🚀 <strong>4 ETFs, máximo control.</strong> World + Emergentes + Small Caps + Bonos globales en Trade Republic con planes de ahorro automáticos.' + rfMsg + '</p></div>'
+  };
+  const explainer = document.getElementById('perfilExplainer');
+  explainer.style.display = 'block';
+  explainer.innerHTML = msgs[val];
+}
+
+// ============================================================
+// GENERAR PLAN
+// ============================================================
+function generarPlan() {
+  const fondos = getFondosAjustados();
+  const horizLabel = state.objetivo === 'casa'
+    ? state.casa_años + ' años (hasta comprar la casa)'
+    : state.objetivo === 'jubilacion_complemento'
+    ? state.horizonte + ' años (hasta los 65)'
+    : state.horizonte + ' años (hasta los ' + state.ja_edad_obj + ')';
+
+  document.getElementById('planSummary').innerHTML = `
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Aportación mensual</div>
+        <div class="summary-value">${fmt(state.mensual)}</div>
+        <div class="summary-sub">${state.confianza === 'poco_a_poco' ? 'Empezamos con 600€ iniciales' : 'Plan completo desde el inicio'}</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Horizonte</div>
+        <div class="summary-value" style="font-size:1rem;color:var(--amber)">${horizLabel}</div>
+      </div>
+    </div>
+  `;
+
+  const brokerPrincipal = state.perfil === 'turbo' ? 'Trade Republic' : 'MyInvestor';
+  let portfolioHTML = `
+    <div class="section-title">Tu portfolio — ${{'mega_sencilla':'Mega sencilla','confi':'Confi','turbo':'Turbo'}[state.perfil]}</div>
+    <div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:0.75rem">Broker recomendado: <strong style="color:var(--text)">${brokerPrincipal}</strong></div>
+  `;
+  fondos.forEach(f => {
+    portfolioHTML += `
+      <div class="etf-card">
+        <div class="etf-pct">${f.pct}%</div>
+        <div class="etf-info">
+          <div class="etf-name">${f.name}</div>
+          <div class="etf-ticker">${f.ticker} &nbsp;<span class="isin-badge">${f.isin}</span></div>
+          <div class="etf-bar" style="background:${f.color};width:${f.pct}%"></div>
+        </div>
+      </div>`;
+  });
+
+  if (state.objetivo === 'casa' && state.casa_años < 5) {
+    portfolioHTML += `<div style="font-size:0.78rem;color:var(--amber);margin-top:0.75rem">⚠️ Para el dinero de la entrada usa los fondos monetarios. Los indexados son para ahorro adicional a largo plazo.</div>${renderFondosMonetarios()}`;
+  }
+  document.getElementById('planPortfolio').innerHTML = portfolioHTML;
+
+  const primerPaso = state.confianza === 'poco_a_poco' ? 'Empieza con 600€ y repite cada 6 meses' : 'Invierte tu capital inicial según el portfolio';
+  const pasos = [
+    { emoji:'🏦', title:'Abre cuenta en ' + brokerPrincipal, desc:'Registro 100% online con tu DNI. Tarda menos de 10 minutos.', brokers: state.perfil === 'turbo' ? ['Trade Republic','DEGIRO'] : ['MyInvestor'] },
+    { emoji:'🛡️', title:'Asegura tu fondo de emergencia', desc:'Antes de invertir guarda 3-6 meses de gastos en cuenta accesible. Ese dinero nunca se invierte.' },
+    { emoji:'💸', title: primerPaso, desc: state.confianza === 'poco_a_poco' ? 'Empieza con 600€ para familiarizarte con la operativa. Repite cada 6 meses hasta sentirte cómodo/a invirtiendo más.' : 'Transfiere tu capital y compra los fondos según las proporciones del portfolio.' },
+    { emoji:'🔄', title:'Automatiza ' + fmt(state.mensual) + '/mes', desc:'Transferencia recurrente el día 1 de cada mes. El día 2, compras. Sin pensar, sin decidir.' },
+    { emoji:'🧘', title:'Olvida la hucha (casi)', desc:'No mires el valor a diario. Ni semanalmente. Una revisión al año es suficiente. El mercado sube y baja — tú no haces nada.' },
+    { emoji:'📅', title:'Revisión anual', desc:'Una vez al año comprueba que las proporciones siguen siendo las correctas. Si un fondo ha crecido mucho, aporta algo más a los otros. Eso es todo.' }
+  ];
+
+  let stepsHTML = '<div class="section-title">Tu journey — paso a paso</div><ul class="steps-list">';
+  pasos.forEach(p => {
+    stepsHTML += `<li class="step-item"><div class="step-num">${p.emoji}</div><div class="step-content"><div class="step-title">${p.title}</div><div class="step-desc">${p.desc}</div>${p.brokers ? '<div class="broker-tags">' + p.brokers.map(b=>'<span class="broker-tag">'+b+'</span>').join('') + '</div>' : ''}</div></li>`;
+  });
+  stepsHTML += '</ul>';
+  document.getElementById('planSteps').innerHTML = stepsHTML;
+
+  goTo('s_plan');
+  guardarEnSheet();
+}
+
+// ============================================================
+// AJUSTE FONDOS POR EDAD
+// ============================================================
+function getFondosAjustados() {
+  const base = JSON.parse(JSON.stringify(FONDOS[state.perfil]));
+  const rf = rfPct(state.edad || 30);
+  if (rf === 0 || state.perfil === 'turbo') return base;
+  const rfVal = Math.round(rf * 100);
+  if (state.perfil === 'mega_sencilla') return [
+    { pct: 100-rfVal, name:'Vanguard Global Stock Index Fund', ticker:'Mundo desarrollado', isin:'IE00B03HD191', color:'#b8f04a' },
+    { pct: rfVal, name:'Vanguard Global Bond Index Fund', ticker:'Renta fija global', isin:'IE00B18GC888', color:'#5b8df5' }
+  ];
+  const rvTotal = 100 - rfVal;
+  return [
+    { pct: Math.round(rvTotal*0.72), name:'Vanguard Global Stock Index Fund', ticker:'Mundo desarrollado', isin:'IE00B03HD191', color:'#b8f04a' },
+    { pct: Math.round(rvTotal*0.28), name:'Vanguard Emerging Markets Stock Index', ticker:'Mercados emergentes', isin:'IE0031786142', color:'#f5a623' },
+    { pct: rfVal, name:'Vanguard Global Bond Index Fund', ticker:'Renta fija global', isin:'IE00B18GC888', color:'#5b8df5' }
+  ];
+}
+
+// ============================================================
+// FORMACIÓN FINAL
+// ============================================================
+function buildEduFinal() {
+  const esCasa = state.objetivo === 'casa';
+  const esJub = state.objetivo === 'jubilacion_complemento' || state.objetivo === 'jubilacion_anticipada';
+  document.getElementById('eduFinalSubline').textContent = esCasa
+    ? 'Lo que pasa fiscalmente cuando vendes tu casa y consigues tu objetivo.'
+    : 'Cómo funciona la retirada, la fiscalidad y la transición cuando te acercas a la meta.';
+
+  let html = esCasa ? `
+    <div class="edu-final-card">
+      <div class="edu-final-title">💰 Fiscalidad al vender tu casa</div>
+      <div class="edu-final-body">La ganancia patrimonial tributa en IRPF: <strong>19%</strong> hasta 6.000€, <strong>21%</strong> entre 6.000-50.000€, <strong>23%</strong> a partir de 50.000€.<br><br>Si es tu <strong>vivienda habitual</strong> y reinviertes en otra vivienda habitual en 2 años, la ganancia está <strong style="color:var(--green)">exenta de impuestos</strong>.</div>
+    </div>
+    <div class="edu-final-card">
+      <div class="edu-final-title">🏦 Qué pasa con tus fondos al llegar al objetivo</div>
+      <div class="edu-final-body">Cuando necesites el dinero, reembolsas tus fondos en MyInvestor (1-2 días hábiles). <strong>Solo tributas por la ganancia</strong>, no por el total retirado.</div>
+    </div>
+  ` : `
+    <div class="edu-final-card">
+      <div class="edu-final-title">📉 Transición progresiva a renta fija</div>
+      <div class="edu-final-body">A medida que te acercas a la jubilación, aumenta gradualmente la renta fija. <strong>No de golpe</strong> — un par de puntos al año. Así proteges lo acumulado sin perder toda la rentabilidad.</div>
+    </div>
+    <div class="edu-final-card">
+      <div class="edu-final-title">💸 Fiscalidad de la retirada</div>
+      <div class="edu-final-body">Pagas IRPF solo sobre la <strong>ganancia</strong>. Tipos 2026: 19% (hasta 6.000€), 21% (6.000-50.000€), 23% (50.000-200.000€).<br><br>Estrategia: <strong>retirar poco a poco</strong> para no saltar de tramo. Mejor 12.000€/año que todo de golpe.</div>
+    </div>
+  `;
+  document.getElementById('eduFinalContent').innerHTML = html;
+
+  const calcEl = document.getElementById('withdrawalCalc');
+  calcEl.style.display = esJub ? 'block' : 'none';
+  if (esJub && state.capital_proyectado > 0) {
+    const cap = Math.min(Math.max(50000, Math.round(state.capital_proyectado/10000)*10000), 1000000);
+    document.querySelector('#withdrawalCalc input').value = cap;
+    updateWithdrawal(cap);
+  }
+}
+
+function updateWithdrawal(val) {
+  const v = parseInt(val);
+  const rateEl = document.getElementById('withdrawRate');
+  const rate = parseFloat(rateEl ? rateEl.textContent : '4') / 100;
+  document.getElementById('withdrawCapital').textContent = Math.round(v).toLocaleString('es-ES') + '€';
+  document.getElementById('withdrawResult').textContent = Math.round(v * rate).toLocaleString('es-ES') + '€/año';
+  document.getElementById('withdrawResultMonth').textContent = Math.round(v * rate / 12).toLocaleString('es-ES') + '€ al mes';
+}
+
+function updateWithdrawalRate(val) {
+  document.getElementById('withdrawRate').textContent = val + '%';
+  const slider = document.querySelector('#withdrawalCalc input[type=range]');
+  if (slider) updateWithdrawal(parseInt(slider.value));
+}
+
+// ============================================================
+// TOOLTIPS
+// ============================================================
+function toggleTooltip(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+// ============================================================
+// GOOGLE SHEETS
+// ============================================================
+const SHEET_URL = 'TU_GOOGLE_APPS_SCRIPT_URL_AQUI';
+
+function guardarEnSheet() {
+  if (SHEET_URL === 'TU_GOOGLE_APPS_SCRIPT_URL_AQUI') return;
+  const data = {
+    fecha: new Date().toISOString(),
+    objetivo: state.objetivo || '',
+    formacion_inicial: state.quiereFormacion ? 'Sí' : 'No',
+    edad: state.edad || '',
+    ahorros_actuales: state.ahorros || '',
+    ahorro_mensual: state.mensual || '',
+    horizonte_años: state.horizonte || '',
+    confianza: state.confianza || '',
+    perfil: state.perfil || '',
+    casa_precio: state.casa_precio || '',
+    casa_años: state.casa_años || '',
+    ja_edad_objetivo: state.ja_edad_obj || '',
+    ja_gasto_mensual: state.ja_gasto || ''
+  };
+  fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(() => {});
+}
+
+// ============================================================
+// NAVEGACIÓN PRINCIPAL
+// ============================================================
+let screenHistory = ['s0'];
+
+function goTo(id) {
+  if (id === 's_edu_final') buildEduFinal();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  screenHistory.push(id);
+  updateProgress(id);
+  updateBackBtn(id);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goBack() {
+  if (screenHistory.length > 1) {
+    screenHistory.pop();
+    const prev = screenHistory[screenHistory.length - 1];
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+    updateProgress(prev);
+    updateBackBtn(prev);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+const PROGRESS_MAP = { 's0':0,'s_edu_choice':5,'s_edu':15,'s_objetivo':20,'s_casa':30,'s_jub_comp':30,'s_jub_ant':30,'s_proyeccion':55,'s_confianza':68,'s_perfil':82,'s_plan':100,'s_edu_final':100 };
+const PROGRESS_LABELS = { 's0':'','s_edu_choice':'Paso 1 de 7','s_edu':'Formación opcional','s_objetivo':'Paso 2 de 7','s_casa':'Paso 3 de 7','s_jub_comp':'Paso 3 de 7','s_jub_ant':'Paso 3 de 7','s_proyeccion':'Paso 4 de 7','s_confianza':'Paso 5 de 7','s_perfil':'Paso 6 de 7','s_plan':'¡Tu plan listo! 🎉','s_edu_final':'Guía avanzada' };
+
+function updateProgress(id) {
+  document.getElementById('progressFill').style.width = (PROGRESS_MAP[id] || 0) + '%';
+  document.getElementById('progressLabel').textContent = PROGRESS_LABELS[id] || '';
+}
+
+function updateBackBtn(id) {
+  const btn = document.getElementById('backBtn');
+  btn.classList.toggle('hidden', id === 's0');
+}
+
+// ============================================================
+// EDU SWIPE
+// ============================================================
+let eduIndex = 0;
+const EDU_TOTAL = 6;
+
+function initEduDots() {
+  const dots = document.getElementById('eduDots');
+  if (!dots) return;
+  dots.innerHTML = '';
+  for (let i = 0; i < EDU_TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'edu-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => eduGoTo(i);
+    dots.appendChild(d);
+  }
+}
+
+function eduNav(dir) { eduGoTo(eduIndex + dir); }
+
+function eduGoTo(idx) {
+  if (idx < 0 || idx >= EDU_TOTAL) return;
+  eduIndex = idx;
+  document.getElementById('eduTrack').style.transform = 'translateX(-' + (idx * 100) + '%)';
+  document.querySelectorAll('.edu-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  document.getElementById('eduPrev').disabled = idx === 0;
+  document.getElementById('eduNext').disabled = idx === EDU_TOTAL - 1;
+}
+
+// Touch
+let _touchX = 0;
+document.addEventListener('DOMContentLoaded', () => {
+  initEduDots();
+  const c = document.getElementById('eduContainer');
+  if (c) {
+    c.addEventListener('touchstart', e => { _touchX = e.touches[0].clientX; });
+    c.addEventListener('touchend', e => { const d = _touchX - e.changedTouches[0].clientX; if (Math.abs(d) > 50) eduNav(d > 0 ? 1 : -1); });
+  }
+});
+</script>
+</body>
+</html>
