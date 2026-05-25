@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="aac3e707-6de1-464b-bc04-969301677ef6"></script>
 <style>
 /* ====== RESET & TOKENS ====== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -392,12 +393,12 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <h1 class="headline">Una pequeña explicación<br>antes de empezar</h1>
       <p class="subline">Puedes ir directo al plan o dedicar unos minutos a entender los conceptos básicos. No hay prisa y no hay respuesta incorrecta.</p>
       <div class="choice-cards">
-        <div class="choice-card" onclick="goTo('s_edu')">
+        <div class="choice-card" onclick="track('edu-eleccion',{opcion:'quiero-info'});goTo('s_edu')">
           <div class="cc-icon">📚</div>
           <div class="cc-label">Sí, quiero entender de qué va esto</div>
           <div class="cc-desc">Unos minutos de contexto antes de tomar decisiones</div>
         </div>
-        <div class="choice-card" onclick="goTo('s_datos')">
+        <div class="choice-card" onclick="track('edu-eleccion',{opcion:'al-grano'});goTo('s_datos')">
           <div class="cc-icon">⚡</div>
           <div class="cc-label">No, prefiero ir al grano</div>
           <div class="cc-desc">Directo a introducir tus datos y ver tu plan</div>
@@ -848,6 +849,17 @@ const MILESTONE_MAP = {
   s_age_warning: 2
 };
 
+// ====== TRACKING ======
+const SCREEN_TITLES = {
+  s0: 'Inicio', s_edu_choice: 'Info / Elección', s_edu: 'Info / Tarjetas',
+  s_datos: 'Datos', s_proyeccion: 'Proyección', s_ritmo: 'Perfil',
+  s_plan: 'Plan', s_avanzado: 'Guía avanzada', s_age_warning: 'Horizonte corto'
+};
+
+function track(event, data) {
+  if (typeof umami !== 'undefined') umami.track(event, data);
+}
+
 function goTo(id) {
   const cur = document.querySelector('.screen.active');
   if (cur) cur.classList.remove('active');
@@ -861,6 +873,7 @@ function goTo(id) {
   if (id === 's_proyeccion') initChart();
   if (id === 's_plan') renderPlan();
   if (id === 's_edu') initEduSlider();
+  track(props => ({ ...props, url: '/' + id, title: SCREEN_TITLES[id] || id }));
 }
 
 function goBack() {
@@ -1064,6 +1077,7 @@ function goToProyeccion() {
   state.monthly = parseVal('inp-mensual');
   state.targetMonthly = parseVal('inp-gasto');
   if (state.age > 50 || (65 - state.age) < 10) {
+    track('horizonte-corto', { edad: state.age });
     goTo('s_age_warning');
   } else {
     goTo('s_proyeccion');
@@ -1174,6 +1188,7 @@ function toggleLine(rate) {
 // ====== PLAN RENDERING ======
 function choosePlan(type) {
   state.planType = type;
+  track('plan-elegido', { tipo: type });
   goTo('s_plan');
 }
 
