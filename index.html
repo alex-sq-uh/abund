@@ -6,659 +6,627 @@
 <title>Dinerite — Empieza a invertir</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:#f7f9fc;color:#1a1a2e;min-height:100vh;overflow-x:hidden}
-
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#f4f8ff;color:#1a2030;min-height:100vh;overflow-x:hidden}
 :root{
-  --sky:#75bde0;
-  --sky-light:#e8f4fb;
-  --sky-mid:#b8ddf0;
-  --sky-dark:#2e86c1;
-  --sky-deep:#1a5276;
-  --white:#ffffff;
-  --cream:#f7f9fc;
-  --surface:#ffffff;
-  --border:#ddeef8;
-  --text:#1a1a2e;
-  --text-sec:#5a6a7a;
-  --text-dim:#8fa0b0;
-  --green:#27ae60;
-  --green-light:#eafaf1;
-  --amber:#e67e22;
-  --amber-light:#fef5e7;
-  --red:#e74c3c;
-  --red-light:#fdedec;
-  --radius:18px;
-  --radius-sm:12px;
-  --shadow:0 2px 16px rgba(46,134,193,0.08);
-  --shadow-md:0 4px 24px rgba(46,134,193,0.14);
-  --font-display:'Fraunces',serif;
-  --font-body:'Plus Jakarta Sans',sans-serif;
-  --transition:0.22s cubic-bezier(0.4,0,0.2,1)
+  --sky:#4a9fd4;--sky-light:#e6f3fb;--sky-mid:#a8d4ee;--sky-dark:#1e6fa3;--sky-deep:#0d4a73;
+  --white:#ffffff;--cream:#f4f8ff;--border:#d6eaf8;
+  --text:#1a2030;--text-sec:#4a5a72;--text-dim:#8096b0;
+  --green:#1a9e5c;--green-light:#e6f9f0;--green-mid:#7dd4a8;
+  --amber:#d4820a;--amber-light:#fef3e2;--amber-mid:#f0b84a;
+  --red:#c0392b;
+  --radius:18px;--radius-sm:12px;--radius-xs:8px;
+  --shadow:0 2px 12px rgba(30,111,163,0.07);--shadow-md:0 4px 24px rgba(30,111,163,0.13);--shadow-lg:0 8px 40px rgba(30,111,163,0.18);
+  --font-display:'Fraunces',serif;--font-body:'Plus Jakarta Sans',sans-serif;
+  --trans:0.2s cubic-bezier(0.4,0,0.2,1)
 }
-
-.app{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 1rem 5rem;background:linear-gradient(160deg,#f0f8ff 0%,#f7f9fc 60%,#eef7fd 100%)}
-.app::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--sky),var(--sky-dark));z-index:100}
-
-.screen{display:none;width:100%;max-width:580px;padding-top:2.5rem;animation:fadeUp 0.38s ease forwards}
+.app{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 1rem 5rem;background:linear-gradient(160deg,#eaf4ff 0%,#f4f8ff 55%,#eef7fd 100%)}
+.app::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sky),var(--sky-dark),var(--sky));z-index:200}
+.screen{display:none;width:100%;max-width:580px;padding-top:2.5rem;animation:fadeUp 0.35s ease forwards}
 .screen.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-/* TOP BAR */
-.topbar{width:100%;max-width:580px;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0 0;position:sticky;top:0;z-index:50;background:linear-gradient(160deg,#f0f8ff,#f7f9fc)}
-.logo{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--sky-dark);letter-spacing:-0.02em;font-style:italic}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.topbar{width:100%;max-width:580px;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0 0.5rem;position:sticky;top:0;z-index:100;background:linear-gradient(160deg,#eaf4ff,#f4f8ff)}
+.logo{font-family:var(--font-display);font-size:1.55rem;font-weight:800;color:var(--sky-dark);letter-spacing:-0.03em;font-style:italic;cursor:pointer}
 .logo span{color:var(--sky)}
-.back-btn{background:var(--white);border:1.5px solid var(--border);color:var(--text-sec);font-family:var(--font-body);font-size:0.82rem;font-weight:500;padding:7px 16px;border-radius:50px;cursor:pointer;transition:var(--transition);box-shadow:var(--shadow)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.back-btn{background:var(--white);border:1.5px solid var(--border);color:var(--text-sec);font-size:0.82rem;font-weight:500;padding:6px 14px;border-radius:50px;cursor:pointer;transition:var(--trans);box-shadow:var(--shadow)}
 .back-btn:hover{border-color:var(--sky);color:var(--sky-dark)}
 .back-btn.hidden{visibility:hidden}
-
-/* PROGRESS */
-.progress-wrap{width:100%;max-width:580px;margin-top:0.75rem}
-.progress-bar{height:3px;background:var(--border);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--sky),var(--sky-dark));border-radius:3px;transition:width 0.5s ease}
-.progress-label{font-size:0.72rem;color:var(--text-dim);margin-top:0.4rem;text-align:right;font-weight:500;letter-spacing:0.04em;text-transform:uppercase}
-
-/* TYPOGRAPHY */
-.eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--sky-dark);margin-bottom:0.6rem}
-.headline{font-family:var(--font-display);font-size:clamp(1.7rem,5vw,2.4rem);font-weight:700;line-height:1.15;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.01em}
+.lang-btn{background:var(--white);border:1.5px solid var(--border);color:var(--text-sec);font-size:0.78rem;font-weight:600;padding:6px 12px;border-radius:50px;cursor:pointer;transition:var(--trans);box-shadow:var(--shadow);letter-spacing:0.04em}
+.lang-btn:hover{border-color:var(--sky);color:var(--sky-dark);background:var(--sky-light)}
+.milestones{width:100%;max-width:580px;margin-top:0.75rem;display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:0.5rem;scrollbar-width:none}
+.milestones::-webkit-scrollbar{display:none}
+.ms{display:flex;flex-direction:column;align-items:center;flex:1;min-width:50px}
+.ms-dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:0.68rem;color:var(--text-dim);transition:var(--trans);position:relative;flex-shrink:0}
+.ms-label{font-size:0.56rem;color:var(--text-dim);text-align:center;margin-top:4px;font-weight:500;line-height:1.3;max-width:50px;transition:var(--trans)}
+.ms-line{flex:1;height:2px;background:var(--border);margin-top:13px;transition:var(--trans);min-width:6px}
+.ms.done .ms-dot{background:var(--sky-mid);border-color:var(--sky);color:var(--sky-dark)}
+.ms.active .ms-dot{background:var(--sky-dark);border-color:var(--sky-dark);color:#fff;box-shadow:0 0 0 4px rgba(74,159,212,0.2)}
+.ms.active .ms-label{color:var(--sky-dark);font-weight:700}
+.ms.done .ms-label{color:var(--sky)}
+.ms-line.done{background:var(--sky-mid)}
+.eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--sky-dark);margin-bottom:0.6rem}
+.headline{font-family:var(--font-display);font-size:clamp(1.7rem,5vw,2.3rem);font-weight:700;line-height:1.15;color:var(--text);margin-bottom:0.7rem;letter-spacing:-0.02em}
 .headline em{color:var(--sky-dark);font-style:italic}
-.subline{font-size:0.95rem;color:var(--text-sec);line-height:1.7;margin-bottom:1.75rem;font-weight:400}
-
-/* CARDS */
+.subline{font-size:0.93rem;color:var(--text-sec);line-height:1.72;margin-bottom:1.75rem;font-weight:400}
 .card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}
-.card-grid{display:grid;gap:12px}
-.option-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;cursor:pointer;transition:var(--transition);position:relative}
-.option-card:hover{border-color:var(--sky);box-shadow:var(--shadow-md)}
-.option-card.selected{border-color:var(--sky-dark);background:var(--sky-light)}
-.check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);position:absolute;top:1rem;right:1rem;display:flex;align-items:center;justify-content:center;transition:var(--transition);background:var(--white)}
+.card-grid{display:grid;gap:10px}
+.option-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;cursor:pointer;transition:var(--trans);position:relative;overflow:hidden}
+.option-card:hover{border-color:var(--sky-mid);box-shadow:var(--shadow-md)}
+.option-card.selected{border-color:var(--sky-dark);background:var(--sky-light);box-shadow:var(--shadow-md)}
+.check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);position:absolute;top:1rem;right:1rem;display:flex;align-items:center;justify-content:center;transition:var(--trans);background:var(--white)}
 .option-card.selected .check{background:var(--sky-dark);border-color:var(--sky-dark)}
-.option-card.selected .check::after{content:'✓';font-size:12px;color:#fff;font-weight:700}
+.option-card.selected .check::after{content:'✓';font-size:11px;color:#fff;font-weight:700}
 .card-icon{font-size:1.8rem;margin-bottom:0.5rem}
-.card-title{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.25rem}
-.card-desc{font-size:0.8rem;color:var(--text-sec);line-height:1.55}
-
-/* BUTTONS */
-.btn-primary{background:linear-gradient(135deg,var(--sky-dark),var(--sky-deep));color:#fff;border:none;border-radius:50px;padding:14px 32px;font-family:var(--font-body);font-size:0.95rem;font-weight:600;cursor:pointer;width:100%;margin-top:1.5rem;transition:var(--transition);box-shadow:0 4px 16px rgba(46,134,193,0.3);letter-spacing:0.01em}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(46,134,193,0.4)}
-.btn-primary:disabled{background:linear-gradient(135deg,#b0c8d8,#8aaabb);box-shadow:none;cursor:not-allowed;transform:none}
-.btn-secondary{background:var(--white);color:var(--sky-dark);border:1.5px solid var(--sky-mid);border-radius:50px;padding:12px 28px;font-family:var(--font-body);font-size:0.9rem;font-weight:500;cursor:pointer;width:100%;margin-top:0.75rem;transition:var(--transition)}
-.btn-secondary:hover{background:var(--sky-light);border-color:var(--sky-dark)}
-.btn-ghost{background:none;border:none;color:var(--text-dim);font-size:0.85rem;cursor:pointer;padding:8px 0;transition:var(--transition);font-family:var(--font-body);width:100%;text-align:center}
+.card-title{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.3rem}
+.card-desc{font-size:0.8rem;color:var(--text-sec);line-height:1.58}
+.btn{background:linear-gradient(135deg,var(--sky-dark),var(--sky-deep));color:#fff;border:none;border-radius:50px;padding:14px 32px;font-family:var(--font-body);font-size:0.95rem;font-weight:600;cursor:pointer;width:100%;margin-top:1.5rem;transition:var(--trans);box-shadow:0 4px 18px rgba(30,111,163,0.28)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(30,111,163,0.38)}
+.btn:disabled{background:linear-gradient(135deg,#b0c8d8,#8aaabb);box-shadow:none;cursor:not-allowed;transform:none}
+.btn-sec{background:var(--white);color:var(--sky-dark);border:1.5px solid var(--sky-mid);border-radius:50px;padding:12px 28px;font-family:var(--font-body);font-size:0.9rem;font-weight:500;cursor:pointer;width:100%;margin-top:0.75rem;transition:var(--trans)}
+.btn-sec:hover{background:var(--sky-light);border-color:var(--sky-dark)}
+.btn-ghost{background:none;border:none;color:var(--text-dim);font-size:0.85rem;cursor:pointer;padding:8px 0;transition:var(--trans);font-family:var(--font-body);width:100%;text-align:center;margin-top:0.5rem}
 .btn-ghost:hover{color:var(--text-sec)}
-.btn-sm{padding:8px 18px;font-size:0.8rem;border-radius:50px;border:1.5px solid var(--sky-mid);background:var(--white);color:var(--sky-dark);cursor:pointer;font-family:var(--font-body);font-weight:500;transition:var(--transition);margin-top:0.75rem;display:inline-block}
-.btn-sm:hover{background:var(--sky-light);border-color:var(--sky-dark)}
-
-/* INPUTS */
-.input-group{margin-bottom:1.1rem}
-.input-label{font-size:0.83rem;color:var(--text-sec);margin-bottom:0.4rem;display:block;font-weight:500}
-.input-field{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0.85rem 1rem;font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:var(--text);outline:none;transition:var(--transition);box-shadow:var(--shadow)}
-.input-field:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(117,189,224,0.15)}
-.input-field::placeholder{color:var(--text-dim);font-weight:300;font-size:1rem}
-.input-hint{font-size:0.73rem;color:var(--text-dim);margin-top:0.3rem}
-.input-prefix{position:relative}
-.input-prefix::before{content:'€';position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:1rem;z-index:1;font-family:var(--font-body)}
-.input-prefix .input-field{padding-left:1.8rem}
-
-/* HIGHLIGHT BOXES */
-.box-blue{background:var(--sky-light);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1.1rem 1.25rem;margin:1rem 0}
-.box-blue p{font-size:0.88rem;color:var(--sky-deep);line-height:1.65}
+.btn-xs{padding:6px 14px;font-size:0.75rem;border-radius:50px;border:1.5px solid var(--sky-mid);background:var(--white);color:var(--sky-dark);cursor:pointer;font-family:var(--font-body);font-weight:600;transition:var(--trans);display:inline-block;margin-top:0.75rem}
+.btn-xs:hover{background:var(--sky-light);border-color:var(--sky-dark)}
+.ig{margin-bottom:1.1rem}
+.il{font-size:0.82rem;color:var(--text-sec);margin-bottom:0.4rem;display:block;font-weight:500}
+.iw{position:relative}
+.iw::before{content:'€';position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:1rem;z-index:1}
+.iw input{padding-left:1.8rem}
+input.inf{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0.85rem 1rem;font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:var(--text);outline:none;transition:var(--trans);box-shadow:var(--shadow)}
+input.inf:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(74,159,212,0.14)}
+input.inf::placeholder{color:var(--text-dim);font-weight:300;font-size:1rem}
+.ihint{font-size:0.72rem;color:var(--text-dim);margin-top:0.3rem}
+.box-blue{background:var(--sky-light);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0}
+.box-blue p{font-size:0.87rem;color:var(--sky-deep);line-height:1.68}
 .box-blue strong{color:var(--sky-dark);font-weight:600}
-.box-green{background:var(--green-light);border:1.5px solid #a9dfbf;border-radius:var(--radius);padding:1.1rem 1.25rem;margin:1rem 0}
-.box-green p{font-size:0.88rem;color:#1e8449;line-height:1.65}
+.box-green{background:var(--green-light);border:1.5px solid var(--green-mid);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0}
+.box-green p{font-size:0.87rem;color:#0d6b3a;line-height:1.68}
 .box-green strong{font-weight:600}
-.box-amber{background:var(--amber-light);border:1.5px solid #f9ca8b;border-radius:var(--radius);padding:1.1rem 1.25rem;margin:1rem 0}
-.box-amber p{font-size:0.85rem;color:#a04000;line-height:1.65}
-
-/* SUMMARY GRID */
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
-.summary-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:1rem;box-shadow:var(--shadow)}
-.summary-card.highlight{background:var(--sky-light);border-color:var(--sky-mid)}
-.s-label{font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;font-weight:600}
-.s-value{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--sky-dark)}
-.s-sub{font-size:0.7rem;color:var(--text-dim);margin-top:3px}
-.s-range{font-size:0.75rem;color:var(--text-sec);margin-top:4px;font-weight:500}
-
-/* SECTION TITLE */
-.section-title{font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:0.07em;margin:1.75rem 0 0.85rem}
-
-/* DIVIDER */
+.box-amber{background:var(--amber-light);border:1.5px solid var(--amber-mid);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0}
+.box-amber p{font-size:0.84rem;color:#7a4a00;line-height:1.68}
+.data-notice{background:#f0f8ff;border-left:3px solid var(--sky);border-radius:0 var(--radius-xs) var(--radius-xs) 0;padding:0.85rem 1rem;margin:1rem 0;font-size:0.77rem;color:var(--sky-deep);line-height:1.65}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.25rem}
+.sc{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:1rem;box-shadow:var(--shadow)}
+.sc.hi{background:var(--sky-light);border-color:var(--sky-mid)}
+.sc .sl{font-size:0.67rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;font-weight:600}
+.sc .sv{font-family:var(--font-display);font-size:1.35rem;font-weight:700;color:var(--sky-dark)}
+.sc .ss{font-size:0.7rem;color:var(--text-dim);margin-top:3px}
+.sc .sr{font-size:0.73rem;color:var(--text-sec);margin-top:5px;font-weight:500}
+.stitle{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--text-sec);text-transform:uppercase;letter-spacing:0.08em;margin:1.75rem 0 0.85rem}
 .divider{height:1.5px;background:var(--border);margin:1.75rem 0;border-radius:2px}
-
-/* EDUCATION CARDS */
-.edu-container{position:relative;overflow:hidden;border-radius:var(--radius);touch-action:pan-y}
-.edu-track{display:flex;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
-.edu-card{min-width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.75rem 1.5rem;display:flex;flex-direction:column;min-height:360px;box-shadow:var(--shadow)}
-.edu-icon{font-size:2.5rem;margin-bottom:1rem}
-.edu-title{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.01em}
-.edu-body{font-size:0.9rem;color:var(--text-sec);line-height:1.75;flex:1}
-.edu-body strong{color:var(--sky-dark);font-weight:600}
-.edu-visual{margin-top:1.25rem;background:var(--sky-light);border-radius:var(--radius-sm);padding:1rem;border:1px solid var(--sky-mid)}
+.edu-wrap{position:relative;overflow:hidden;border-radius:var(--radius);touch-action:pan-y}
+.edu-track{display:flex;transition:transform 0.38s cubic-bezier(0.4,0,0.2,1)}
+.edu-card{min-width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.75rem 1.5rem;display:flex;flex-direction:column;min-height:380px;box-shadow:var(--shadow)}
+.eicon{font-size:2.4rem;margin-bottom:1rem}
+.etitle{font-family:var(--font-display);font-size:1.22rem;font-weight:700;color:var(--text);margin-bottom:0.7rem;letter-spacing:-0.01em}
+.ebody{font-size:0.89rem;color:var(--text-sec);line-height:1.75;flex:1}
+.ebody strong{color:var(--sky-dark);font-weight:600}
+.evisual{margin-top:1.2rem;background:var(--sky-light);border-radius:var(--radius-sm);padding:1rem;border:1px solid var(--sky-mid)}
 .edu-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1rem}
 .edu-dots{display:flex;gap:7px;align-items:center}
-.edu-dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:var(--transition);cursor:pointer}
+.edu-dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:var(--trans);cursor:pointer}
 .edu-dot.active{background:var(--sky-dark);width:22px;border-radius:4px}
-.edu-arrow{background:var(--white);border:1.5px solid var(--border);color:var(--text-sec);width:38px;height:38px;border-radius:50%;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;font-size:0.9rem;box-shadow:var(--shadow)}
-.edu-arrow:hover{border-color:var(--sky);color:var(--sky-dark)}
-.edu-arrow:disabled{opacity:0.35;cursor:not-allowed}
-
-/* PROB BARS */
-.prob-row{display:grid;grid-template-columns:80px 1fr 55px;align-items:center;gap:10px;margin-bottom:9px}
-.prob-label{font-size:0.78rem;color:var(--text-sec)}
-.prob-bar-bg{height:8px;background:#e8edf2;border-radius:4px;overflow:hidden}
-.prob-bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
-.prob-pct{font-size:0.78rem;font-weight:700;text-align:right}
-
-/* CHART */
+.earr{background:var(--white);border:1.5px solid var(--border);color:var(--text-sec);width:38px;height:38px;border-radius:50%;cursor:pointer;transition:var(--trans);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.earr:hover{border-color:var(--sky);color:var(--sky-dark)}
+.earr:disabled{opacity:0.3;cursor:not-allowed}
+.prow{display:grid;grid-template-columns:80px 1fr 55px;align-items:center;gap:10px;margin-bottom:9px}
+.plabel{font-size:0.78rem;color:var(--text-sec)}
+.pbg{height:8px;background:#dde8f4;border-radius:4px;overflow:hidden}
+.pfill{height:100%;border-radius:4px}
+.ppct{font-size:0.78rem;font-weight:700;text-align:right}
 .chart-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin:1.25rem 0;box-shadow:var(--shadow)}
-.chart-title{font-family:var(--font-display);font-size:0.82rem;font-weight:600;color:var(--text-sec);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em}
-canvas{width:100%!important}
-.chart-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
-.chart-btn{font-size:0.75rem;font-weight:600;padding:5px 14px;border-radius:50px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:var(--transition);font-family:var(--font-body);color:var(--text-sec)}
-.chart-btn.active-0{background:#e8edf2;border-color:#8fa0b0;color:#3a4a5a}
-.chart-btn.active-3{background:var(--amber-light);border-color:#f9ca8b;color:var(--amber)}
-.chart-btn.active-6{background:var(--sky-light);border-color:var(--sky-mid);color:var(--sky-dark)}
-.chart-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:0.74rem;color:var(--text-sec)}
-.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-
-/* ETF CARDS */
-.etf-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:1rem 1.25rem;margin-bottom:10px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow)}
-.etf-pct{font-family:var(--font-display);font-size:1.4rem;font-weight:700;min-width:58px;color:var(--sky-dark)}
-.etf-info{flex:1}
-.etf-name{font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.etf-meta{font-size:0.73rem;color:var(--text-dim);margin-top:2px}
-.isin{font-family:monospace;background:var(--sky-light);color:var(--sky-deep);padding:2px 7px;border-radius:5px;font-size:0.7rem;font-weight:600;letter-spacing:0.04em}
-.etf-bar{height:4px;border-radius:2px;margin-top:7px;background:var(--sky-mid)}
-
-/* STEPS */
+.chart-title{font-size:0.8rem;font-weight:600;color:var(--text-sec);margin-bottom:0.85rem;text-transform:uppercase;letter-spacing:0.05em;font-family:var(--font-display)}
+.chart-controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
+.cbtn{font-size:0.74rem;font-weight:600;padding:5px 13px;border-radius:50px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:var(--trans);font-family:var(--font-body);color:var(--text-dim)}
+.cbtn.a0{background:#e8edf5;border-color:#8096b0;color:#3a4a5a}
+.cbtn.a3{background:var(--amber-light);border-color:var(--amber-mid);color:var(--amber)}
+.cbtn.a6{background:var(--sky-light);border-color:var(--sky-mid);color:var(--sky-dark)}
+.cleg{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}
+.cli{display:flex;align-items:center;gap:6px;font-size:0.73rem;color:var(--text-sec)}
+.cld{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.fund-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:10px;box-shadow:var(--shadow)}
+.fund-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:0.75rem}
+.fund-pct{font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--sky-dark);min-width:58px;flex-shrink:0;line-height:1}
+.fund-name{font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.fund-isin{font-family:monospace;background:var(--sky-light);color:var(--sky-deep);padding:2px 8px;border-radius:5px;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;display:inline-block;margin-bottom:4px}
+.fund-bar{height:4px;border-radius:2px;background:var(--sky-mid);margin:0.6rem 0}
+.fund-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:0.6rem}
+.fstat{background:var(--sky-light);border-radius:var(--radius-xs);padding:6px 8px;text-align:center}
+.fstat-val{font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--sky-dark)}
+.fstat-label{font-size:0.58rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-top:1px}
+.fund-desc{font-size:0.78rem;color:var(--text-sec);line-height:1.6;margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border)}
+.fund-amount{background:var(--green-light);border:1px solid var(--green-mid);border-radius:var(--radius-xs);padding:5px 10px;display:inline-flex;align-items:center;gap:6px;margin-top:0.5rem}
+.fund-amount-val{font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:var(--green)}
+.fund-amount-label{font-size:0.72rem;color:#0d6b3a}
 .steps{list-style:none}
 .step{display:flex;gap:14px;padding:1.1rem 0;border-bottom:1.5px solid var(--border)}
 .step:last-child{border-bottom:none}
-.step-num{width:34px;height:34px;border-radius:50%;background:var(--sky-light);border:1.5px solid var(--sky-mid);color:var(--sky-dark);font-family:var(--font-display);font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.step-title{font-family:var(--font-display);font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:4px}
-.step-desc{font-size:0.82rem;color:var(--text-sec);line-height:1.6}
-
-/* RADIO */
-.radio-group{display:flex;gap:10px;flex-direction:column}
-.radio-item{display:flex;align-items:flex-start;gap:14px;padding:1rem 1.1rem;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:var(--transition);box-shadow:var(--shadow)}
-.radio-item:hover{border-color:var(--sky);box-shadow:var(--shadow-md)}
-.radio-item.selected{border-color:var(--sky-dark);background:var(--sky-light)}
-.radio-dot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--transition);margin-top:2px;background:var(--white)}
-.radio-item.selected .radio-dot{border-color:var(--sky-dark)}
-.radio-item.selected .radio-dot::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--sky-dark)}
-.radio-text{font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:3px}
-.radio-sub{font-size:0.78rem;color:var(--text-sec);line-height:1.55}
-
-/* DISCLAIMER */
-.disclaimer{font-size:0.72rem;color:var(--text-dim);line-height:1.65;padding:1rem 1.1rem;background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--border);margin-top:1.5rem}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,26,46,0.45);z-index:200;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(3px)}
-.modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:var(--radius);padding:2rem 1.75rem;max-width:540px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 48px rgba(46,134,193,0.18);position:relative;animation:fadeUp 0.25s ease}
-.modal-close{position:absolute;top:1rem;right:1rem;background:var(--sky-light);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--sky-dark);display:flex;align-items:center;justify-content:center;transition:var(--transition)}
-.modal-close:hover{background:var(--sky-mid)}
-.modal-title{font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:1rem;line-height:1.2}
-.modal-body{font-size:0.88rem;color:var(--text-sec);line-height:1.75}
-.modal-body strong{color:var(--text);font-weight:600}
-.modal-body h4{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--sky-dark);margin:1rem 0 0.4rem}
-
-/* dinerites VISUAL */
-.dinerites-row{display:flex;gap:6px;align-items:flex-end;margin:1rem 0;overflow:hidden}
-.minion{font-size:1.2rem;transition:var(--transition)}
-.minion-stack{display:flex;flex-direction:column;align-items:center;gap:2px}
-.minion-label{font-size:0.6rem;color:var(--text-dim);text-align:center}
-
-/* MESSAGE BOX */
-.msg-box{background:var(--white);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1.25rem;margin:1rem 0;box-shadow:var(--shadow)}
-.msg-box textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0.85rem;font-family:var(--font-body);font-size:0.88rem;color:var(--text);resize:none;outline:none;transition:var(--transition);background:var(--cream);height:90px}
-.msg-box textarea:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(117,189,224,0.12)}
-.msg-box textarea::placeholder{color:var(--text-dim)}
-
-/* DATA NOTICE */
-.data-notice{background:var(--sky-light);border-left:3px solid var(--sky);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:0.85rem 1rem;margin:1rem 0;font-size:0.78rem;color:var(--sky-deep);line-height:1.6}
-
-/* WITHDRAWAL CALC */
-.withdrawal-result{background:var(--sky-light);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1.25rem;margin-top:1rem;text-align:center}
-.w-amount{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--sky-dark)}
-.w-sub{font-size:0.82rem;color:var(--text-sec);margin-top:4px}
-
-/* FIRE NUMBER */
-.fire-card{background:linear-gradient(135deg,var(--sky-light),#e8f8f5);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1.5rem;text-align:center;margin:1rem 0}
-.fire-number{font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--sky-dark);line-height:1}
-.fire-label{font-size:0.8rem;color:var(--text-sec);margin-top:6px}
-.fire-range{font-size:0.78rem;color:var(--text-dim);margin-top:8px;background:var(--white);border-radius:8px;padding:6px 12px;display:inline-block}
-
-/* SLIDER */
-.slider-wrap{margin-bottom:1.25rem}
-.slider-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.6rem}
-.slider-name{font-size:0.83rem;color:var(--text-sec);font-weight:500}
-.slider-val{font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--sky-dark)}
+.snum{width:34px;height:34px;border-radius:50%;background:var(--sky-light);border:1.5px solid var(--sky-mid);color:var(--sky-dark);font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.stitle2{font-family:var(--font-display);font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:4px}
+.sdesc{font-size:0.82rem;color:var(--text-sec);line-height:1.62}
+.rgroup{display:flex;gap:10px;flex-direction:column}
+.ritem{display:flex;align-items:flex-start;gap:14px;padding:1.1rem;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:var(--trans);box-shadow:var(--shadow)}
+.ritem:hover{border-color:var(--sky-mid);box-shadow:var(--shadow-md)}
+.ritem.selected{border-color:var(--sky-dark);background:var(--sky-light)}
+.rdot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--trans);margin-top:2px;background:var(--white)}
+.ritem.selected .rdot{border-color:var(--sky-dark)}
+.ritem.selected .rdot::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--sky-dark)}
+.rtext{font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.rsub{font-size:0.78rem;color:var(--text-sec);line-height:1.58}
+.fire-card{background:linear-gradient(135deg,var(--sky-light),#e6f9f0);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1.5rem;margin:1rem 0}
+.fire-range{font-size:0.76rem;color:var(--text-sec);margin-top:8px;background:var(--white);border-radius:8px;padding:6px 12px;display:inline-block;border:1px solid var(--border)}
+.sw{margin-bottom:1.25rem}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.6rem}
+.sn{font-size:0.83rem;color:var(--text-sec);font-weight:500}
+.sv2{font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--sky-dark)}
 input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--sky-mid);border-radius:4px;outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--sky-dark);cursor:pointer;border:3px solid var(--white);box-shadow:0 2px 8px rgba(46,134,193,0.3)}
-
-/* TOOLTIP TRIGGER */
-.tt{display:inline;cursor:pointer;color:var(--sky-dark);border-bottom:1px dashed var(--sky-mid);font-size:inherit}
-.tt-box{display:none;background:var(--sky-light);border:1px solid var(--sky-mid);border-radius:var(--radius-sm);padding:0.7rem 0.9rem;font-size:0.78rem;color:var(--sky-deep);line-height:1.6;margin-top:0.4rem}
-.tt-box.open{display:block}
-
-/* PROFILE COMPARE */
-.profile-note{font-size:0.78rem;color:var(--text-sec);background:var(--sky-light);border-radius:var(--radius-sm);padding:0.75rem 1rem;margin-top:0.75rem;line-height:1.6;border:1px solid var(--sky-mid)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--sky-dark);cursor:pointer;border:3px solid var(--white);box-shadow:0 2px 8px rgba(30,111,163,0.3)}
+.wres{background:var(--sky-light);border:1.5px solid var(--sky-mid);border-radius:var(--radius);padding:1.25rem;margin-top:1rem;text-align:center}
+.wamt{font-family:var(--font-display);font-size:2.1rem;font-weight:800;color:var(--sky-dark)}
+.wsub{font-size:0.82rem;color:var(--text-sec);margin-top:4px}
+.mo{display:none;position:fixed;inset:0;background:rgba(10,20,40,0.45);z-index:300;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.mo.open{display:flex}
+.mc{background:var(--white);border-radius:var(--radius);padding:2rem 1.75rem;max-width:540px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;animation:fadeUp 0.25s ease}
+.mc-close{position:absolute;top:1rem;right:1rem;background:var(--sky-light);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--sky-dark);display:flex;align-items:center;justify-content:center;transition:var(--trans)}
+.mc-close:hover{background:var(--sky-mid)}
+.mc-title{font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:1rem;line-height:1.2;padding-right:2rem}
+.mc-body{font-size:0.87rem;color:var(--text-sec);line-height:1.78}
+.mc-body strong{color:var(--text);font-weight:600}
+.mc-body h4{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--sky-dark);margin:1rem 0 0.4rem}
+.mc-body ul{padding-left:1.2rem;margin-top:0.4rem}
+.mc-body li{margin-bottom:0.3rem}
+.principles{display:grid;gap:10px;margin-bottom:1.75rem}
+.principle{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;display:flex;gap:12px;align-items:flex-start;box-shadow:var(--shadow);transition:var(--trans)}
+.principle:hover{border-color:var(--sky-mid);box-shadow:var(--shadow-md)}
+.p-icon{font-size:1.5rem;flex-shrink:0;margin-top:1px}
+.p-title{font-size:0.87rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.p-desc{font-size:0.77rem;color:var(--text-sec);line-height:1.55}
+.disclaimer{font-size:0.71rem;color:var(--text-dim);line-height:1.65;padding:1rem 1.1rem;background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--border);margin-top:1.5rem}
 </style>
 </head>
 <body>
 <div class="app">
-
-<!-- TOP BAR -->
 <div class="topbar">
-  <div class="logo">Dinerite<span></span></div>
-  <button class="back-btn hidden" id="backBtn" onclick="goBack()">← Volver</button>
+  <div class="logo" onclick="goTo('s0')">Din<span>erite</span></div>
+  <div class="topbar-right">
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">🌐 EN</button>
+    <button class="back-btn hidden" id="backBtn" onclick="goBack()">← <span id="backLabel">Volver</span></button>
+  </div>
 </div>
-<div class="progress-wrap">
-  <div class="progress-bar"><div class="progress-fill" id="pFill" style="width:0%"></div></div>
-  <div class="progress-label" id="pLabel"></div>
-</div>
+<div class="milestones" id="milestones"></div>
 
-<!-- ═══════════════════════════════════════ -->
 <!-- S0: BIENVENIDA -->
-<!-- ═══════════════════════════════════════ -->
 <div class="screen active" id="s0">
-  <h1 class="headline">Haz tu <em>dinerite</em> trabaje para ti 💚</h1>
-  <p class="subline">En 5 minutos diseñamos juntos tu primer plan inversor.</p>
-
-  <!-- dinerites METÁFORA -->
-  <div class="card" style="margin-bottom:1rem;background:linear-gradient(135deg,#f0fff4,#e8f8f5);border-color:#a9dfbf">
-    <div style="font-size:0.82rem;font-weight:600;color:#1e8449;margin-bottom:0.5rem">¿Qué son los dinerites? 💚</div>
-    <p style="font-size:0.85rem;color:#2e7d4f;line-height:1.65">Imagina que cada euro que inviertes se convierte en un <strong>petit dinerite</strong> que sale a trabajar por ti. Mientras tú duermes, comes o estás de vacaciones, tus dinerites están ahí fuera, generando más dinerites. Con el tiempo, tienes un ejército de dinerites trabajando las 24h para traerte dinero a casa.</p>
-    <div class="dinerites-row" style="justify-content:center;margin-top:0.75rem">
-      <div class="minion-stack"><div>💚</div><div class="minion-label">Año 1<br>1 minion</div></div>
-      <div style="color:var(--text-dim);font-size:0.8rem;align-self:center">→</div>
-      <div class="minion-stack"><div>💚💚💚</div><div class="minion-label">Año 5<br>3 dinerites</div></div>
-      <div style="color:var(--text-dim);font-size:0.8rem;align-self:center">→</div>
-      <div class="minion-stack"><div>💚💚💚💚💚💚💚</div><div class="minion-label">Año 15<br>¡Muchos!</div></div>
-    </div>
+  <div class="eyebrow" id="t_home_eyebrow">Tu primer paso inversor</div>
+  <h1 class="headline" id="t_home_title">Haz que tu dinero trabaje mientras tú <em>vives</em></h1>
+  <p class="subline" id="t_home_sub">Dinerite es una app para aprender a invertir y desarrollar hábitos de ahorro a largo plazo. Sin productos raros, sin jerga bancaria, sin promesas imposibles.</p>
+  <div class="principles">
+    <div class="principle"><div class="p-icon">📊</div><div><div class="p-title" id="t_p1t">Fondos indexados de gestión pasiva</div><div class="p-desc" id="t_p1d">Invertimos en índices que replican el mercado global. Sin gestores que intenten ser listos. El 90% de los fondos activos pierde contra el índice a 15 años.</div></div></div>
+    <div class="principle"><div class="p-icon">🌍</div><div><div class="p-title" id="t_p2t">Máxima diversificación</div><div class="p-desc" id="t_p2d">En distintos activos, regiones y a través del tiempo. No apostamos por una empresa ni un sector. Compramos un trozo del mundo entero.</div></div></div>
+    <div class="principle"><div class="p-icon">📅</div><div><div class="p-title" id="t_p3t">DCA: invertir cada 6 meses sin pensar</div><div class="p-desc" id="t_p3d">Aportaciones regulares, mismo importe aproximado. La constancia supera siempre al intento de acertar el momento.</div></div></div>
+    <div class="principle"><div class="p-icon">🌱</div><div><div class="p-title" id="t_p4t">Hábito a largo plazo</div><div class="p-desc" id="t_p4d">El interés compuesto necesita tiempo. Esta app te ayuda a construir el hábito de invertir de forma regular y sin estrés.</div></div></div>
+    <div class="principle"><div class="p-icon">🎯</div><div><div class="p-title" id="t_p5t">Adaptado a tu ritmo</div><div class="p-desc" id="t_p5d">Desde empezar con 600€ y aprender la operativa, hasta un portfolio diversificado en 4 fondos globales.</div></div></div>
+    <div class="principle"><div class="p-icon">💚</div><div><div class="p-title" id="t_p6t">Los Dinerites trabajan para ti</div><div class="p-desc" id="t_p6d">Cada euro que inviertes se convierte en un Dinerite que genera más Dinerites. Mientras duermes, comes o estás de vacaciones. Eso es el interés compuesto.</div></div></div>
   </div>
-
-  <!-- DATA NOTICE -->
-  <div class="data-notice">
-    🔒 <strong>Sobre tus datos:</strong> Esta app guarda algunos datos en una base de datos para mejorar. No te pedimos nombre, email ni nada que te identifique. Si no te sientes cómodo/a dando tus datos financieros reales, puedes usar datos ficticios. El objetivo es aprender y entender.
-  </div>
-
-  <!-- MENSAJE A ALEX -->
-  <div class="msg-box">
-    <div style="font-size:0.82rem;font-weight:600;color:var(--sky-dark);margin-bottom:0.6rem">💬 ¿Quieres decirle algo a Alex?</div>
-    <textarea id="msgAlex" placeholder="Escríbele un mensaje... puede ser una pregunta, un comentario, o simplemente un hola 👋"></textarea>
-    <div style="font-size:0.72rem;color:var(--text-dim);margin-top:0.4rem">Tu mensaje llegará directamente a Alex.</div>
-  </div>
-
-  <button class="btn-primary" onclick="goTo('s_edu_choice')">Quiero mis dinerites verdes →</button>
+  <div class="data-notice"><strong id="t_notice_title">Sobre tus datos:</strong> <span id="t_notice_body">Esta app guarda datos anónimos para mejorar. No te pedimos nombre ni email. Si prefieres no dar tus datos financieros reales, usa aproximaciones. El objetivo es aprender, no la exactitud.</span></div>
+  <button class="btn" onclick="goTo('s_edu_choice')" id="t_start_btn">Quiero mis Dinerites →</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_EDU_CHOICE: ¿FORMACIÓN? -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_EDU_CHOICE -->
 <div class="screen" id="s_edu_choice">
-  <div class="eyebrow">Antes de empezar</div>
-  <h1 class="headline">¿Quieres entender <em>por qué</em> esto funciona?</h1>
-  <p class="subline">Puedes ir directo a tu plan o tomarte 5 minutos para entender la estrategia. No hay prisa y tampoco hay respuesta incorrecta.</p>
+  <div class="eyebrow" id="t_ec_eyebrow">Antes de empezar</div>
+  <h1 class="headline" id="t_ec_title">¿Quieres entender <em>por qué</em> esto funciona?</h1>
+  <p class="subline" id="t_ec_sub">Puedes ir directo a tu plan o tomarte 5 minutos para entender la estrategia. No hay prisa y no hay respuesta incorrecta.</p>
   <div class="card-grid">
-    <div class="option-card" onclick="selectEdu(this,true)"><div class="check"></div><div class="card-icon">🧠</div><div class="card-title">Sí, quiero entenderlo primero</div><div class="card-desc">9 conceptos clave en tarjetas visuales. Con botón de "saber más" en cada una. Vale la pena.</div></div>
-    <div class="option-card" onclick="selectEdu(this,false)"><div class="check"></div><div class="card-icon">🎯</div><div class="card-title">No, prefiero ir al grano</div><div class="card-desc">Directo a tu plan. Normal tener ganas de empezar, puedes volver a la teoría cuando quieras.</div></div>
+    <div class="option-card" onclick="selectAndGo(this,'yes',goToEdu)"><div class="check"></div><div class="card-icon">🧠</div><div class="card-title" id="t_ec_yes_t">Sí, quiero entenderlo primero</div><div class="card-desc" id="t_ec_yes_d">13 conceptos clave en tarjetas visuales. Cada una con opción de profundizar. Vale la pena.</div></div>
+    <div class="option-card" onclick="selectAndGo(this,'no',()=>goTo('s_datos'))"><div class="check"></div><div class="card-icon">🎯</div><div class="card-title" id="t_ec_no_t">No, prefiero ir al grano</div><div class="card-desc" id="t_ec_no_d">Directo a tu plan. Puedes volver a la teoría cuando quieras.</div></div>
   </div>
-  <button class="btn-primary" id="btnEduChoice" disabled onclick="handleEduChoice()">Continuar →</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_EDU: FORMACIÓN (9 tarjetas) -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_EDU -->
 <div class="screen" id="s_edu">
-  <div class="eyebrow">Formación express</div>
-  <h1 class="headline" style="font-size:1.5rem">Lo que necesitas saber <em>antes de invertir</em></h1>
-  <div class="edu-container" id="eduContainer">
+  <div class="eyebrow" id="t_edu_eyebrow">Formación express</div>
+  <h1 class="headline" style="font-size:1.5rem" id="t_edu_title">Lo que necesitas saber <em>antes de invertir</em></h1>
+  <div class="edu-wrap" id="eduWrap">
     <div class="edu-track" id="eduTrack">
+      <div class="edu-card"><div class="eicon">🔥</div><div class="etitle" id="t_e1t">La inflación: tu dinero pierde valor cada año</div><div class="ebody" id="t_e1b">Si tienes 10.000€ al 0% y la inflación es del 3%, en 10 años ese dinero equivale a unos <strong>7.400€ de hoy</strong>. No has perdido dinero en el papel, pero puedes comprar un 26% menos con él.<br><br>No hacer nada <strong>también es una decisión</strong>, y casi siempre es la más cara.<div class="evisual"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center"><div><div style="font-size:1.5rem;font-weight:800;color:var(--red);font-family:var(--font-display)">-26%</div><div style="font-size:0.72rem;color:var(--text-sec)" id="t_e1v1">Poder adquisitivo perdido en 10 años sin invertir</div></div><div><div style="font-size:1.5rem;font-weight:800;color:var(--green);font-family:var(--font-display)">+97%</div><div style="font-size:0.72rem;color:var(--text-sec)" id="t_e1v2">Ganancia media histórica en índice global en 10 años</div></div></div></div></div><button class="btn-xs" onclick="openModal('m_inflacion')" id="t_learn_more_1">Saber más →</button></div>
 
-      <!-- TARJETA 1: INFLACIÓN -->
-      <div class="edu-card">
-        <div class="edu-icon">🔥</div>
-        <div class="edu-title">La inflación: tu dinero pierde valor cada año</div>
-        <div class="edu-body">Si tienes 10.000€ en el banco al 0% y la inflación es del 3%, en 10 años ese dinero equivale en poder adquisitivo a unos <strong>7.400€ de hoy</strong>. No has "perdido" dinero en el papel, pero puedes comprar un 26% menos con él.<br><br>No hacer nada <strong>también es una decisión</strong>, y casi siempre es la más cara.
-          <div class="edu-visual"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center"><div><div style="font-size:1.5rem;font-weight:700;color:var(--red);font-family:var(--font-display)">-26%</div><div style="font-size:0.72rem;color:var(--text-sec)">Poder adquisitivo perdido en 10 años sin invertir</div></div><div><div style="font-size:1.5rem;font-weight:700;color:var(--green);font-family:var(--font-display)">+97%</div><div style="font-size:0.72rem;color:var(--text-sec)">Ganancia histórica media en un índice global en 10 años</div></div></div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_inflacion')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">🏦</div><div class="etitle" id="t_e2t">¿Qué es un fondo de inversión?</div><div class="ebody" id="t_e2b">Un fondo de inversión reúne el dinero de muchas personas y lo invierte en un conjunto de activos. Tú compras <strong>participaciones</strong> del fondo, y esas participaciones suben o bajan según lo que haga la cartera.<br><br>Con poco dinero tienes exposición a <strong>cientos o miles de empresas</strong>, algo imposible comprando acciones individuales.<div class="evisual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65" id="t_e2v">📌 <strong>Ventaja fiscal en España:</strong> puedes traspasar de un fondo a otro sin tributar. Solo pagas impuestos cuando reembolsas definitivamente. Los ETFs no tienen esta ventaja.</div></div></div><button class="btn-xs" onclick="openModal('m_fondo')" id="t_learn_more_2">Saber más →</button></div>
 
-      <!-- TARJETA 2: INTERÉS COMPUESTO -->
-      <div class="edu-card">
-        <div class="edu-icon">💚</div>
-        <div class="edu-title">El interés compuesto: tus dinerites generan dinerites</div>
-        <div class="edu-body">Cuando tu inversión genera un 7% este año, ese 7% se suma a tu capital. El año que viene, el 7% se calcula sobre un capital más grande. Y así cada año.<br><br>Es lento al principio. <strong>Imparable a largo plazo.</strong> Por eso cuanto antes empiezas, mejor.
-          <div class="edu-visual"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center"><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 10</div><div style="font-size:1.1rem;font-weight:700;color:var(--amber);font-family:var(--font-display)">33.000€</div><div style="font-size:0.65rem;color:var(--text-dim)">200€/mes</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 20</div><div style="font-size:1.1rem;font-weight:700;color:var(--sky-dark);font-family:var(--font-display)">104.000€</div><div style="font-size:0.65rem;color:var(--text-dim)">200€/mes</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px">Año 30</div><div style="font-size:1.1rem;font-weight:700;color:var(--green);font-family:var(--font-display)">243.000€</div><div style="font-size:0.65rem;color:var(--text-dim)">200€/mes</div></div></div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_compuesto')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">💸</div><div class="etitle" id="t_e3t">El TER: la comisión que nadie te enseña</div><div class="ebody" id="t_e3b">El <strong>TER (Total Expense Ratio)</strong> es el coste anual total del fondo. Se descuenta automáticamente del valor del fondo, sin que lo notes.<br><br>En 30 años la diferencia entre un 0,12% y un 1,5% es <strong>enorme</strong>.<div class="evisual"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center"><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:3px" id="t_e3l1">Fondo indexado</div><div style="font-size:1.1rem;font-weight:800;color:var(--green);font-family:var(--font-display)">0,12%</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:3px" id="t_e3l2">Fondo activo banco</div><div style="font-size:1.1rem;font-weight:800;color:var(--amber);font-family:var(--font-display)">1,5%</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:3px" id="t_e3l3">Plan de pensiones</div><div style="font-size:1.1rem;font-weight:800;color:var(--red);font-family:var(--font-display)">1,8%</div></div></div></div></div><button class="btn-xs" onclick="openModal('m_ter')" id="t_learn_more_3">Saber más →</button></div>
 
-      <!-- TARJETA 3: DCA -->
-      <div class="edu-card">
-        <div class="edu-icon">📅</div>
-        <div class="edu-title">DCA: invertir cada mes sin pensar</div>
-        <div class="edu-body"><strong>Dollar Cost Averaging</strong> significa invertir una cantidad fija de forma regular, pase lo que pase en los mercados. Cuando la bolsa baja, compras más barato. Cuando sube, tus participaciones valen más.<br><br>No necesitas predecir nada. <strong>El tiempo y la constancia hacen el trabajo.</strong>
-          <div class="edu-visual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.6">📌 Esta app propone comprar <strong>cada 6 meses</strong> un importe similar, sin mirar demasiado al precio. A veces estará más caro, a veces más barato, pero a largo plazo, ese promedio siempre ha salido ganando.</div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_dca')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">🔄</div><div class="etitle" id="t_e4t">Acumulación vs distribución: siempre acumulación</div><div class="ebody" id="t_e4b">Los fondos <strong>de distribución</strong> reparten dividendos periódicamente. Los fondos <strong>de acumulación</strong> reinvierten esos dividendos automáticamente en el propio fondo.<br><br>Para largo plazo, la acumulación <strong>siempre gana</strong>: los dividendos reinvertidos generan más dividendos.<div class="evisual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65" id="t_e4v">📌 En España los fondos de distribución tributan por cada dividendo recibido aunque no lo retires. Los de acumulación solo tributan cuando vendes. <strong>Ventaja fiscal adicional.</strong></div></div></div><button class="btn-xs" onclick="openModal('m_acum')" id="t_learn_more_4">Saber más →</button></div>
 
-      <!-- TARJETA 4: INDEXADOS VS ACTIVOS -->
-      <div class="edu-card">
-        <div class="edu-icon">📊</div>
-        <div class="edu-title">Fondos indexados: ¿por qué no intentar ser el más listo?</div>
-        <div class="edu-body">Los fondos activos tienen equipos de gestores que intentan elegir las mejores acciones. Suena bien. <strong>El problema: el 90% no bate al mercado en 15 años</strong>, y cobran comisiones 10 veces más altas.<br><br>Los fondos indexados simplemente replican el mercado completo. Sin intentar ser listos. <strong>Por eso ganan.</strong>
-          <div class="edu-visual"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="font-size:0.78rem"><div style="color:var(--text-dim);margin-bottom:4px;font-weight:600">Fondo activo</div><div style="color:var(--red)">✗ 1,5% comisión anual</div><div style="color:var(--red)">✗ 90% pierde vs índice</div></div><div style="font-size:0.78rem"><div style="color:var(--text-dim);margin-bottom:4px;font-weight:600">Fondo indexado</div><div style="color:var(--green)">✓ 0,10-0,20% comisión</div><div style="color:var(--green)">✓ Sigue al mercado</div></div></div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_indexados')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">💶</div><div class="etitle" id="t_e5t">Por qué comprar fondos en euros</div><div class="ebody" id="t_e5b">Muchos fondos tienen varias clases: una en USD y otra en EUR. La diferencia es el <strong>riesgo de divisa</strong>.<br><br>Si compras en USD y el dólar cae frente al euro, tu inversión vale menos en euros aunque el fondo haya subido. La clase EUR elimina ese riesgo.<div class="evisual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65" id="t_e5v">📌 Busca siempre "EUR Acc" o "EUR Cap" en el nombre. Todos los fondos de Dinerite son en EUR y de acumulación.</div></div></div><button class="btn-xs" onclick="openModal('m_eur')" id="t_learn_more_5">Saber más →</button></div>
 
-      <!-- TARJETA 5: TIEMPO Y PROBABILIDAD -->
-      <div class="edu-card">
-        <div class="edu-icon">🛡️</div>
-        <div class="edu-title">El tiempo es tu mayor protección</div>
-        <div class="edu-body">Cuanto más tiempo estás invertido, <strong>menor es la probabilidad de perder dinero</strong>. Los datos del MSCI World desde 1970 lo demuestran. A corto plazo, la bolsa es impredecible. A largo plazo, siempre ha subido.
-          <div class="edu-visual">
-            <div class="prob-row"><span class="prob-label">1 año</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:30%;background:var(--red)"></div></div><span class="prob-pct" style="color:var(--red)">30%</span></div>
-            <div class="prob-row"><span class="prob-label">3 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:18%;background:var(--amber)"></div></div><span class="prob-pct" style="color:var(--amber)">18%</span></div>
-            <div class="prob-row"><span class="prob-label">5 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:10%;background:var(--amber)"></div></div><span class="prob-pct" style="color:var(--amber)">10%</span></div>
-            <div class="prob-row"><span class="prob-label">10 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:3%;background:var(--green)"></div></div><span class="prob-pct" style="color:var(--green)">3%</span></div>
-            <div class="prob-row"><span class="prob-label">15 años</span><div class="prob-bar-bg"><div class="prob-bar-fill" style="width:0.5%;background:var(--green)"></div></div><span class="prob-pct" style="color:var(--green)">~0%</span></div>
-            <div style="font-size:0.68rem;color:var(--text-dim);margin-top:6px">Probabilidad histórica de pérdida — MSCI World (1970-2024)</div>
-          </div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_tiempo')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">💚</div><div class="etitle" id="t_e6t">Los Dinerites: el interés compuesto explicado</div><div class="ebody" id="t_e6b">Cada euro que inviertes genera más euros. Que generan más euros. Y así siempre.<br><br>El interés compuesto es ganar rentabilidad sobre tu rentabilidad. Parece lento al principio. <strong>Es imparable a largo plazo.</strong><div class="evisual"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center"><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px" id="t_e6y1">Año 10</div><div style="font-size:1.1rem;font-weight:800;color:var(--amber);font-family:var(--font-display)">33.000€</div><div style="font-size:0.65rem;color:var(--text-dim)" id="t_e6m">200€/mes</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px" id="t_e6y2">Año 20</div><div style="font-size:1.1rem;font-weight:800;color:var(--sky-dark);font-family:var(--font-display)">104.000€</div><div style="font-size:0.65rem;color:var(--text-dim)" id="t_e6m2">200€/mes</div></div><div><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px" id="t_e6y3">Año 30</div><div style="font-size:1.1rem;font-weight:800;color:var(--green);font-family:var(--font-display)">243.000€</div><div style="font-size:0.65rem;color:var(--text-dim)" id="t_e6m3">200€/mes</div></div></div></div></div><button class="btn-xs" onclick="openModal('m_compuesto')" id="t_learn_more_6">Saber más →</button></div>
 
-      <!-- TARJETA 6: CAÍDAS HISTÓRICAS -->
-      <div class="edu-card">
-        <div class="edu-icon">📉</div>
-        <div class="edu-title">¿Qué pasa cuando la bolsa se hunde?</div>
-        <div class="edu-body">La bolsa cae. Siempre ha caído. <strong>Y siempre se ha recuperado.</strong> Lo importante no es evitar las caídas — es no hacer nada cuando lleguen.
-          <div class="edu-visual">
-            <div style="display:grid;gap:7px">
-              <div style="font-size:0.78rem"><strong style="color:var(--text)">Dot-com 2000</strong> <span style="color:var(--red)">-49%</span> · Recuperación: ~7 años · Con DCA: ~4 años</div>
-              <div style="font-size:0.78rem"><strong style="color:var(--text)">Crisis 2008</strong> <span style="color:var(--red)">-54%</span> · Recuperación: ~6 años · Con DCA: ~3.5 años</div>
-              <div style="font-size:0.78rem"><strong style="color:var(--text)">COVID 2020</strong> <span style="color:var(--red)">-34%</span> · Recuperación: ~6 meses · Con DCA: ~4 meses</div>
-            </div>
-            <div style="font-size:0.72rem;color:var(--text-dim);margin-top:8px">El DCA acelera la recuperación porque compras más barato durante la caída.</div>
-          </div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_caidas')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">📅</div><div class="etitle" id="t_e7t">DCA: invertir cada 6 meses sin pensar</div><div class="ebody" id="t_e7b"><strong>Dollar Cost Averaging</strong>: invertir una cantidad fija de forma periódica, pase lo que pase en el mercado. Cuando la bolsa baja, compras más barato. Cuando sube, tus participaciones valen más.<br><br>Dinerite propone comprar <strong>cada 6 meses</strong>, el mismo importe aproximado, sin mirar el precio.<div class="evisual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65" id="t_e7v">📌 A veces el fondo estará más caro y a veces más barato. A largo plazo, ese precio promedio siempre ha ganado. <strong>La constancia supera al intento de acertar el mejor momento.</strong></div></div></div><button class="btn-xs" onclick="openModal('m_dca')" id="t_learn_more_7">Saber más →</button></div>
 
-      <!-- TARJETA 7: FIRE -->
-      <div class="edu-card">
-        <div class="edu-icon">🏄</div>
-        <div class="edu-title">FIRE: libertad financiera, no sólo jubilación</div>
-        <div class="edu-body"><strong>FIRE significa Financial Independence, Retire Early</strong>. No es jubilarse y no hacer nada — es llegar a un punto donde trabajas porque quieres, no porque tienes que hacerlo.<br><br>El concepto central: si acumulas suficiente capital, puedes vivir de los rendimientos sin tocarlo.
-          <div class="edu-visual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65">🎯 Tu <strong>número FIRE</strong> = lo que gastas al mes × 12 ÷ 4%. Si gastas 2.000€/mes, necesitas <strong>600.000€</strong> para ser financieramente libre. Esta app te calcula cuándo llegarías.</div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_fire')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">📊</div><div class="etitle" id="t_e8t">Fondos indexados: la evidencia científica</div><div class="ebody" id="t_e8b">Los fondos activos tienen gestores que intentan batir al mercado. El problema: <strong>el 90% no lo consigue en 15 años</strong> y cobran comisiones 10 veces más altas.<br><br>Los fondos indexados replican el mercado completo. Sin intentar ser listos. <strong>Por eso ganan.</strong><div class="evisual"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="font-size:0.78rem"><div style="color:var(--text-dim);margin-bottom:4px;font-weight:600" id="t_e8l1">Fondo activo</div><div style="color:var(--red)">✗ 1,5% comisión</div><div style="color:var(--red)">✗ 90% pierde vs índice</div></div><div style="font-size:0.78rem"><div style="color:var(--text-dim);margin-bottom:4px;font-weight:600" id="t_e8l2">Fondo indexado</div><div style="color:var(--green)">✓ 0,12% comisión</div><div style="color:var(--green)">✓ Sigue al mercado</div></div></div></div></div><button class="btn-xs" onclick="openModal('m_indexados')" id="t_learn_more_8">Saber más →</button></div>
 
-      <!-- TARJETA 8: RENTA FIJA -->
-      <div class="edu-card">
-        <div class="edu-icon">⚖️</div>
-        <div class="edu-title">Renta fija: el estabilizador de tu cartera</div>
-        <div class="edu-body">La <strong>renta variable</strong> (acciones, fondos indexados) tiene mayor rentabilidad esperada pero también más volatilidad. La <strong>renta fija</strong> (bonos) es más estable pero renta menos.<br><br>A medida que te acercas a la jubilación, tiene sentido ir incorporando renta fija progresivamente para proteger lo acumulado.
-          <div class="edu-visual"><div style="font-size:0.78rem;color:var(--sky-deep);line-height:1.65"><strong>Regla orientativa:</strong><br>• Menos de 40 años → 100% RV<br>• 40-50 años → ~10% RF<br>• 50-60 años → ~25% RF<br>• Más de 60 años → ~40% RF<br><br>Esta app lo calcula automáticamente según tu edad.</div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_rf')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">🛡️</div><div class="etitle" id="t_e9t">El tiempo es tu mayor protección</div><div class="ebody" id="t_e9b">Cuanto más tiempo estás invertido, <strong>menor es la probabilidad de perder dinero</strong>. Datos históricos del MSCI World desde 1970.<div class="evisual"><div class="prow"><span class="plabel" id="t_e9p1">1 año</span><div class="pbg"><div class="pfill" style="width:30%;background:var(--red)"></div></div><span class="ppct" style="color:var(--red)">30%</span></div><div class="prow"><span class="plabel" id="t_e9p2">3 años</span><div class="pbg"><div class="pfill" style="width:18%;background:var(--amber)"></div></div><span class="ppct" style="color:var(--amber)">18%</span></div><div class="prow"><span class="plabel" id="t_e9p3">5 años</span><div class="pbg"><div class="pfill" style="width:10%;background:var(--amber)"></div></div><span class="ppct" style="color:var(--amber)">10%</span></div><div class="prow"><span class="plabel" id="t_e9p4">10 años</span><div class="pbg"><div class="pfill" style="width:3%;background:var(--green)"></div></div><span class="ppct" style="color:var(--green)">3%</span></div><div class="prow"><span class="plabel" id="t_e9p5">15 años</span><div class="pbg"><div class="pfill" style="width:0.5%;background:var(--green)"></div></div><span class="ppct" style="color:var(--green)">~0%</span></div><div style="font-size:0.68rem;color:var(--text-dim);margin-top:6px" id="t_e9src">Probabilidad histórica de pérdida. MSCI World (1970-2024)</div></div></div><button class="btn-xs" onclick="openModal('m_tiempo')" id="t_learn_more_9">Saber más →</button></div>
 
-      <!-- TARJETA 9: ISIN -->
-      <div class="edu-card">
-        <div class="edu-icon">🔍</div>
-        <div class="edu-title">El ISIN: el DNI de tu fondo</div>
-        <div class="edu-body">El <strong>ISIN</strong> (International Securities Identification Number) es un código único de 12 caracteres que identifica exactamente un fondo o ETF en todo el mundo.<br><br>Cuando buscas un fondo en tu plataforma, usa siempre el ISIN — nunca el nombre, que puede ser ambiguo. Esta app siempre te indica el ISIN de cada fondo que recomienda.
-          <div class="edu-visual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65">📌 Ejemplo: <strong>IE00B03HD191</strong> es el ISIN del Vanguard Global Stock Index Fund. Lo buscas en tu plataforma, aparece exactamente ese fondo y ningún otro.</div></div>
-        </div>
-        <button class="btn-sm" onclick="openModal('m_isin')">Saber más →</button>
-      </div>
+      <div class="edu-card"><div class="eicon">📉</div><div class="etitle" id="t_e10t">Cuando la bolsa cae: qué hacer</div><div class="ebody" id="t_e10b">La bolsa cae. Siempre ha caído. <strong>Y siempre se ha recuperado.</strong> Lo importante no es evitar las caídas, es no hacer nada cuando lleguen.<div class="evisual"><div style="display:grid;gap:8px"><div style="font-size:0.78rem"><strong style="color:var(--text)">Dot-com 2000</strong> <span style="color:var(--red)">-49%</span> · Sin DCA: ~7 años. Con DCA: ~4 años.</div><div style="font-size:0.78rem"><strong style="color:var(--text)">Crisis 2008</strong> <span style="color:var(--red)">-54%</span> · Sin DCA: ~6 años. Con DCA: ~3,5 años.</div><div style="font-size:0.78rem"><strong style="color:var(--text)">COVID 2020</strong> <span style="color:var(--red)">-34%</span> · Sin DCA: ~6 meses. Con DCA: ~4 meses.</div></div><div style="font-size:0.72rem;color:var(--text-dim);margin-top:8px" id="t_e10note">El DCA acelera la recuperación porque compras más participaciones cuando el precio está bajo.</div></div></div><button class="btn-xs" onclick="openModal('m_caidas')" id="t_learn_more_10">Saber más →</button></div>
 
+      <div class="edu-card"><div class="eicon">🏄</div><div class="etitle" id="t_e11t">FIRE: libertad financiera, no solo jubilación</div><div class="ebody" id="t_e11b"><strong>FIRE: Financial Independence, Retire Early.</strong> No es jubilarse y no hacer nada. Es llegar a un punto donde trabajas porque quieres, no porque tienes que.<br><br>Si acumulas suficiente capital invertido, puedes vivir de los rendimientos sin tocarlo.<div class="evisual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65" id="t_e11v">🎯 <strong>Tu número FIRE</strong> = gasto mensual × 12 ÷ 4%.<br>Si gastas 2.000€/mes, necesitas <strong>600.000€</strong> para ser financieramente libre.</div></div></div><button class="btn-xs" onclick="openModal('m_fire')" id="t_learn_more_11">Saber más →</button></div>
+
+      <div class="edu-card"><div class="eicon">⚖️</div><div class="etitle" id="t_e12t">Renta fija: el estabilizador de tu cartera</div><div class="ebody" id="t_e12b">La <strong>renta variable</strong> tiene mayor rentabilidad esperada pero más volatilidad. La <strong>renta fija</strong> (bonos) es más estable pero renta menos.<br><br>A medida que te acercas a la jubilación, tiene sentido incorporar renta fija progresivamente para proteger lo acumulado.<div class="evisual"><div style="font-size:0.78rem;color:var(--sky-deep);line-height:1.65" id="t_e12v"><strong>Regla Dinerite:</strong><br>Menos de 40: 100% renta variable<br>40-50: 10% renta fija<br>50-60: 25% renta fija<br>Más de 60: 40% renta fija</div></div></div><button class="btn-xs" onclick="openModal('m_rf')" id="t_learn_more_12">Saber más →</button></div>
+
+      <div class="edu-card"><div class="eicon">🔍</div><div class="etitle" id="t_e13t">El ISIN: el DNI de tu fondo</div><div class="ebody" id="t_e13b">El <strong>ISIN</strong> es un código único de 12 caracteres que identifica exactamente un fondo en todo el mundo. Usa siempre el ISIN para asegurarte de que es exactamente el fondo correcto.<br><br>Dinerite siempre indica el ISIN de cada fondo que recomienda.<div class="evisual"><div style="font-size:0.82rem;color:var(--sky-deep);line-height:1.65" id="t_e13v">📌 Ejemplo: <strong>IE00BYX5NX33</strong> es el ISIN del Fidelity MSCI World Index Fund EUR P Acc.</div></div></div><button class="btn-xs" onclick="openModal('m_isin')" id="t_learn_more_13">Saber más →</button></div>
     </div>
   </div>
-  <div class="edu-nav" style="margin-top:1rem">
-    <button class="edu-arrow" id="eduPrev" onclick="eduNav(-1)" disabled>←</button>
+  <div class="edu-nav">
+    <button class="earr" id="eduPrev" onclick="eduNav(-1)" disabled>←</button>
     <div class="edu-dots" id="eduDots"></div>
-    <button class="edu-arrow" id="eduNext" onclick="eduNav(1)">→</button>
+    <button class="earr" id="eduNext" onclick="eduNav(1)">→</button>
   </div>
-  <button class="btn-primary" style="margin-top:1rem" onclick="goTo('s_datos')">Ya entiendo, diseña mi plan →</button>
-  <button class="btn-ghost" onclick="goTo('s_datos')">Saltar y ir al plan</button>
+  <button class="btn" style="margin-top:1rem" onclick="goTo('s_datos')" id="t_edu_done">Ya entiendo, diseña mi plan →</button>
+  <button class="btn-ghost" onclick="goTo('s_datos')" id="t_edu_skip">Saltar y ir al plan</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_DATOS: TUS DATOS -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_DATOS -->
 <div class="screen" id="s_datos">
-  <div class="eyebrow">Tu situación</div>
-  <h1 class="headline">Cuatro datos y te diseñamos <em>tu plan</em></h1>
-  <p class="subline">No hay respuesta incorrecta. Si prefieres no dar datos reales, usa aproximaciones — lo importante es entender el concepto.</p>
-
-  <div class="input-group">
-    <label class="input-label">¿Qué edad tienes?</label>
-    <input type="number" class="input-field" id="d_edad" placeholder="32" min="18" max="70" oninput="checkDatos()">
-  </div>
-  <div class="input-group">
-    <label class="input-label">¿Cuánto tienes ahorrado o invertido ahora mismo?</label>
-    <div class="input-prefix"><input type="number" class="input-field" id="d_ahorros" placeholder="10.000" oninput="checkDatos()"></div>
-    <div class="input-hint">Si no tienes nada aún, pon 0. Sin agobios.</div>
-  </div>
-  <div class="input-group">
-    <label class="input-label">¿Cuánto puedes invertir cada mes?</label>
-    <div class="input-prefix"><input type="number" class="input-field" id="d_mensual" placeholder="300" oninput="checkDatos()"></div>
-    <div class="input-hint">Una estimación es suficiente. Puedes cambiarlo cuando quieras.</div>
-  </div>
-  <div class="input-group">
-    <label class="input-label">¿Cuánto necesitarías gastar al mes para vivir bien en tu jubilación?</label>
-    <div class="input-prefix"><input type="number" class="input-field" id="d_gasto" placeholder="2.000" oninput="checkDatos()"></div>
-    <div class="input-hint">Esto nos permite calcular tu número FIRE y cuándo podrías alcanzarlo.</div>
-  </div>
-
-  <button class="btn-primary" id="btnDatos" disabled onclick="calcularProyeccion()">Ver mi proyección →</button>
+  <div class="eyebrow" id="t_d_eyebrow">Tu situación</div>
+  <h1 class="headline" id="t_d_title">Cuatro datos y te diseñamos <em>tu plan</em></h1>
+  <p class="subline" id="t_d_sub">No hay respuesta incorrecta. Si prefieres no dar datos reales, usa aproximaciones.</p>
+  <div class="ig"><label class="il" id="t_d_l1">¿Qué edad tienes?</label><input type="number" class="inf" id="d_edad" placeholder="32" min="18" max="70" oninput="checkDatos()"></div>
+  <div class="ig"><label class="il" id="t_d_l2">¿Cuánto tienes ahorrado o invertido ahora mismo?</label><div class="iw"><input type="number" class="inf" id="d_ahorros" placeholder="10000" oninput="checkDatos()"></div><div class="ihint" id="t_d_h2">Si no tienes nada aún, pon 0. Sin agobios.</div></div>
+  <div class="ig"><label class="il" id="t_d_l3">¿Cuánto puedes invertir cada mes?</label><div class="iw"><input type="number" class="inf" id="d_mensual" placeholder="300" oninput="checkDatos()"></div><div class="ihint" id="t_d_h3">Una estimación es suficiente.</div></div>
+  <div class="ig"><label class="il" id="t_d_l4">¿Cuánto necesitarías gastar al mes en tu jubilación?</label><div class="iw"><input type="number" class="inf" id="d_gasto" placeholder="2000" oninput="checkDatos()"></div><div class="ihint" id="t_d_h4">Para calcular tu número FIRE y cuándo podrías alcanzarlo.</div></div>
+  <button class="btn" id="btnDatos" disabled onclick="calcularProyeccion()" id2="t_d_btn">Ver mi proyección →</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_PROYECCION: GRÁFICO Y RESULTADOS -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_PROYECCION -->
 <div class="screen" id="s_proyeccion">
-  <div class="eyebrow">Tu proyección</div>
-  <h1 class="headline">Así puede crecer <em>tu dinero</em></h1>
-  <p class="subline">Basado en datos históricos reales. No es una garantía — es lo que ha pasado históricamente.</p>
-
-  <div id="proyResultados"></div>
-
+  <div class="eyebrow" id="t_pr_eyebrow">Tu proyección</div>
+  <h1 class="headline" id="t_pr_title">Así puede crecer <em>tu dinero</em></h1>
+  <p class="subline" id="t_pr_sub">Basado en datos históricos reales. No es una garantía, es lo que ha pasado históricamente.</p>
+  <div id="proyRes"></div>
   <div class="chart-wrap">
-    <div class="chart-title">Evolución año a año de tu patrimonio</div>
+    <div class="chart-title" id="t_chart_title">Evolución año a año de tu patrimonio</div>
     <div class="chart-controls">
-      <button class="chart-btn active-0" id="cb0" onclick="toggleLine(0)">📦 Sin invertir (0%)</button>
-      <button class="chart-btn active-3" id="cb3" onclick="toggleLine(3)">🏦 Monetario/depósito (3%)</button>
-      <button class="chart-btn active-6" id="cb6" onclick="toggleLine(6)">📈 Fondos indexados (6%)</button>
+      <button class="cbtn a0" id="cb0" onclick="toggleLine(0)">📦 <span id="t_cl0">Sin invertir (0%)</span></button>
+      <button class="cbtn a3" id="cb3" onclick="toggleLine(3)">🏦 <span id="t_cl3">Monetario (3%)</span></button>
+      <button class="cbtn a6" id="cb6" onclick="toggleLine(6)">📈 <span id="t_cl6">Indexado (6%)</span></button>
     </div>
-    <canvas id="proyChart" height="240"></canvas>
-    <div class="chart-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#8fa0b0"></div>Sin invertir (0%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Monetario/depósito (3%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--sky-dark)"></div>Fondos indexados (6%)</div>
+    <canvas id="chart" height="240"></canvas>
+    <div class="cleg">
+      <div class="cli"><div class="cld" style="background:#8096b0"></div><span id="t_cleg0">Sin invertir (0%)</span></div>
+      <div class="cli"><div class="cld" style="background:#d4820a"></div><span id="t_cleg3">Monetario / depósito (3%)</span></div>
+      <div class="cli"><div class="cld" style="background:#1e6fa3"></div><span id="t_cleg6">Fondos indexados (6%)</span></div>
     </div>
   </div>
-
-  <div id="fireResults"></div>
-
-  <button class="btn-primary" onclick="goTo('s_ritmo')">Entendido, seguimos →</button>
+  <div id="fireRes"></div>
+  <button class="btn" onclick="goTo('s_ritmo')" id="t_pr_btn">Entendido, seguimos →</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_RITMO: RITMO + PERFIL (fusionadas) -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_RITMO -->
 <div class="screen" id="s_ritmo">
-  <div class="eyebrow">Tu punto de partida</div>
-  <h1 class="headline">¿Cómo te sientes con <em>todo esto</em>?</h1>
-  <p class="subline">Es completamente normal tener dudas, miedo o simplemente pereza. No hay prisa. Lo importante es dar un primer paso, el que sea.</p>
-
-  <div class="radio-group">
-    <div class="radio-item" onclick="selectRitmo(this,'calma')">
-      <div class="radio-dot"></div>
-      <div>
-        <div class="radio-text">😌 Quiero ir con calma</div>
-        <div class="radio-sub">Normal sentir vértigo. Empezamos con 600€ para conocer la operativa sin presión. Cada 6 meses, si te apetece, añades otros 600€. Sin compromisos. Cuando te sientas listo/a, damos el siguiente paso con más capital.</div>
-      </div>
-    </div>
-    <div class="radio-item" onclick="selectRitmo(this,'preparado')">
-      <div class="radio-dot"></div>
-      <div>
-        <div class="radio-text">📊 Me siento preparado/a para empezar en serio</div>
-        <div class="radio-sub">Llevas tiempo pensándolo y estás listo/a. Invertirás la cantidad mensual que has indicado con un portfolio más diversificado. Bienvenido/a al lado interesante de las finanzas personales.</div>
-      </div>
-    </div>
+  <div class="eyebrow" id="t_r_eyebrow">Tu punto de partida</div>
+  <h1 class="headline" id="t_r_title">¿Cómo te sientes con <em>todo esto</em>?</h1>
+  <p class="subline" id="t_r_sub">Es completamente normal tener dudas, miedo o simplemente pereza. No hay prisa. Lo importante es dar un primer paso, el que sea.</p>
+  <div class="rgroup">
+    <div class="ritem" onclick="selectRitmoAndGo(this,'calma')"><div class="rdot"></div><div><div class="rtext" id="t_r1t">😌 Quiero ir con calma</div><div class="rsub" id="t_r1d">Normal sentir vértigo. Empezamos con 600€ para conocer la operativa sin presión. Cada 6 meses, si te apetece, añades otros 600€. Sin compromisos.</div></div></div>
+    <div class="ritem" onclick="selectRitmoAndGo(this,'preparado')"><div class="rdot"></div><div><div class="rtext" id="t_r2t">📊 Me siento preparado/a para empezar en serio</div><div class="rsub" id="t_r2d">Llevas tiempo pensándolo y estás listo/a. Diseñaremos un portfolio diversificado en 4 fondos globales.</div></div></div>
   </div>
-
-  <div id="ritmoMsg" style="display:none;margin-top:1rem"></div>
-  <button class="btn-primary" id="btnRitmo" disabled onclick="generarPlan()">Ver mi plan →</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_PLAN: PLAN FINAL -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_PLAN -->
 <div class="screen" id="s_plan">
-  <div class="eyebrow">Tu plan personal</div>
+  <div class="eyebrow" id="t_pl_eyebrow">Tu plan personal</div>
   <h1 class="headline" id="planTitle">Tu <em>hoja de ruta</em></h1>
   <div id="planSummary"></div>
-  <div id="planPortfolio"></div>
-  <div id="planOperativa"></div>
+  <div id="planFunds"></div>
+  <div id="planOps"></div>
   <div id="planRF"></div>
-
   <div class="divider"></div>
-  <div class="card" style="margin-bottom:1rem;border-color:var(--sky-mid)">
-    <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.4rem">¿Quieres profundizar más? 📚</div>
-    <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:0.75rem">Fiscalidad, cómo retirar dinero y qué hacer cuando te acerques a tu objetivo.</div>
-    <button class="btn-secondary" style="margin-top:0" onclick="goTo('s_avanzado')">Ver guía avanzada</button>
+  <div class="card" style="border-color:var(--sky-mid);margin-bottom:1rem">
+    <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.4rem" id="t_adv_title">¿Quieres profundizar más? 📚</div>
+    <div style="font-size:0.82rem;color:var(--text-sec);margin-bottom:0.75rem" id="t_adv_sub">Fiscalidad, cómo retirar dinero y qué hacer cuando te acerques a tu objetivo.</div>
+    <button class="btn-sec" style="margin-top:0" onclick="goTo('s_avanzado')" id="t_adv_btn">Ver guía avanzada</button>
   </div>
-  <div class="disclaimer">⚠️ Esta herramienta tiene fines educativos y no constituye asesoramiento financiero profesional. La rentabilidad pasada no garantiza la futura. Los fondos de inversión conllevan riesgo de pérdida de capital. Consulta con un asesor financiero registrado antes de tomar decisiones importantes.</div>
-  <button class="btn-ghost" onclick="goTo('s0')">Empezar de nuevo</button>
+  <div class="disclaimer" id="t_disclaimer">Esta herramienta tiene fines educativos y no constituye asesoramiento financiero profesional. La rentabilidad pasada no garantiza la futura. Los fondos de inversión conllevan riesgo de pérdida de capital.</div>
+  <button class="btn-ghost" onclick="goTo('s0')" id="t_restart">Empezar de nuevo</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- S_AVANZADO: GUÍA AVANZADA -->
-<!-- ═══════════════════════════════════════ -->
+<!-- S_AVANZADO -->
 <div class="screen" id="s_avanzado">
-  <div class="eyebrow">Guía avanzada</div>
-  <h1 class="headline">Lo que necesitas saber <em>después</em></h1>
-  <p class="subline">Fiscalidad, retirada y la transición cuando te acercas a la meta.</p>
-
+  <div class="eyebrow" id="t_av_eyebrow">Guía avanzada</div>
+  <h1 class="headline" id="t_av_title">Lo que necesitas saber <em>después</em></h1>
+  <p class="subline" id="t_av_sub">Fiscalidad, retirada y la transición cuando te acercas a tu objetivo.</p>
   <div class="card" style="margin-bottom:1rem">
-    <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.5rem">💸 Fiscalidad de los fondos en España</div>
-    <p style="font-size:0.85rem;color:var(--text-sec);line-height:1.7">Los fondos indexados en España tienen una <strong>ventaja fiscal clave</strong>: puedes traspasar de un fondo a otro sin tributar. Solo pagas impuestos cuando reembolsas (retiras el dinero definitivamente).<br><br>Al reembolsar, tributas sobre la <strong>ganancia</strong> (no sobre el total): 19% hasta 6.000€, 21% entre 6.000-50.000€, 23% entre 50.000-200.000€, 27% más de 200.000€.</p>
+    <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.5rem" id="t_av1t">💸 Fiscalidad de los fondos en España</div>
+    <p style="font-size:0.85rem;color:var(--text-sec);line-height:1.7" id="t_av1b">Los fondos indexados tienen una ventaja fiscal clave: puedes traspasar de un fondo a otro sin tributar. Solo pagas impuestos cuando reembolsas definitivamente.<br><br>Al reembolsar, tributas sobre la ganancia: 19% hasta 6.000€, 21% entre 6.000 y 50.000€, 23% entre 50.000 y 200.000€, 27% más de 200.000€.</p>
   </div>
-
   <div class="card" style="margin-bottom:1rem">
-    <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.5rem">📉 Transición progresiva a renta fija</div>
-    <p style="font-size:0.85rem;color:var(--text-sec);line-height:1.7">A medida que te acercas a tu objetivo, reduce gradualmente la renta variable e incorpora renta fija. No de golpe — unos pocos puntos porcentuales al año. Así proteges lo acumulado sin perder toda la rentabilidad potencial.</p>
+    <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:0.5rem" id="t_av2t">📉 Transición progresiva a renta fija</div>
+    <p style="font-size:0.85rem;color:var(--text-sec);line-height:1.7" id="t_av2b">A medida que te acercas a la jubilación, reduce gradualmente la renta variable e incorpora renta fija. No de golpe. Gradualmente, unos pocos puntos porcentuales al año.</p>
   </div>
-
-  <div class="section-title">Calculadora de retirada — Regla del 4%</div>
-  <p style="font-size:0.83rem;color:var(--text-sec);margin-bottom:1rem;line-height:1.6">La regla del 4% dice que puedes retirar el 4% de tu cartera cada año sin agotarla históricamente. Ajusta el slider para ver cuánto podrías retirar con diferentes capitales.</p>
-
-  <div class="slider-wrap">
-    <div class="slider-header"><span class="slider-name">Capital acumulado</span><span class="slider-val" id="wCapital">300.000€</span></div>
-    <input type="range" min="50000" max="1500000" step="10000" value="300000" oninput="updateW(this.value)">
-  </div>
-  <div class="slider-wrap">
-    <div class="slider-header"><span class="slider-name">Tasa de retirada</span><span class="slider-val" id="wRate">4%</span></div>
-    <input type="range" min="3" max="5" step="0.5" value="4" oninput="updateWRate(this.value)">
-  </div>
-  <div class="withdrawal-result">
-    <div class="w-amount" id="wResult">12.000€/año</div>
-    <div class="w-sub" id="wMonth">1.000€ al mes · Capital sostenible indefinidamente</div>
-  </div>
-
-  <button class="btn-primary" style="margin-top:1.5rem" onclick="goTo('s_plan')">← Volver a mi plan</button>
+  <div class="stitle" id="t_av_calc_t">Calculadora de retirada</div>
+  <p style="font-size:0.83rem;color:var(--text-sec);margin-bottom:1rem;line-height:1.65" id="t_av_calc_sub">La regla del 4% dice que puedes retirar ese porcentaje de tu cartera cada año sin agotarla históricamente.</p>
+  <div class="sw"><div class="sh"><span class="sn" id="t_av_cap">Capital acumulado</span><span class="sv2" id="wCap">300.000€</span></div><input type="range" min="50000" max="1500000" step="10000" value="300000" oninput="updateW(this.value)"></div>
+  <div class="sw"><div class="sh"><span class="sn" id="t_av_rate">Tasa de retirada anual</span><span class="sv2" id="wRate">4%</span></div><input type="range" min="3" max="5" step="0.5" value="4" oninput="updateWRate(this.value)"></div>
+  <div class="wres"><div class="wamt" id="wRes">12.000€/año</div><div class="wsub" id="wMon">1.000€ al mes · Capital sostenible indefinidamente</div></div>
+  <button class="btn" style="margin-top:1.5rem" onclick="goTo('s_plan')" id="t_av_back">← Volver a mi plan</button>
 </div>
 
 </div><!-- /app -->
-
-<!-- ═══════════════════════════════════════ -->
-<!-- MODALES "SABER MÁS" -->
-<!-- ═══════════════════════════════════════ -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal" id="modalContent">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div id="modalBody"></div>
-  </div>
-</div>
-
+<div class="mo" id="modalOverlay" onclick="closeModalOut(event)"><div class="mc" id="modalContent"><button class="mc-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-// ============ DATOS ============
-const PORTFOLIOS = {
-  mega_sencilla: [
-    {pct:100, name:'Vanguard Global Stock Index Fund EUR Acc', isin:'IE00B03HD191', color:'#2e86c1', desc:'Cubre más de 1.500 empresas de 23 países desarrollados. Un solo fondo, máxima simplicidad.'}
-  ],
-  confi: [
-    {pct:50, name:'iShares Core S&P 500 UCITS ETF EUR Hedged Acc', isin:'IE00B3ZTMJ32', color:'#2e86c1', desc:'Las 500 mayores empresas de Estados Unidos. El mercado más profundo y líquido del mundo.'},
-    {pct:20, name:'Xtrackers MSCI Europe UCITS ETF 1C', isin:'LU0274209237', color:'#75bde0', desc:'Las principales empresas europeas en divisa EUR. Complementa la exposición a USA.'},
-    {pct:20, name:'Vanguard Emerging Markets Stock Index Fund EUR Acc', isin:'IE0031786142', color:'#27ae60', desc:'China, India, Brasil, Corea del Sur y más. Mayor potencial de crecimiento a largo plazo.'},
-    {pct:10, name:'iShares MSCI World Small Cap UCITS ETF EUR Hedged', isin:'IE00BF4RFH31', color:'#e67e22', desc:'Empresas pequeñas globales. Históricamente han ofrecido mayor rentabilidad a largo plazo (con más volatilidad).'}
+// ====== FONDOS ======
+const FUNDS = {
+  mega:[{pct:100,name:'Fidelity MSCI World Index Fund EUR P Acc',isin:'IE00BYX5NX33',index:'MSCI World',cos:'~1.500',ter:'0,12%',hist:'~8% anual',desc:'Cubre más de 1.500 empresas de 23 países desarrollados. El fondo indexado más popular en España por su bajo coste, sin mínimo y disponible en la mayoría de plataformas.',color:'#1e6fa3',bar:100}],
+  confi:[
+    {pct:50,name:'Vanguard U.S. 500 Stock Index Fund Investor EUR Acc',isin:'IE0032620787',index:'S&P 500',cos:'500',ter:'0,10%',hist:'~10% anual',desc:'Las 500 mayores empresas de Estados Unidos. El mercado más profundo y líquido del mundo. Incluye Apple, Microsoft, Amazon, Alphabet y muchas más.',color:'#1e6fa3',bar:50},
+    {pct:20,name:'Vanguard European Stock Index Fund Investor EUR Acc',isin:'IE0007987690',index:'MSCI Europe',cos:'~450',ter:'0,12%',hist:'~6% anual',desc:'Las principales empresas europeas en divisa EUR. Alemanas, francesas, suizas, españolas y más. Complementa la exposición a USA con el mercado europeo.',color:'#4a9fd4',bar:20},
+    {pct:20,name:'Vanguard Emerging Markets Stock Index Fund EUR Acc',isin:'IE0031786696',index:'MSCI Emerging Markets',cos:'~1.400',ter:'0,23%',hist:'~7% anual',desc:'China, India, Brasil, Corea del Sur y más. Mayor potencial de crecimiento a largo plazo. Añade diversificación a mercados que representan el 40% del PIB mundial.',color:'#1a9e5c',bar:20},
+    {pct:10,name:'Vanguard Global Small-Cap Index Fund Investor EUR Acc',isin:'IE00B42W3S00',index:'MSCI World Small Cap',cos:'~4.000',ter:'0,29%',hist:'~8,5% anual',desc:'Empresas pequeñas de mercados desarrollados globales. Históricamente han ofrecido mayor rentabilidad a largo plazo. Excelente diversificación por tamaño de empresa.',color:'#d4820a',bar:10}
   ]
 };
+const RF_FUND={name:'Vanguard Global Bond Index Fund EUR Acc',isin:'IE00B18GC888',index:'Bloomberg Global Aggregate',cos:'~9.000',ter:'0,10%',hist:'~2,5% anual',desc:'Bonos globales como estabilizador de cartera. Reduce la volatilidad a medida que te acercas a la jubilación. Complementa la renta variable con activos de menor riesgo.',color:'#8096b0'};
 
-const RF_RULES = [
-  {max:40, rf:0},
-  {max:50, rf:10},
-  {max:60, rf:25},
-  {max:999, rf:40}
-];
-
-// ============ ESTADO ============
-const S = {
-  quiereFormacion:null, edad:null, ahorros:null, mensual:null, gasto:null,
-  ritmo:null, capital65:0, capitalFIRE:0, edadFIRE:0,
-  history:['s0'], msgAlex:'',
-  activeLines:{0:true, 3:true, 6:true}
+// ====== TRADUCCIONES ======
+const TX = {
+  es:{
+    back:'Volver',
+    home_eyebrow:'Tu primer paso inversor',home_title:'Haz que tu dinero trabaje mientras tú <em>vives</em>',home_sub:'Dinerite es una app para aprender a invertir y desarrollar hábitos de ahorro a largo plazo. Sin productos raros, sin jerga bancaria, sin promesas imposibles.',
+    p1t:'Fondos indexados de gestión pasiva',p1d:'Invertimos en índices que replican el mercado global. Sin gestores que intenten ser listos. El 90% de los fondos activos pierde contra el índice a 15 años.',
+    p2t:'Máxima diversificación',p2d:'En distintos activos, regiones y a través del tiempo. No apostamos por una empresa ni un sector. Compramos un trozo del mundo entero.',
+    p3t:'DCA: invertir cada 6 meses sin pensar',p3d:'Aportaciones regulares, mismo importe aproximado. La constancia supera siempre al intento de acertar el momento.',
+    p4t:'Hábito a largo plazo',p4d:'El interés compuesto necesita tiempo. Esta app te ayuda a construir el hábito de invertir de forma regular y sin estrés.',
+    p5t:'Adaptado a tu ritmo',p5d:'Desde empezar con 600€ y aprender la operativa, hasta un portfolio diversificado en 4 fondos globales.',
+    p6t:'Los Dinerites trabajan para ti',p6d:'Cada euro que inviertes se convierte en un Dinerite que genera más Dinerites. Mientras duermes, comes o estás de vacaciones. Eso es el interés compuesto.',
+    notice_title:'Sobre tus datos:',notice_body:'Esta app guarda datos anónimos para mejorar. No te pedimos nombre ni email. Si prefieres no dar tus datos financieros reales, usa aproximaciones. El objetivo es aprender, no la exactitud.',
+    start_btn:'Quiero mis Dinerites →',
+    ec_eyebrow:'Antes de empezar',ec_title:'¿Quieres entender <em>por qué</em> esto funciona?',ec_sub:'Puedes ir directo a tu plan o tomarte 5 minutos para entender la estrategia. No hay prisa y no hay respuesta incorrecta.',
+    ec_yes_t:'Sí, quiero entenderlo primero',ec_yes_d:'13 conceptos clave en tarjetas visuales. Cada una con opción de profundizar. Vale la pena.',
+    ec_no_t:'No, prefiero ir al grano',ec_no_d:'Directo a tu plan. Puedes volver a la teoría cuando quieras.',
+    edu_eyebrow:'Formación express',edu_title:'Lo que necesitas saber <em>antes de invertir</em>',edu_done:'Ya entiendo, diseña mi plan →',edu_skip:'Saltar y ir al plan',
+    e1t:'La inflación: tu dinero pierde valor cada año',e1v1:'Poder adquisitivo perdido en 10 años sin invertir',e1v2:'Ganancia media histórica en índice global en 10 años',
+    e2t:'¿Qué es un fondo de inversión?',e2v:'📌 <strong>Ventaja fiscal en España:</strong> puedes traspasar de un fondo a otro sin tributar. Solo pagas impuestos cuando reembolsas definitivamente. Los ETFs no tienen esta ventaja.',
+    e3t:'El TER: la comisión que nadie te enseña',e3l1:'Fondo indexado',e3l2:'Fondo activo banco',e3l3:'Plan de pensiones',
+    e4t:'Acumulación vs distribución: siempre acumulación',e4v:'📌 En España los fondos de distribución tributan por cada dividendo recibido aunque no lo retires. Los de acumulación solo tributan cuando vendes. <strong>Ventaja fiscal adicional.</strong>',
+    e5t:'Por qué comprar fondos en euros',e5v:'📌 Busca siempre "EUR Acc" o "EUR Cap" en el nombre. Todos los fondos de Dinerite son en EUR y de acumulación.',
+    e6t:'Los Dinerites: el interés compuesto explicado',e6y1:'Año 10',e6y2:'Año 20',e6y3:'Año 30',e6m:'200€/mes',e6m2:'200€/mes',e6m3:'200€/mes',
+    e7t:'DCA: invertir cada 6 meses sin pensar',e7v:'📌 A veces el fondo estará más caro y a veces más barato. A largo plazo, ese precio promedio siempre ha ganado. <strong>La constancia supera al intento de acertar el mejor momento.</strong>',
+    e8t:'Fondos indexados: la evidencia científica',e8l1:'Fondo activo',e8l2:'Fondo indexado',
+    e9t:'El tiempo es tu mayor protección',e9p1:'1 año',e9p2:'3 años',e9p3:'5 años',e9p4:'10 años',e9p5:'15 años',e9src:'Probabilidad histórica de pérdida. MSCI World (1970-2024)',
+    e10t:'Cuando la bolsa cae: qué hacer',e10note:'El DCA acelera la recuperación porque compras más participaciones cuando el precio está bajo.',
+    e11t:'FIRE: libertad financiera, no solo jubilación',e11v:'🎯 <strong>Tu número FIRE</strong> = gasto mensual × 12 ÷ 4%.<br>Si gastas 2.000€/mes, necesitas <strong>600.000€</strong> para ser financieramente libre.',
+    e12t:'Renta fija: el estabilizador de tu cartera',e12v:'<strong>Regla Dinerite:</strong><br>Menos de 40: 100% renta variable<br>40-50: 10% renta fija<br>50-60: 25% renta fija<br>Más de 60: 40% renta fija',
+    e13t:'El ISIN: el DNI de tu fondo',e13v:'📌 Ejemplo: <strong>IE00BYX5NX33</strong> es el ISIN del Fidelity MSCI World Index Fund EUR P Acc.',
+    d_eyebrow:'Tu situación',d_title:'Cuatro datos y te diseñamos <em>tu plan</em>',d_sub:'No hay respuesta incorrecta. Si prefieres no dar datos reales, usa aproximaciones.',
+    d_l1:'¿Qué edad tienes?',d_l2:'¿Cuánto tienes ahorrado o invertido ahora mismo?',d_l3:'¿Cuánto puedes invertir cada mes?',d_l4:'¿Cuánto necesitarías gastar al mes en tu jubilación?',
+    d_h2:'Si no tienes nada aún, pon 0. Sin agobios.',d_h3:'Una estimación es suficiente.',d_h4:'Para calcular tu número FIRE y cuándo podrías alcanzarlo.',d_btn:'Ver mi proyección →',
+    pr_eyebrow:'Tu proyección',pr_title:'Así puede crecer <em>tu dinero</em>',pr_sub:'Basado en datos históricos reales. No es una garantía, es lo que ha pasado históricamente.',
+    chart_title:'Evolución año a año de tu patrimonio',cl0:'Sin invertir (0%)',cl3:'Monetario (3%)',cl6:'Indexado (6%)',cleg0:'Sin invertir (0%)',cleg3:'Monetario / depósito (3%)',cleg6:'Fondos indexados (6%)',pr_btn:'Entendido, seguimos →',
+    r_eyebrow:'Tu punto de partida',r_title:'¿Cómo te sientes con <em>todo esto</em>?',r_sub:'Es completamente normal tener dudas, miedo o simplemente pereza. No hay prisa. Lo importante es dar un primer paso.',
+    r1t:'😌 Quiero ir con calma',r1d:'Normal sentir vértigo. Empezamos con 600€ para conocer la operativa sin presión. Cada 6 meses, si te apetece, añades otros 600€. Sin compromisos.',
+    r2t:'📊 Me siento preparado/a para empezar en serio',r2d:'Llevas tiempo pensándolo y estás listo/a. Diseñaremos un portfolio diversificado en 4 fondos globales.',
+    pl_eyebrow:'Tu plan personal',adv_title:'¿Quieres profundizar más? 📚',adv_sub:'Fiscalidad, cómo retirar dinero y qué hacer cuando te acerques a tu objetivo.',adv_btn:'Ver guía avanzada',
+    disclaimer:'Esta herramienta tiene fines educativos y no constituye asesoramiento financiero profesional. La rentabilidad pasada no garantiza la futura. Los fondos de inversión conllevan riesgo de pérdida de capital.',restart:'Empezar de nuevo',
+    av_eyebrow:'Guía avanzada',av_title:'Lo que necesitas saber <em>después</em>',av_sub:'Fiscalidad, retirada y la transición cuando te acercas a tu objetivo.',
+    av1t:'💸 Fiscalidad de los fondos en España',av1b:'Los fondos indexados tienen una ventaja fiscal clave: puedes traspasar de un fondo a otro sin tributar. Solo pagas impuestos cuando reembolsas definitivamente.<br><br>Al reembolsar, tributas sobre la ganancia: 19% hasta 6.000€, 21% entre 6.000 y 50.000€, 23% entre 50.000 y 200.000€, 27% más de 200.000€.',
+    av2t:'📉 Transición progresiva a renta fija',av2b:'A medida que te acercas a la jubilación, reduce gradualmente la renta variable e incorpora renta fija. No de golpe. Gradualmente, unos pocos puntos porcentuales al año.',
+    av_calc_t:'Calculadora de retirada',av_calc_sub:'La regla del 4% dice que puedes retirar ese porcentaje de tu cartera cada año sin agotarla históricamente.',
+    av_cap:'Capital acumulado',av_rate:'Tasa de retirada anual',av_back:'← Volver a mi plan',
+    ms:['Inicio','Formación','Datos','Proyección','Perfil','Plan'],
+    plan_mega:'Tu plan <em>Mega Sencilla</em>',plan_confi:'Tu plan <em>Confi</em>',
+    companies:'empresas',annual:'anual',every6:'cada 6 meses',then_monthly:'Luego',month:'mes',
+    first_inv:'Primera inversión',cap65:'Capital estimado a los 65',avg6:'Rentabilidad media 6%',
+    fund_section_mega:'Con este fondo estás comprando un trozo de más de <strong>1.500 empresas</strong> en 23 países desarrollados. Simple, barato y eficaz. Cuando domines la operativa, puedes dar el salto al plan Confi.',
+    fund_section_confi:'Portfolio en 4 fondos: USA, Europa, Emergentes y Small Cap. Cada 6 meses inviertes el importe acordado y lo repartes según los porcentajes.',
+    portfolio:'Tu portfolio',ops_title:'Cómo operar paso a paso',
+    calma_note:'😌 Empezamos con 600€ para aprender la operativa sin presión. Cuando te sientas cómodo/a invirtiendo de forma regular, te recomendamos dar el salto al plan <strong>Confi</strong> e invertir la cantidad mensual que has indicado.',
+    rf_title:'Renta fija en tu cartera',rf_note_young:'Con tu edad, tu cartera puede ser <strong>100% renta variable</strong>. Cuando te acerques a los 40-45 años, empieza a pensar en incorporar renta fija.',
+    fire_section:'🏄 Tu situación FIRE',fire_before:'🎉 ¡Podrías ser financieramente libre a los',fire_before2:'años, antes de la jubilación oficial!',
+    fire_after:'Con tu ritmo actual alcanzarías tu número FIRE a los',fire_after2:'años. A los 65 tendrás',fire_after3:'acumulados.',
+    fire_withdrawal:'Retirada anual sostenible',per_year:'al año',
+    step1t:'Busca el fondo por ISIN',step1d:'En el buscador de tu plataforma introduce el ISIN. Garantiza que es exactamente el fondo correcto y no otro con nombre similar.',
+    step2t_calma:'Primera compra: 600€',step2t_prep:'Primera compra',
+    step2d_calma:'Empieza con 600€ para familiarizarte con la operativa. Aprende cómo se compra, cómo se ve en tu plataforma y cómo evoluciona. Eso es todo por ahora.',
+    step2d_prep:'Realiza tu primera compra distribuyendo el importe entre los fondos según los porcentajes indicados.',
+    step3t:'Compras cada 6 meses',step3d:'Cada 6 meses, aproximadamente el mismo importe. Sin mirar demasiado al precio. A veces el fondo estará más caro, a veces más barato. A largo plazo ese precio promedio siempre ha ganado.',
+    step4t:'Cuando la bolsa caiga: no hagas nada',step4d:'Las caídas son parte del proceso. Siempre han ocurrido y siempre se han recuperado. Lo peor que puedes hacer es vender con el mercado abajo. Si puedes, es el mejor momento para comprar más.',
+    step5t:'Revisión anual',step5d:'Una vez al año comprueba que las proporciones siguen siendo correctas. Si un fondo ha crecido mucho, aporta algo más a los otros en tu siguiente compra.',
+    at65:'a los 65',fire_num:'Tu número FIRE',for_monthly:'Para',per_month:'/mes'
+  },
+  en:{
+    back:'Back',
+    home_eyebrow:'Your first investment step',home_title:'Make your money work while you <em>live</em>',home_sub:'Dinerite is an app for learning to invest and building long-term saving habits. No strange products, no banking jargon, no impossible promises.',
+    p1t:'Passive index funds',p1d:'We invest in indices that replicate the global market. No managers trying to be clever. 90% of active funds lose to the index over 15 years.',
+    p2t:'Maximum diversification',p2d:'Across different assets, regions and over time. We do not bet on one company or sector. We buy a slice of the whole world.',
+    p3t:'DCA: invest every 6 months without thinking',p3d:'Regular contributions, roughly the same amount. Consistency always beats trying to time the market.',
+    p4t:'Long-term habit',p4d:'Compound interest needs time. This app helps you build the habit of investing regularly and without stress.',
+    p5t:'Adapted to your pace',p5d:'From starting with €600 and learning the process, to a diversified 4-fund global portfolio.',
+    p6t:'Dinerites work for you',p6d:'Every euro you invest becomes a Dinerite that generates more Dinerites. While you sleep, eat or are on holiday. That is compound interest.',
+    notice_title:'About your data:',notice_body:'This app stores anonymous data for improvement. We do not ask for your name or email. If you prefer not to share real financial data, use estimates. The goal is learning, not accuracy.',
+    start_btn:'I want my Dinerites →',
+    ec_eyebrow:'Before we start',ec_title:'Do you want to understand <em>why</em> this works?',ec_sub:'You can go straight to your plan or take 5 minutes to understand the strategy. No rush and no wrong answer.',
+    ec_yes_t:'Yes, I want to understand first',ec_yes_d:'13 key concepts in visual cards. Each with a deep-dive option. Worth it.',
+    ec_no_t:'No, let\'s get to the point',ec_no_d:'Straight to your plan. You can come back to the theory later.',
+    edu_eyebrow:'Express training',edu_title:'What you need to know <em>before investing</em>',edu_done:'I understand, design my plan →',edu_skip:'Skip and go to plan',
+    e1t:'Inflation: your money loses value every year',e1v1:'Purchasing power lost in 10 years without investing',e1v2:'Average historical gain in global index in 10 years',
+    e2t:'What is an investment fund?',e2v:'📌 <strong>Tax advantage in Spain:</strong> you can switch from one fund to another without paying tax. You only pay when you finally redeem. ETFs do not have this advantage.',
+    e3t:'TER: the fee nobody shows you',e3l1:'Index fund',e3l2:'Active bank fund',e3l3:'Pension plan',
+    e4t:'Accumulation vs distribution: always accumulation',e4v:'📌 In Spain, distribution funds are taxed on each dividend received even if you do not withdraw it. Accumulation funds are only taxed when you sell. <strong>Additional tax advantage.</strong>',
+    e5t:'Why buy funds in euros',e5v:'📌 Always look for "EUR Acc" or "EUR Cap" in the fund name. All Dinerite funds are in EUR and accumulation class.',
+    e6t:'Dinerites: compound interest explained',e6y1:'Year 10',e6y2:'Year 20',e6y3:'Year 30',e6m:'€200/month',e6m2:'€200/month',e6m3:'€200/month',
+    e7t:'DCA: invest every 6 months without thinking',e7v:'📌 Sometimes the fund will be more expensive, sometimes cheaper. Over the long term that average price has always won. <strong>Consistency beats trying to time the market.</strong>',
+    e8t:'Index funds: the scientific evidence',e8l1:'Active fund',e8l2:'Index fund',
+    e9t:'Time is your greatest protection',e9p1:'1 year',e9p2:'3 years',e9p3:'5 years',e9p4:'10 years',e9p5:'15 years',e9src:'Historical probability of loss. MSCI World (1970-2024)',
+    e10t:'When the market falls: what to do',e10note:'DCA speeds recovery because you buy more shares when the price is low.',
+    e11t:'FIRE: financial freedom, not just retirement',e11v:'🎯 <strong>Your FIRE number</strong> = monthly expenses × 12 ÷ 4%.<br>If you spend €2,000/month, you need <strong>€600,000</strong> to be financially free.',
+    e12t:'Bonds: the stabiliser of your portfolio',e12v:'<strong>Dinerite rule:</strong><br>Under 40: 100% equities<br>40-50: 10% bonds<br>50-60: 25% bonds<br>Over 60: 40% bonds',
+    e13t:'The ISIN: your fund\'s ID',e13v:'📌 Example: <strong>IE00BYX5NX33</strong> is the ISIN of the Fidelity MSCI World Index Fund EUR P Acc.',
+    d_eyebrow:'Your situation',d_title:'Four numbers and we design <em>your plan</em>',d_sub:'No wrong answer. If you prefer not to share real data, use estimates.',
+    d_l1:'How old are you?',d_l2:'How much do you have saved or invested right now?',d_l3:'How much can you invest each month?',d_l4:'How much would you need to spend per month in retirement?',
+    d_h2:'If you have nothing yet, put 0. No stress.',d_h3:'An estimate is fine.',d_h4:'To calculate your FIRE number and when you could reach it.',d_btn:'See my projection →',
+    pr_eyebrow:'Your projection',pr_title:'This is how your money <em>could grow</em>',pr_sub:'Based on real historical data. Not a guarantee, just what has happened historically.',
+    chart_title:'Year-by-year evolution of your wealth',cl0:'No investing (0%)',cl3:'Money market (3%)',cl6:'Index funds (6%)',cleg0:'No investing (0%)',cleg3:'Money market / deposit (3%)',cleg6:'Index funds (6%)',pr_btn:'Got it, let\'s continue →',
+    r_eyebrow:'Your starting point',r_title:'How do you feel about <em>all this</em>?',r_sub:'It is completely normal to have doubts, fear or just not feel like it. No rush. The important thing is to take a first step.',
+    r1t:'😌 I want to take it slow',r1d:'Feeling nervous is normal. We start with €600 to learn the process without pressure. Every 6 months, if you feel like it, add another €600. No commitment.',
+    r2t:'📊 I\'m ready to start properly',r2d:'You have been thinking about this and you are ready. We will design a diversified 4-fund global portfolio.',
+    pl_eyebrow:'Your personal plan',adv_title:'Want to go deeper? 📚',adv_sub:'Tax, how to withdraw money and what to do as you approach your goal.',adv_btn:'See advanced guide',
+    disclaimer:'This tool is for educational purposes and does not constitute professional financial advice. Past performance does not guarantee future results. Investment funds carry risk of capital loss.',restart:'Start over',
+    av_eyebrow:'Advanced guide',av_title:'What you need to know <em>after</em>',av_sub:'Tax, withdrawal and the transition as you approach your goal.',
+    av1t:'💸 Fund taxation in Spain',av1b:'Index funds have a key tax advantage: you can switch from one fund to another without paying tax. You only pay when you finally redeem.<br><br>On redemption, you pay on the gain: 19% up to €6,000, 21% between €6,000 and €50,000, 23% between €50,000 and €200,000, 27% above €200,000.',
+    av2t:'📉 Progressive transition to bonds',av2b:'As you approach retirement, gradually reduce equities and add bonds. Not all at once. A few percentage points per year.',
+    av_calc_t:'Withdrawal calculator',av_calc_sub:'The 4% rule says you can withdraw that percentage of your portfolio each year without historically depleting it.',
+    av_cap:'Accumulated capital',av_rate:'Annual withdrawal rate',av_back:'← Back to my plan',
+    ms:['Home','Training','Data','Projection','Profile','Plan'],
+    plan_mega:'Your <em>Simple Start</em> plan',plan_confi:'Your <em>Confident</em> plan',
+    companies:'companies',annual:'annual',every6:'every 6 months',then_monthly:'Then',month:'month',
+    first_inv:'First investment',cap65:'Estimated capital at 65',avg6:'Average return 6%',
+    fund_section_mega:'With this fund you are buying a slice of over <strong>1,500 companies</strong> in 23 developed countries. Simple, cheap and effective. When you master the process, you can move to the Confident plan.',
+    fund_section_confi:'Portfolio across 4 funds: USA, Europe, Emerging Markets and Small Cap. Every 6 months you invest the agreed amount and split it according to the percentages.',
+    portfolio:'Your portfolio',ops_title:'How to operate step by step',
+    calma_note:'😌 We start with €600 so you can learn the process without pressure. When you feel comfortable investing regularly, we recommend moving to the <strong>Confident</strong> plan and investing your indicated monthly amount.',
+    rf_title:'Bonds in your portfolio',rf_note_young:'At your age, your portfolio can be <strong>100% equities</strong>. When you approach 40-45, start thinking about adding a small percentage of bonds.',
+    fire_section:'🏄 Your FIRE situation',fire_before:'🎉 You could be financially free at',fire_before2:'years old, before the official retirement age!',
+    fire_after:'At your current pace you would reach your FIRE number at',fire_after2:'years old. At 65 you will have',fire_after3:'accumulated.',
+    fire_withdrawal:'Sustainable annual withdrawal',per_year:'per year',
+    step1t:'Search for the fund by ISIN',step1d:'In your platform search bar enter the ISIN. It guarantees you have exactly the right fund and not another with a similar name.',
+    step2t_calma:'First purchase: €600',step2t_prep:'First purchase',
+    step2d_calma:'Start with €600 to get familiar with the process. Learn how to buy, how it looks on your platform and how it evolves. That is all for now.',
+    step2d_prep:'Make your first purchase distributing the amount across funds according to the percentages shown.',
+    step3t:'Purchases every 6 months',step3d:'Every 6 months, roughly the same amount. Without watching the price too much. Sometimes the fund will be more expensive, sometimes cheaper. Over the long term that average price has always won.',
+    step4t:'When the market falls: do nothing',step4d:'Crashes are part of the process. They have always happened and always recovered. The worst thing you can do is sell when the market is down. If you can, it is the best time to buy more.',
+    step5t:'Annual review',step5d:'Once a year check that the proportions are still correct. If one fund has grown a lot, contribute a bit more to the others in your next purchase.',
+    at65:'at 65',fire_num:'Your FIRE number',for_monthly:'For',per_month:'/month'
+  }
 };
 
-// ============ NAVEGACIÓN ============
-function goTo(id) {
+// ====== MODALES ======
+const MODALS = {
+  m_inflacion:{
+    es:{title:'La inflación a fondo',body:`<p>La inflación es el aumento general de precios de la economía. Cuando los precios suben, cada euro que tienes compra menos cosas que antes.</p><h4>Un ejemplo concreto</h4><p>Si tienes 10.000€ al 0% y la inflación es del 3%:<br>Año 1: poder real = 9.709€<br>Año 5: poder real = 8.626€<br>Año 10: poder real = 7.441€<br>Año 20: poder real = 5.537€</p><p>No has hecho nada, y sin embargo has "perdido" casi la mitad del poder adquisitivo.</p><h4>¿Cómo se combate?</h4><p>Invirtiendo en activos que históricamente han superado la inflación. El MSCI World ha rentado de media entre un 7-10% anual desde 1970, muy por encima de cualquier inflación histórica.</p>`},
+    en:{title:'Inflation in depth',body:`<p>Inflation is the general rise in prices in the economy. As prices rise, each euro buys less.</p><h4>A concrete example</h4><p>If you have €10,000 at 0% and inflation is 3%:<br>Year 1: real value = €9,709<br>Year 5: real value = €8,626<br>Year 10: real value = €7,441<br>Year 20: real value = €5,537</p><p>You did nothing, yet you have "lost" almost half your purchasing power.</p><h4>How do you fight it?</h4><p>By investing in assets that have historically beaten inflation. The MSCI World has returned an average of 7-10% per year since 1970, well above any historical inflation.</p>`}
+  },
+  m_fondo:{
+    es:{title:'¿Qué es un fondo de inversión?',body:`<h4>Cómo funciona</h4><p>Un fondo de inversión reúne el dinero de miles de inversores y lo invierte en una cartera diversificada. Una gestora profesional administra esa cartera según los objetivos del fondo.</p><h4>¿Qué son las participaciones?</h4><p>Cuando inviertes en un fondo, compras "participaciones". El precio de cada participación sube o baja según lo que haga la cartera del fondo.</p><h4>Ventajas clave para el inversor español</h4><ul><li><strong>Diversificación:</strong> con poco dinero tienes exposición a cientos de empresas.</li><li><strong>Liquidez:</strong> puedes reembolsar cuando quieras, normalmente en 1-2 días.</li><li><strong>Ventaja fiscal:</strong> puedes traspasar entre fondos sin tributar. Solo pagas cuando reembolsas definitivamente.</li><li><strong>Accesibilidad:</strong> muchos fondos indexados no tienen mínimo de inversión.</li></ul><h4>Fondos indexados vs activos</h4><p><strong>Indexados (pasivos):</strong> replican un índice. Baratos (TER 0,10-0,30%), predecibles, eficientes.<br><strong>Activos:</strong> un gestor decide qué comprar. Caros (TER 1-2%) y en el 90% de los casos obtienen peores resultados que el índice a largo plazo.</p>`},
+    en:{title:'What is an investment fund?',body:`<h4>How it works</h4><p>An investment fund pools money from thousands of investors and invests it in a diversified portfolio. A professional manager administers that portfolio according to the fund objectives.</p><h4>What are shares?</h4><p>When you invest in a fund, you buy "units". The price of each unit rises or falls based on the fund portfolio.</p><h4>Key advantages for Spanish investors</h4><ul><li><strong>Diversification:</strong> with little money you get exposure to hundreds of companies.</li><li><strong>Liquidity:</strong> you can redeem whenever you want, usually in 1-2 days.</li><li><strong>Tax advantage:</strong> you can switch between funds without paying tax. You only pay when you finally redeem.</li><li><strong>Accessibility:</strong> many index funds have no minimum investment.</li></ul><h4>Index vs active funds</h4><p><strong>Index (passive):</strong> replicate an index. Cheap (TER 0.10-0.30%), predictable, efficient.<br><strong>Active:</strong> a manager decides what to buy. Expensive (TER 1-2%) and in 90% of cases achieve worse results than the index over the long term.</p>`}
+  },
+  m_ter:{
+    es:{title:'El TER: cómo las comisiones destruyen tu rentabilidad',body:`<h4>¿Qué incluye el TER?</h4><p>El TER cubre todos los costes del fondo: gestión, administración, depósito y otros gastos operativos. Se calcula como porcentaje del patrimonio y se descuenta diariamente del valor liquidativo. No lo ves en ningún extracto, pero está ahí.</p><h4>El impacto en 30 años</h4><p>Imagina que inviertes 10.000€ con una rentabilidad bruta del 8% anual durante 30 años:<br><strong>TER 0,12% (fondo indexado):</strong> acabas con ~93.000€<br><strong>TER 1,5% (fondo activo banco):</strong> acabas con ~68.000€<br><strong>TER 1,8% (plan de pensiones):</strong> acabas con ~62.000€</p><p>La diferencia es de <strong>más de 30.000€</strong> solo por las comisiones. Sin hacer nada diferente.</p><h4>Los planes de pensiones</h4><p>Tienen ventaja fiscal en las aportaciones (deducción en IRPF), pero sus comisiones altas y la tributación al reembolso como renta del trabajo los hacen menos eficientes que los fondos indexados para la mayoría de inversores.</p>`},
+    en:{title:'TER: how fees destroy your returns',body:`<h4>What does TER include?</h4><p>TER covers all fund costs: management, administration, custody and other operating expenses. It is calculated as a percentage of assets and deducted daily from the NAV. You do not see it in any statement, but it is there.</p><h4>Impact over 30 years</h4><p>Imagine investing €10,000 at a gross return of 8% per year for 30 years:<br><strong>TER 0.12% (index fund):</strong> you end up with ~€93,000<br><strong>TER 1.5% (active bank fund):</strong> you end up with ~€68,000<br><strong>TER 1.8% (pension plan):</strong> you end up with ~€62,000</p><p>The difference is <strong>over €30,000</strong> just from fees. Without doing anything different.</p><h4>Pension plans</h4><p>They have a tax advantage on contributions (income tax deduction), but their high fees and taxation on redemption as employment income make them less efficient than index funds for most investors.</p>`}
+  },
+  m_acum:{
+    es:{title:'Acumulación vs distribución: la diferencia importa',body:`<h4>Fondos de distribución</h4><p>Pagan los dividendos recibidos de las empresas de la cartera como efectivo, periódicamente. Suena bien, pero tiene dos problemas importantes: pierdes el efecto del interés compuesto sobre esos dividendos y en España debes tributar por ellos cada vez que se reciben (aunque no los retires).</p><h4>Fondos de acumulación</h4><p>Reinvierten los dividendos automáticamente comprando más participaciones. Esos dividendos compran más participaciones que generan más dividendos que compran más participaciones. El efecto bola de nieve.</p><h4>¿Cuánto importa a largo plazo?</h4><p>En fondos globales los dividendos representan aproximadamente 1,5-2% anual. Sobre un capital de 200.000€, son 3.000-4.000€ que en distribución tributan al 19-23% y desaparecen del ciclo. En acumulación, siguen generando rentabilidad año tras año.</p><h4>Cómo identificarlos</h4><p>Busca "Acc" o "Cap" (de accumulation/capitalización) en el nombre del fondo. "Dist" o "Inc" indica distribución. Todos los fondos que recomienda Dinerite son de acumulación.</p>`},
+    en:{title:'Accumulation vs distribution: the difference matters',body:`<h4>Distribution funds</h4><p>They pay out dividends from the portfolio companies as cash, periodically. Sounds good, but has two important problems: you lose the compound interest effect on those dividends and in Spain you must pay tax on them each time they are received (even if you do not withdraw them).</p><h4>Accumulation funds</h4><p>They automatically reinvest dividends by buying more fund units. Those dividends buy more units that generate more dividends that buy more units. The snowball effect.</p><h4>How much does it matter long term?</h4><p>In global funds dividends represent roughly 1.5-2% per year. On capital of €200,000 that is €3,000-4,000 that in distribution gets taxed at 19-23% and leaves the cycle. In accumulation, it keeps generating returns year after year.</p><h4>How to identify them</h4><p>Look for "Acc" or "Cap" in the fund name. "Dist" or "Inc" indicates distribution. All funds recommended by Dinerite are accumulation class.</p>`}
+  },
+  m_eur:{
+    es:{title:'Por qué importa la divisa del fondo',body:`<h4>El riesgo de divisa</h4><p>Cuando compras un fondo en USD, aunque el fondo invierta en empresas globales, el valor de tu participación en euros fluctúa con el tipo de cambio EUR/USD. Si el dólar cae un 10% frente al euro, tu inversión vale un 10% menos en euros aunque el fondo haya subido.</p><h4>La clase EUR lo simplifica</h4><p>Los fondos con clase EUR están denominados en euros. El valor de tu participación en euros solo depende de cómo evolucione la cartera de inversión, sin ruido adicional del tipo de cambio.</p><h4>EUR sin cobertura vs EUR hedged</h4><p><strong>EUR sin cobertura (EUR Acc/Cap):</strong> el fondo está en euros pero las inversiones subyacentes pueden ser en otras divisas. A largo plazo, el efecto divisa tiende a neutralizarse.<br><strong>EUR hedged:</strong> el fondo activamente cubre el riesgo de divisa. Tiene un coste adicional (0,1-0,3% extra) y generalmente no merece la pena para inversores con horizonte largo.</p><p>Dinerite recomienda siempre la clase EUR sin cobertura.</p>`},
+    en:{title:'Why fund currency matters',body:`<h4>Currency risk</h4><p>When you buy a fund in USD, even if the fund invests in global companies, the value of your unit in euros fluctuates with the EUR/USD exchange rate. If the dollar falls 10% against the euro, your investment is worth 10% less in euros even if the fund went up.</p><h4>The EUR class simplifies things</h4><p>Funds with EUR class are denominated in euros. The value of your unit in euros only depends on how the investment portfolio evolves, without additional currency noise.</p><h4>Unhedged EUR vs EUR hedged</h4><p><strong>Unhedged EUR (EUR Acc/Cap):</strong> the fund is in euros but the underlying investments may be in other currencies. Over the long term, the currency effect tends to neutralise.<br><strong>EUR hedged:</strong> the fund actively hedges currency risk. Has an additional cost (0.1-0.3% extra) and generally not worth it for long-horizon investors.</p><p>Dinerite always recommends the unhedged EUR class.</p>`}
+  },
+  m_compuesto:{
+    es:{title:'El interés compuesto: la octava maravilla',body:`<h4>Cómo funciona matemáticamente</h4><p>El primer año ganas un 7% sobre 10.000€ = 700€. El segundo año ganas un 7% sobre 10.700€ = 749€. El tercer año sobre 11.449€ = 801€. El capital base crece cada año, y los intereses que genera también crecen.</p><h4>Por qué el tiempo es más importante que el dinero</h4><p>Una persona que invierte 200€/mes de los 25 a los 35 (total aportado: 24.000€) y luego no aporta nada más, llegará a los 65 con más dinero que alguien que empieza a los 35 y aporta 200€/mes hasta los 65 (total aportado: 72.000€). El que empezó antes aportó 3 veces menos pero tuvo 10 años más de interés compuesto.</p><h4>La regla del 72</h4><p>Para saber en cuántos años se dobla tu dinero, divide 72 entre la rentabilidad anual. Al 7%: 72/7 = ~10 años. En 30 años, tu dinero se multiplica aproximadamente por 8.</p>`},
+    en:{title:'Compound interest: the eighth wonder',body:`<h4>How it works mathematically</h4><p>In year one you earn 7% on €10,000 = €700. In year two you earn 7% on €10,700 = €749. In year three on €11,449 = €801. The capital base grows every year, and so do the interest payments.</p><h4>Why time is more important than money</h4><p>Someone who invests €200/month from age 25 to 35 (total contributed: €24,000) and then stops, will have more money at 65 than someone who starts at 35 and contributes €200/month until 65 (total contributed: €72,000). The early starter contributed 3x less but had 10 more years of compound interest.</p><h4>The rule of 72</h4><p>To find out how many years it takes to double your money, divide 72 by the annual return. At 7%: 72/7 = ~10 years. In 30 years, your money multiplies approximately by 8.</p>`}
+  },
+  m_dca:{
+    es:{title:'DCA: la estrategia que elimina el estrés',body:`<h4>¿Por qué no invertir todo a la vez?</h4><p>Intentar encontrar el "mejor momento" para invertir es prácticamente imposible, incluso para profesionales. Estudios demuestran que incluso invertir todo en el peor momento del año solo lleva a una diferencia del 0,5-1% anual respecto a quien invierte siempre el primero de enero.</p><h4>Las ventajas del DCA</h4><ul><li>Elimina el estrés de decidir cuándo invertir.</li><li>Durante las caídas compras más participaciones baratas.</li><li>Crea un hábito automático y sostenible.</li><li>Reduce el impacto de la volatilidad a corto plazo.</li></ul><h4>¿Por qué Dinerite propone cada 6 meses?</h4><p>En fondos de inversión con traspasabilidad fiscal, la frecuencia tiene menos impacto que en ETFs. Cada 6 meses reduce la fricción operativa manteniendo casi todos los beneficios del DCA mensual. Y psicológicamente es más fácil comprometerse a revisar dos veces al año que una vez al mes.</p>`},
+    en:{title:'DCA: the strategy that eliminates stress',body:`<h4>Why not invest everything at once?</h4><p>Trying to find the "best time" to invest is practically impossible, even for professionals. Studies show that even investing everything at the worst moment of the year only leads to a difference of 0.5-1% per year compared to someone who always invests on January 1st.</p><h4>DCA advantages</h4><ul><li>Eliminates the stress of deciding when to invest.</li><li>During falls you buy more cheap units.</li><li>Creates an automatic and sustainable habit.</li><li>Reduces the impact of short-term volatility.</li></ul><h4>Why does Dinerite suggest every 6 months?</h4><p>In tax-transferable investment funds, frequency has less impact than in ETFs. Every 6 months reduces operational friction while maintaining almost all the benefits of monthly DCA. And psychologically it is easier to commit to reviewing twice a year than once a month.</p>`}
+  },
+  m_indexados:{
+    es:{title:'Fondos indexados vs activos: los datos no engañan',body:`<h4>El informe SPIVA</h4><p>S&P publica cada año el informe SPIVA (S&P Indices Versus Active) que compara fondos activos contra índices. Los resultados son consistentes desde hace décadas:<br>A 1 año: el 64% de fondos activos pierde contra el índice.<br>A 5 años: el 78% pierde.<br>A 10 años: el 85% pierde.<br>A 15 años: el 90% pierde.</p><h4>¿Por qué pierden?</h4><p>Las comisiones son la razón principal. Un fondo activo que cobra 1,5% anual necesita generar un 1,5% más que el índice solo para empatar. Año tras año, eso es muy difícil de mantener de forma consistente.</p><h4>¿Y los mejores gestores?</h4><p>Algunos gestores sí baten al mercado. El problema es que es imposible saber de antemano cuáles serán, y los que lo han hecho en el pasado no necesariamente lo harán en el futuro. La estrategia indexada elimina ese riesgo.</p><h4>Warren Buffett lo ha dicho</h4><p>El mayor inversor de la historia ha recomendado repetidamente los fondos indexados para el inversor medio. En su testamento ha dejado instrucciones para invertir en un fondo indexado al S&P 500.</p>`},
+    en:{title:'Index vs active funds: the data does not lie',body:`<h4>The SPIVA report</h4><p>S&P publishes the annual SPIVA report comparing active funds against indices. Results have been consistent for decades:<br>1 year: 64% of active funds lose to the index.<br>5 years: 78% lose.<br>10 years: 85% lose.<br>15 years: 90% lose.</p><h4>Why do they lose?</h4><p>Fees are the main reason. An active fund charging 1.5% per year needs to generate 1.5% more than the index just to break even. Year after year, that is very hard to maintain consistently.</p><h4>What about the best managers?</h4><p>Some managers do beat the market. The problem is that it is impossible to know in advance which ones will, and those who have done so in the past do not necessarily do so in the future. The index strategy eliminates that risk.</p><h4>Warren Buffett has said it</h4><p>The greatest investor in history has repeatedly recommended index funds for the average investor. In his will he has left instructions to invest in an S&P 500 index fund.</p>`}
+  },
+  m_tiempo:{
+    es:{title:'El tiempo como escudo: datos históricos',body:`<h4>MSCI World (1970-2024)</h4><p>Analizando todos los períodos posibles en el MSCI World desde 1970: a 1 año, 30% de probabilidad de pérdida. A 5 años, 10%. A 10 años, 3%. A 15 años, prácticamente 0%.</p><h4>¿Qué significa esto?</h4><p>Si tu horizonte de inversión es largo (más de 10 años), la probabilidad histórica de perder dinero es casi nula. El tiempo es el principal factor que reduce el riesgo, no la selección de activos ni el momento de entrada.</p><h4>La única estrategia que falla seguro</h4><p>Entrar en pánico durante una caída y vender. Eso sí garantiza pérdidas.</p><h4>¿Y si necesito el dinero antes?</h4><p>Si tu horizonte es corto (menos de 5 años), la probabilidad de pérdida sube considerablemente. Para ese dinero, mejor un fondo monetario o depósito a plazo. Los fondos indexados son para el largo plazo.</p>`},
+    en:{title:'Time as a shield: historical data',body:`<h4>MSCI World (1970-2024)</h4><p>Analysing all possible periods in the MSCI World since 1970: at 1 year, 30% probability of loss. At 5 years, 10%. At 10 years, 3%. At 15 years, practically 0%.</p><h4>What does this mean?</h4><p>If your investment horizon is long (more than 10 years), the historical probability of losing money is almost zero. Time is the main factor that reduces risk, not asset selection or entry timing.</p><h4>The only strategy that definitely fails</h4><p>Panicking during a crash and selling. That guarantees losses.</p><h4>What if I need the money sooner?</h4><p>If your horizon is short (less than 5 years), the probability of loss rises considerably. For that money, better a money market fund or time deposit. Index funds are for the long term.</p>`}
+  },
+  m_caidas:{
+    es:{title:'Las grandes caídas: qué pasó y cómo se recuperó',body:`<h4>Dot-com 2000-2002</h4><p>Caída: -49% · Duración: 2,5 años · Sin DCA: ~7 años para recuperar · Con DCA: ~4 años<br>Causa: burbuja de empresas tecnológicas sin beneficios reales.</p><h4>Crisis financiera 2008-2009</h4><p>Caída: -54% · Duración: 1,5 años · Sin DCA: ~6 años · Con DCA: ~3,5 años<br>Causa: crisis hipotecas subprime y colapso del sistema bancario.</p><h4>COVID-19 2020</h4><p>Caída: -34% · Duración: 1 mes · Sin DCA: ~6 meses · Con DCA: ~4 meses<br>Causa: pánico global por la pandemia.</p><h4>¿Por qué el DCA acelera la recuperación?</h4><p>Durante la caída sigues comprando a precios más bajos. Cuando el mercado se recupera, esas participaciones compradas baratas generan más rentabilidad que las anteriores, acelerando la vuelta al punto de inicio.</p><h4>La lección más importante</h4><p>En todas las caídas históricas, quien mantuvo su inversión y siguió aportando salió ganando. Quien vendió con el mercado abajo fue el único que convirtió una pérdida temporal en una pérdida real.</p>`},
+    en:{title:'The big crashes: what happened and how they recovered',body:`<h4>Dot-com 2000-2002</h4><p>Fall: -49% · Duration: 2.5 years · Without DCA: ~7 years to recover · With DCA: ~4 years<br>Cause: bubble of tech companies with no real profits.</p><h4>Financial crisis 2008-2009</h4><p>Fall: -54% · Duration: 1.5 years · Without DCA: ~6 years · With DCA: ~3.5 years<br>Cause: subprime mortgage crisis and banking system collapse.</p><h4>COVID-19 2020</h4><p>Fall: -34% · Duration: 1 month · Without DCA: ~6 months · With DCA: ~4 months<br>Cause: global pandemic panic.</p><h4>Why does DCA speed up recovery?</h4><p>During the crash you keep buying at lower prices. When the market recovers, those cheaply-bought units generate more returns than the earlier ones, speeding up the return to the starting point.</p><h4>The most important lesson</h4><p>In all historical crashes, those who maintained their investment and kept contributing came out winners. Those who sold with the market down were the only ones who turned a temporary loss into a real one.</p>`}
+  },
+  m_fire:{
+    es:{title:'FIRE: la guía completa de libertad financiera',body:`<h4>¿Qué es exactamente FIRE?</h4><p>Financial Independence, Retire Early no significa necesariamente jubilarse a los 40 y no hacer nada. Significa llegar a un punto donde tienes suficiente capital invertido para vivir de los rendimientos sin tocar el principal.</p><h4>La regla del 4%</h4><p>Basada en el Trinity Study de 1998, que analizó carteras históricas durante 30 años. Conclusión: retirar el 4% anual de una cartera diversificada ha sido sostenible históricamente. A una tasa del 3% la seguridad es aún mayor.</p><h4>Tu número FIRE</h4><p>Gasto mensual × 12 ÷ 0,04 = capital necesario al 4%<br>Gasto mensual × 12 ÷ 0,03 = capital necesario al 3% (más conservador)</p><h4>Variantes</h4><ul><li><strong>Lean FIRE:</strong> con gastos muy reducidos y vida simple.</li><li><strong>Fat FIRE:</strong> con gastos holgados y vida cómoda.</li><li><strong>Coast FIRE:</strong> ya tienes suficiente invertido para llegar al número FIRE con el interés compuesto, sin aportar más.</li><li><strong>Barista FIRE:</strong> tienes suficiente para reducir horas de trabajo pero no para parar completamente.</li></ul>`},
+    en:{title:'FIRE: the complete guide to financial freedom',body:`<h4>What exactly is FIRE?</h4><p>Financial Independence, Retire Early does not necessarily mean retiring at 40 and doing nothing. It means reaching a point where you have enough invested capital to live off the returns without touching the principal.</p><h4>The 4% rule</h4><p>Based on the 1998 Trinity Study, which analysed historical portfolios over 30 years. Conclusion: withdrawing 4% annually from a diversified portfolio has historically been sustainable. At 3% the safety margin is even greater.</p><h4>Your FIRE number</h4><p>Monthly expenses × 12 ÷ 0.04 = capital needed at 4%<br>Monthly expenses × 12 ÷ 0.03 = capital needed at 3% (more conservative)</p><h4>Variants</h4><ul><li><strong>Lean FIRE:</strong> with very reduced expenses and simple life.</li><li><strong>Fat FIRE:</strong> with comfortable spending.</li><li><strong>Coast FIRE:</strong> you already have enough invested to reach your FIRE number through compound interest, without contributing more.</li><li><strong>Barista FIRE:</strong> you have enough to reduce work hours but not stop completely.</li></ul>`}
+  },
+  m_rf:{
+    es:{title:'Renta fija: todo lo que necesitas saber',body:`<h4>¿Qué es la renta fija?</h4><p>Son inversiones en deuda. Cuando compras un bono, le prestas dinero al emisor (gobierno o empresa) a cambio de un interés fijo. Al vencimiento recuperas el principal.</p><h4>¿Por qué tenerla?</h4><p>Los bonos y las acciones suelen tener correlación baja o negativa. Cuando la bolsa cae mucho, los bonos de calidad a menudo suben o caen mucho menos. Esto reduce la volatilidad total de tu cartera.</p><h4>El coste de la estabilidad</h4><p>La renta fija renta menos que la variable a largo plazo. Es el precio de la estabilidad. Por eso solo tiene sentido incorporarla cuando te acercas a la jubilación y ya no puedes permitirte esperar a que el mercado se recupere.</p><h4>La regla de Dinerite</h4><p>Menos de 40: 0% RF / 40-50: 10% RF / 50-60: 25% RF / Más de 60: 40% RF<br><br>No de golpe. Gradualmente, año a año. Cuando hagas tu revisión anual, ajusta un poco el porcentaje.</p>`},
+    en:{title:'Bonds: everything you need to know',body:`<h4>What is fixed income?</h4><p>These are debt investments. When you buy a bond, you lend money to the issuer (government or company) in exchange for a fixed interest rate. At maturity you recover the principal.</p><h4>Why hold it?</h4><p>Bonds and equities tend to have low or negative correlation. When the stock market falls a lot, quality bonds often rise or fall much less. This reduces the total volatility of your portfolio.</p><h4>The cost of stability</h4><p>Fixed income yields less than equities over the long term. That is the price of stability. That is why it only makes sense to add it as you approach retirement and can no longer afford to wait for the market to recover.</p><h4>Dinerite rule</h4><p>Under 40: 0% / 40-50: 10% / 50-60: 25% / Over 60: 40%<br><br>Not all at once. Gradually, year by year. When you do your annual review, adjust the percentage a little.</p>`}
+  },
+  m_isin:{
+    es:{title:'El ISIN: cómo encontrar exactamente el fondo que buscas',body:`<h4>¿Qué es el ISIN?</h4><p>International Securities Identification Number. Un código alfanumérico de 12 caracteres único en el mundo para cada valor financiero. Los dos primeros son el código del país de domicilio (IE = Irlanda, LU = Luxemburgo).</p><h4>¿Por qué no buscar por nombre?</h4><p>Los nombres son ambiguos. "Vanguard Global Stock Index" tiene múltiples clases con distintas divisas, mínimos y comisiones. El ISIN identifica exactamente una de ellas.</p><h4>Fondos recomendados por Dinerite</h4><p><strong>Plan Mega Sencilla:</strong><br>Fidelity MSCI World: <strong>IE00BYX5NX33</strong><br><br><strong>Plan Confi:</strong><br>Vanguard US 500: <strong>IE0032620787</strong><br>Vanguard European: <strong>IE0007987690</strong><br>Vanguard Emerging: <strong>IE0031786696</strong><br>Vanguard Small-Cap: <strong>IE00B42W3S00</strong><br>Vanguard Bond (RF): <strong>IE00B18GC888</strong></p><h4>Cómo usarlo</h4><p>Ve al buscador de tu plataforma. Introduce el ISIN directamente. Aparecerá exactamente ese fondo. Si no aparece, ese fondo no está disponible en esa plataforma y deberás buscar una alternativa.</p>`},
+    en:{title:'The ISIN: how to find exactly the fund you are looking for',body:`<h4>What is an ISIN?</h4><p>International Securities Identification Number. A 12-character alphanumeric code unique worldwide for each financial instrument. The first two are the domicile country code (IE = Ireland, LU = Luxembourg).</p><h4>Why not search by name?</h4><p>Names are ambiguous. "Vanguard Global Stock Index" has multiple classes with different currencies, minimums and fees. The ISIN identifies exactly one of them.</p><h4>Funds recommended by Dinerite</h4><p><strong>Simple Start plan:</strong><br>Fidelity MSCI World: <strong>IE00BYX5NX33</strong><br><br><strong>Confident plan:</strong><br>Vanguard US 500: <strong>IE0032620787</strong><br>Vanguard European: <strong>IE0007987690</strong><br>Vanguard Emerging: <strong>IE0031786696</strong><br>Vanguard Small-Cap: <strong>IE00B42W3S00</strong><br>Vanguard Bond (fixed income): <strong>IE00B18GC888</strong></p><h4>How to use it</h4><p>Go to your platform search bar. Enter the ISIN directly. That exact fund will appear. If it does not, that fund is not available on that platform and you will need to find an alternative.</p>`}
+  }
+};
+
+// ====== ESTADO ======
+const S={lang:'es',quiereFormacion:null,edad:null,ahorros:null,mensual:null,gasto:null,ritmo:null,cap65:0,capFIRE:0,edadFIRE:0,history:['s0'],lv:{0:true,3:true,6:true}};
+
+// ====== IDIOMA ======
+function toggleLang(){
+  S.lang=S.lang==='es'?'en':'es';
+  document.getElementById('langBtn').textContent=S.lang==='es'?'🌐 EN':'🌐 ES';
+  applyTX();
+}
+function tx(k){return TX[S.lang][k]||TX.es[k]||k;}
+function applyTX(){
+  const keys=['home_eyebrow','home_title','home_sub','p1t','p1d','p2t','p2d','p3t','p3d','p4t','p4d','p5t','p5d','p6t','p6d','notice_title','notice_body','start_btn','ec_eyebrow','ec_title','ec_sub','ec_yes_t','ec_yes_d','ec_no_t','ec_no_d','edu_eyebrow','edu_title','edu_done','edu_skip','e1t','e1v1','e1v2','e2t','e2v','e3t','e3l1','e3l2','e3l3','e4t','e4v','e5t','e5v','e6t','e6y1','e6y2','e6y3','e6m','e6m2','e6m3','e7t','e7v','e8t','e8l1','e8l2','e9t','e9p1','e9p2','e9p3','e9p4','e9p5','e9src','e10t','e10note','e11t','e11v','e12t','e12v','e13t','e13v','d_eyebrow','d_title','d_sub','d_l1','d_l2','d_l3','d_l4','d_h2','d_h3','d_h4','pr_eyebrow','pr_title','pr_sub','chart_title','cl0','cl3','cl6','cleg0','cleg3','cleg6','pr_btn','r_eyebrow','r_title','r_sub','r1t','r1d','r2t','r2d','pl_eyebrow','adv_title','adv_sub','adv_btn','disclaimer','restart','av_eyebrow','av_title','av_sub','av1t','av1b','av2t','av2b','av_calc_t','av_calc_sub','av_cap','av_rate','av_back'];
+  keys.forEach(k=>{const el=document.getElementById('t_'+k);if(el)el.innerHTML=tx(k);});
+  document.getElementById('backLabel').textContent=tx('back');
+  renderMilestones();
+}
+
+// ====== MILESTONES ======
+const MS_SCREENS=['s0','s_edu_choice','s_datos','s_proyeccion','s_ritmo','s_plan'];
+const MS_ICONS=['🏠','📚','📊','📈','🎯','✅'];
+function renderMilestones(){
+  const wrap=document.getElementById('milestones');
+  const cur=S.history[S.history.length-1]||'s0';
+  const curIdx=MS_SCREENS.indexOf(cur);
+  const eduIdx2=cur==='s_edu'?1:-1;
+  let html='';
+  const labels=tx('ms');
+  MS_ICONS.forEach((icon,i)=>{
+    const isDone=i<curIdx||(i===1&&curIdx>1);
+    const isActive=i===curIdx||(i===1&&cur==='s_edu');
+    html+=`<div class="ms ${isDone?'done':''} ${isActive?'active':''}"><div class="ms-dot">${isDone?'✓':icon}</div><div class="ms-label">${labels[i]||''}</div></div>`;
+    if(i<MS_ICONS.length-1)html+=`<div class="ms-line ${isDone?'done':''}"></div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+// ====== NAVEGACIÓN ======
+function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   S.history.push(id);
-  updateProgress(id);
-  document.getElementById('backBtn').classList.toggle('hidden', id==='s0');
+  renderMilestones();
+  document.getElementById('backBtn').classList.toggle('hidden',id==='s0');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function goBack() {
+function goBack(){
   if(S.history.length>1){
     S.history.pop();
     const prev=S.history[S.history.length-1];
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(prev).classList.add('active');
-    updateProgress(prev);
+    renderMilestones();
     document.getElementById('backBtn').classList.toggle('hidden',prev==='s0');
     window.scrollTo({top:0,behavior:'smooth'});
   }
 }
-
-const PROG={'s0':0,'s_edu_choice':8,'s_edu':18,'s_datos':30,'s_proyeccion':52,'s_ritmo':72,'s_plan':100,'s_avanzado':100};
-const PROG_L={'s0':'','s_edu_choice':'Paso 1 de 6','s_edu':'Formación opcional','s_datos':'Paso 2 de 6','s_proyeccion':'Paso 3 de 6','s_ritmo':'Paso 4 de 6','s_plan':'¡Tu plan listo! 🎉','s_avanzado':'Guía avanzada'};
-
-function updateProgress(id){
-  document.getElementById('pFill').style.width=(PROG[id]||0)+'%';
-  document.getElementById('pLabel').textContent=PROG_L[id]||'';
+function selectAndGo(el,val,fn){
+  document.querySelectorAll('#s_edu_choice .option-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  S.quiereFormacion=(val==='yes');
+  setTimeout(fn,320);
 }
+function goToEdu(){initEduDots();goTo('s_edu');}
 
-// ============ EDU ============
+// ====== EDU ======
 let eduIdx=0;
-const EDU_TOTAL=9;
-
+const EDU_TOTAL=13;
 function initEduDots(){
   const d=document.getElementById('eduDots');
   if(!d)return;
@@ -669,10 +637,10 @@ function initEduDots(){
     dot.onclick=()=>eduGoTo(i);
     d.appendChild(dot);
   }
+  document.getElementById('eduPrev').disabled=true;
+  document.getElementById('eduNext').disabled=false;
 }
-
 function eduNav(dir){eduGoTo(eduIdx+dir);}
-
 function eduGoTo(idx){
   if(idx<0||idx>=EDU_TOTAL)return;
   eduIdx=idx;
@@ -681,274 +649,144 @@ function eduGoTo(idx){
   document.getElementById('eduPrev').disabled=idx===0;
   document.getElementById('eduNext').disabled=idx===EDU_TOTAL-1;
 }
-
-function selectEdu(el,val){
-  document.querySelectorAll('#s_edu_choice .option-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  S.quiereFormacion=val;
-  document.getElementById('btnEduChoice').disabled=false;
-}
-
-function handleEduChoice(){
-  if(S.quiereFormacion){initEduDots();goTo('s_edu');}
-  else goTo('s_datos');
-}
-
-// Touch swipe
-let _tx=0;
+let _tx2=0;
 document.addEventListener('DOMContentLoaded',()=>{
   initEduDots();
-  const c=document.getElementById('eduContainer');
+  renderMilestones();
+  const c=document.getElementById('eduWrap');
   if(c){
-    c.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;});
-    c.addEventListener('touchend',e=>{const d=_tx-e.changedTouches[0].clientX;if(Math.abs(d)>50)eduNav(d>0?1:-1);});
+    c.addEventListener('touchstart',e=>{_tx2=e.touches[0].clientX;});
+    c.addEventListener('touchend',e=>{const d=_tx2-e.changedTouches[0].clientX;if(Math.abs(d)>50)eduNav(d>0?1:-1);});
   }
 });
 
-// ============ VALIDACIONES ============
+// ====== VALIDACIONES ======
 function checkDatos(){
-  const ok=['d_edad','d_ahorros','d_mensual','d_gasto'].every(id=>{
-    const v=document.getElementById(id).value;
-    return v!==''&&parseFloat(v)>=0;
-  });
+  const ok=['d_edad','d_ahorros','d_mensual','d_gasto'].every(id=>{const v=document.getElementById(id).value;return v!==''&&parseFloat(v)>=0;});
   document.getElementById('btnDatos').disabled=!ok;
 }
 
-// ============ CÁLCULOS ============
-function calcFV(pv,pmt,r_annual,years){
-  const r=r_annual/12, n=years*12;
-  if(r===0)return pv+pmt*n;
-  return pv*Math.pow(1+r,n)+pmt*((Math.pow(1+r,n)-1)/r);
-}
-
+// ====== CÁLCULOS ======
+function calcFV(pv,pmt,r,years){const rm=r/12,n=years*12;if(rm===0)return pv+pmt*n;return pv*Math.pow(1+rm,n)+pmt*((Math.pow(1+rm,n)-1)/rm);}
 function fmt(n){return Math.round(n).toLocaleString('es-ES')+'€';}
-
-function getRF(edad){
-  for(const rule of RF_RULES){if(edad<=rule.max)return rule.rf;}
-  return 40;
-}
+function getRF(edad){if(edad<40)return 0;if(edad<=50)return 10;if(edad<=60)return 25;return 40;}
 
 function calcularProyeccion(){
   S.edad=parseInt(document.getElementById('d_edad').value);
   S.ahorros=parseFloat(document.getElementById('d_ahorros').value);
   S.mensual=parseFloat(document.getElementById('d_mensual').value);
   S.gasto=parseFloat(document.getElementById('d_gasto').value);
-
-  const horizonte=65-S.edad;
-  S.capital65=calcFV(S.ahorros,S.mensual,0.06,horizonte);
-
-  // FIRE
-  const capitalNecesario=S.gasto*12/0.04;
-  S.capitalFIRE=capitalNecesario;
-  let meses=0;
-  let acum=S.ahorros;
+  const hor=Math.max(1,65-S.edad);
+  S.cap65=calcFV(S.ahorros,S.mensual,0.06,hor);
+  const capNec=S.gasto*12/0.04;
+  S.capFIRE=capNec;
+  let meses=0,acum=S.ahorros;
   const r=0.06/12;
-  for(let m=1;m<=1200;m++){
-    acum=acum*(1+r)+S.mensual;
-    if(acum>=capitalNecesario){meses=m;break;}
-  }
+  for(let m=1;m<=1200;m++){acum=acum*(1+r)+S.mensual;if(acum>=capNec){meses=m;break;}}
   S.edadFIRE=meses>0?Math.round(S.edad+meses/12):99;
-
-  // RESULTADOS RESUMEN
-  const retiro3_65=S.capital65*0.03/12;
-  const retiro4_65=S.capital65*0.04/12;
-
-  document.getElementById('proyResultados').innerHTML=`
-    <div class="summary-grid">
-      <div class="summary-card highlight">
-        <div class="s-label">Capital estimado a los 65</div>
-        <div class="s-value">${fmt(S.capital65)}</div>
-        <div class="s-range">Retirada 3%: ${fmt(retiro3_65)}/mes<br>Retirada 4%: ${fmt(retiro4_65)}/mes</div>
-      </div>
-      <div class="summary-card highlight">
-        <div class="s-label">Tu número FIRE</div>
-        <div class="s-value">${fmt(capitalNecesario)}</div>
-        <div class="s-sub">Para ${fmt(S.gasto)}/mes</div>
-      </div>
-    </div>
-  `;
-
-  // FIRE CARD
+  const r3=S.cap65*0.03/12,r4=S.cap65*0.04/12;
+  const isEs=S.lang==='es';
+  document.getElementById('proyRes').innerHTML=`<div class="sgrid"><div class="sc hi"><div class="sl">${tx('cap65')}</div><div class="sv">${fmt(S.cap65)}</div><div class="sr">3%: ${fmt(r3)}/${isEs?'mes':'month'} · 4%: ${fmt(r4)}/${isEs?'mes':'month'}</div></div><div class="sc hi"><div class="sl">${tx('fire_num')}</div><div class="sv">${fmt(capNec)}</div><div class="ss">${tx('for_monthly')} ${fmt(S.gasto)}${tx('per_month')}</div></div></div>`;
   const fireMsg=S.edadFIRE<=65
-    ?`🎉 ¡Podrías ser financieramente libre a los <strong>${S.edadFIRE} años</strong>, antes de la jubilación oficial!`
-    :`A los 65 años tendrás <strong>${fmt(S.capital65)}</strong> acumulados. ${S.edadFIRE<80?'Con tu ritmo actual, alcanzarías tu número FIRE a los <strong>'+S.edadFIRE+' años</strong>.':'Para alcanzar el FIRE antes, considera aumentar el ahorro mensual.'}`;
-
-  document.getElementById('fireResults').innerHTML=`
-    <div class="fire-card">
-      <div class="fire-label" style="font-size:0.8rem;margin-bottom:0.5rem">🏄 Tu situación FIRE</div>
-      <div style="font-size:0.9rem;color:var(--sky-deep);line-height:1.65">${fireMsg}</div>
-      <div class="fire-range" style="margin-top:0.75rem">
-        Retirada anual sostenible: <strong>${fmt(S.capital65*0.03)}</strong> (3%) — <strong>${fmt(S.capital65*0.04)}</strong> (4%)
-      </div>
-    </div>
-  `;
-
+    ?`${tx('fire_before')} <strong>${S.edadFIRE} ${isEs?'años':'years old'}</strong>, ${tx('fire_before2')}`
+    :`${tx('fire_after')} <strong>${S.edadFIRE} ${isEs?'años':'years old'}</strong>. ${tx('fire_after2')} <strong>${fmt(S.cap65)}</strong> ${tx('fire_after3')}`;
+  document.getElementById('fireRes').innerHTML=`<div class="fire-card"><div style="font-size:0.8rem;color:var(--sky-deep);margin-bottom:0.5rem;font-weight:600">${tx('fire_section')}</div><div style="font-size:0.9rem;color:var(--sky-deep);line-height:1.68">${fireMsg}</div><div class="fire-range">${tx('fire_withdrawal')}: <strong>${fmt(S.cap65*0.03)}</strong> (3%) &ndash; <strong>${fmt(S.cap65*0.04)}</strong> (4%) ${tx('per_year')}</div></div>`;
   renderChart();
   goTo('s_proyeccion');
 }
 
-// ============ GRÁFICO ============
+// ====== GRÁFICO ======
 let chartInst=null;
-const LINE_VISIBLE={0:true,3:true,6:true};
-
 function renderChart(){
   if(chartInst)chartInst.destroy();
-  const horizonte=Math.min(65-S.edad,40);
+  const hor=Math.min(Math.max(1,65-S.edad),40);
   const labels=[],d0=[],d3=[],d6=[];
-  for(let y=0;y<=horizonte;y++){
-    labels.push(S.edad+y+' años');
+  const isEs=S.lang==='es';
+  for(let y=0;y<=hor;y++){
+    labels.push((S.edad+y)+(isEs?' años':' yrs'));
     d0.push(Math.round(calcFV(S.ahorros,S.mensual,0,y)));
     d3.push(Math.round(calcFV(S.ahorros,S.mensual,0.03,y)));
     d6.push(Math.round(calcFV(S.ahorros,S.mensual,0.06,y)));
   }
-  const ctx=document.getElementById('proyChart').getContext('2d');
-  chartInst=new Chart(ctx,{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'Sin invertir (0%)',data:d0,borderColor:'#8fa0b0',backgroundColor:'rgba(143,160,176,0.06)',borderWidth:2,tension:0.35,pointRadius:0,hidden:!LINE_VISIBLE[0]},
-      {label:'Monetario (3%)',data:d3,borderColor:getComputedStyle(document.documentElement).getPropertyValue('--amber').trim()||'#e67e22',backgroundColor:'rgba(230,126,34,0.06)',borderWidth:2,tension:0.35,pointRadius:0,hidden:!LINE_VISIBLE[3]},
-      {label:'Fondos indexados (6%)',data:d6,borderColor:'#2e86c1',backgroundColor:'rgba(46,134,193,0.08)',borderWidth:2.5,tension:0.35,pointRadius:0,fill:true,hidden:!LINE_VISIBLE[6]}
-    ]},
-    options:{
-      responsive:true,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'#fff',borderColor:'#ddeef8',borderWidth:1.5,
-          titleColor:'#5a6a7a',bodyColor:'#1a1a2e',
-          callbacks:{label:c=>' '+c.dataset.label+': '+Math.round(c.raw).toLocaleString('es-ES')+'€'}
-        }
-      },
-      scales:{
-        x:{ticks:{color:'#8fa0b0',font:{size:10},maxRotation:0},grid:{color:'#eef5fb'}},
-        y:{ticks:{color:'#8fa0b0',font:{size:10},callback:v=>v>=1000000?(v/1000000).toFixed(1)+'M€':v>=1000?(v/1000).toFixed(0)+'k€':v+'€'},grid:{color:'#eef5fb'}}
-      }
-    }
-  });
+  const ctx=document.getElementById('chart').getContext('2d');
+  chartInst=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'0%',data:d0,borderColor:'#8096b0',backgroundColor:'rgba(128,150,176,0.05)',borderWidth:2,tension:0.35,pointRadius:0,hidden:!S.lv[0]},
+    {label:'3%',data:d3,borderColor:'#d4820a',backgroundColor:'rgba(212,130,10,0.05)',borderWidth:2,tension:0.35,pointRadius:0,hidden:!S.lv[3]},
+    {label:'6%',data:d6,borderColor:'#1e6fa3',backgroundColor:'rgba(30,111,163,0.08)',borderWidth:2.5,tension:0.35,pointRadius:0,fill:true,hidden:!S.lv[6]}
+  ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:'#d6eaf8',borderWidth:1.5,titleColor:'#4a5a72',bodyColor:'#1a2030',callbacks:{label:c=>' '+c.dataset.label+': '+Math.round(c.raw).toLocaleString('es-ES')+'€'}}},scales:{x:{ticks:{color:'#8096b0',font:{size:10},maxRotation:0},grid:{color:'#eef5fb'}},y:{ticks:{color:'#8096b0',font:{size:10},callback:v=>v>=1000000?(v/1000000).toFixed(1)+'M€':v>=1000?(v/1000).toFixed(0)+'k€':v+'€'},grid:{color:'#eef5fb'}}}}});
 }
-
 function toggleLine(rate){
-  LINE_VISIBLE[rate]=!LINE_VISIBLE[rate];
+  S.lv[rate]=!S.lv[rate];
   const btn=document.getElementById('cb'+rate);
-  if(LINE_VISIBLE[rate]){
-    if(rate===0)btn.className='chart-btn active-0';
-    else if(rate===3)btn.className='chart-btn active-3';
-    else btn.className='chart-btn active-6';
-  }else{
-    btn.className='chart-btn';
-  }
-  if(chartInst){
-    const idx=rate===0?0:rate===3?1:2;
-    chartInst.data.datasets[idx].hidden=!LINE_VISIBLE[rate];
-    chartInst.update();
-  }
+  btn.className='cbtn'+(S.lv[rate]?' a'+rate:'');
+  if(chartInst){const idx=rate===0?0:rate===3?1:2;chartInst.data.datasets[idx].hidden=!S.lv[rate];chartInst.update();}
 }
 
-// ============ RITMO ============
-function selectRitmo(el,val){
-  document.querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));
+// ====== RITMO ======
+function selectRitmoAndGo(el,val){
+  document.querySelectorAll('.ritem').forEach(r=>r.classList.remove('selected'));
   el.classList.add('selected');
   S.ritmo=val;
-  document.getElementById('btnRitmo').disabled=false;
-  const msg=document.getElementById('ritmoMsg');
-  msg.style.display='block';
-  msg.innerHTML=val==='calma'
-    ?'<div class="box-blue"><p>😌 Perfecto. Empezamos con <strong>600€</strong> para que conozcas la operativa sin presión. Cada 6 meses, si quieres, añades otros 600€. Cuando te sientas listo/a, pasamos al portfolio completo.</p></div>'
-    :'<div class="box-green"><p>📊 Genial. Diseñaremos un portfolio diversificado con la cantidad mensual que has indicado. Bienvenido/a al mundo de la inversión indexada.</p></div>';
+  setTimeout(()=>generarPlan(),320);
 }
 
-// ============ GENERAR PLAN ============
+// ====== GENERAR PLAN ======
 function generarPlan(){
-  const perfil=S.ritmo==='calma'?'mega_sencilla':'confi';
-  const fondos=PORTFOLIOS[perfil];
+  const isCalma=S.ritmo==='calma';
   const rf=getRF(S.edad);
-  const aportacion=S.ritmo==='calma'?600:S.mensual;
-  const frecuencia=S.ritmo==='calma'?'cada 6 meses':'cada mes';
+  const aportacion=isCalma?600:S.mensual;
+  const isEs=S.lang==='es';
+  document.getElementById('planTitle').innerHTML=isCalma?tx('plan_mega'):tx('plan_confi');
+  const r3=S.cap65*0.03/12,r4=S.cap65*0.04/12;
+  document.getElementById('planSummary').innerHTML=`<div class="sgrid"><div class="sc hi"><div class="sl">${tx('first_inv')}</div><div class="sv">${fmt(aportacion)}</div><div class="ss">${isCalma?tx('every6'):(tx('then_monthly')+' '+fmt(S.mensual)+'/'+tx('month'))}</div></div><div class="sc hi"><div class="sl">${tx('cap65')}</div><div class="sv">${fmt(S.cap65)}</div><div class="ss">${tx('avg6')}</div></div></div>${rf>0?`<div class="box-amber"><p>${isEs?'⚖️ Con tu edad ('+S.edad+' años), incorporamos <strong>'+rf+'% de renta fija</strong> como estabilizador de cartera.':'⚖️ At your age ('+S.edad+'), we include <strong>'+rf+'% bonds</strong> as a portfolio stabiliser.'}</p></div>`:''}${isCalma?`<div class="box-blue"><p>${tx('calma_note')}</p></div>`:''}`;
 
-  document.getElementById('planTitle').innerHTML=S.ritmo==='calma'?'Empezando <em>con calma</em>':'Tu plan <em>Confi</em>';
-
-  // SUMMARY
-  document.getElementById('planSummary').innerHTML=`
-    <div class="summary-grid">
-      <div class="summary-card highlight"><div class="s-label">Primera inversión</div><div class="s-value">${fmt(aportacion)}</div><div class="s-sub">${S.ritmo==='calma'?'Repite cada 6 meses':'Luego '+fmt(S.mensual)+'/mes'}</div></div>
-      <div class="summary-card highlight"><div class="s-label">Capital estimado a los 65</div><div class="s-value">${fmt(S.capital65)}</div><div class="s-sub">Con rentabilidad media del 6%</div></div>
-    </div>
-    ${rf>0?`<div class="box-amber"><p>⚖️ Con tu edad (${S.edad} años), recomendamos incorporar un <strong>${rf}% de renta fija</strong> en tu cartera como estabilizador. El portfolio ya lo refleja.</p></div>`:''}
-  `;
-
-  // PORTFOLIO
-  let portHTML=`<div class="section-title">Tu portfolio — ${perfil==='mega_sencilla'?'Mega sencilla':'Confi'}</div>`;
-  if(perfil==='mega_sencilla'){
-    portHTML+=`<div class="profile-note">😌 Con este fondo estás comprando un trozo de más de 1.500 empresas de todo el mundo desarrollado. Es sencillo, barato y eficaz. No tienes exposición directa a emergentes ni small caps, pero para empezar es la mejor decisión.</div>`;
-  }else{
-    portHTML+=`<div class="profile-note">📊 Portfolio diversificado en 4 fondos: USA, Europa, Emergentes y Small Cap. Máxima diversificación geográfica y por tamaño de empresa.</div>`;
-  }
-
-  const fondosAjustados=ajustarPorEdad(fondos,rf,perfil);
-  fondosAjustados.forEach(f=>{
-    portHTML+=`<div class="etf-card">
-      <div class="etf-pct" style="color:${f.color}">${f.pct}%</div>
-      <div class="etf-info">
-        <div class="etf-name">${f.name}</div>
-        <div class="etf-meta"><span class="isin">${f.isin}</span></div>
-        <div class="etf-meta" style="margin-top:4px">${f.desc||''}</div>
-        <div class="etf-bar" style="background:${f.color};width:${f.pct}%"></div>
-      </div>
-    </div>`;
+  const fondosBase=JSON.parse(JSON.stringify(isCalma?FUNDS.mega:FUNDS.confi));
+  const fondos=ajustarRF(fondosBase,rf);
+  const totalInv=isCalma?600:S.mensual*6;
+  let fHTML=`<div class="stitle">${tx('portfolio')} &mdash; ${isCalma?(isEs?'Mega Sencilla':'Simple Start'):(isEs?'Confi':'Confident')}</div><div class="box-blue"><p>${tx(isCalma?'fund_section_mega':'fund_section_confi')}</p></div>`;
+  fondos.forEach(f=>{
+    const amt=Math.round(totalInv*(f.pct/100));
+    fHTML+=`<div class="fund-card"><div class="fund-header"><div class="fund-pct" style="color:${f.color}">${f.pct}%</div><div style="flex:1"><div class="fund-name">${f.name}</div><div><span class="fund-isin">${f.isin}</span></div></div></div><div class="fund-stats"><div class="fstat"><div class="fstat-val">${f.ter}</div><div class="fstat-label">TER ${tx('annual')}</div></div><div class="fstat"><div class="fstat-val">${f.cos}</div><div class="fstat-label">${tx('companies')}</div></div><div class="fstat"><div class="fstat-val">${f.hist}</div><div class="fstat-label">${isEs?'hist. aprox.':'hist. approx.'}</div></div></div><div class="fund-bar" style="background:${f.color};width:${f.bar}%"></div><div class="fund-desc">${f.desc}</div>${!isCalma?`<div class="fund-amount"><div class="fund-amount-val">${fmt(amt)}</div><div class="fund-amount-label">${tx('every6')}</div></div>`:''}</div>`;
   });
-  document.getElementById('planPortfolio').innerHTML=portHTML;
+  document.getElementById('planFunds').innerHTML=fHTML;
 
-  // OPERATIVA
   const pasos=[
-    {e:'🔍',t:'Busca el fondo por ISIN',d:`En tu plataforma de inversión, usa el buscador e introduce el ISIN del fondo. El ISIN es el código único de 12 caracteres — búscalo siempre por ISIN para asegurarte de que es exactamente el fondo correcto.`},
-    {e:'💸',t:`Primera compra: ${fmt(aportacion)}`,d:S.ritmo==='calma'?`Empieza con 600€. Sin agobios. El objetivo es conocer la operativa: cómo se compra, cómo se ve en tu plataforma, cómo evoluciona. Eso es todo por ahora.`:`Realiza tu primera compra con el importe inicial que tengas disponible, distribuyendo según los porcentajes del portfolio.`},
-    {e:'📅',t:`Compras sistemáticas ${frecuencia}`,d:`Proponte comprar ${fmt(aportacion)} ${frecuencia}, aproximadamente el mismo importe. Sin mirar demasiado al precio — a veces estará más caro, a veces más barato. A largo plazo, ese promedio siempre ha salido ganando. La constancia es la clave.`},
-    {e:'🧘',t:'¿Qué hago cuando la bolsa cae?',d:`Nada. Absolutamente nada. Las caídas son parte del proceso — siempre han ocurrido y siempre se han recuperado. Si puedes, aprovecha para comprar más. Lo peor que puedes hacer es vender con el mercado abajo.`},
-    {e:'📅',t:'Una revisión al año',d:`Una vez al año mira si las proporciones siguen siendo correctas. Si un fondo ha crecido mucho respecto a los otros, aporta un poco más a los rezagados en tu siguiente compra. Eso es todo el "trabajo" que requiere esta estrategia.`}
+    {e:'🔍',t:tx('step1t'),d:tx('step1d')},
+    {e:'💸',t:isCalma?tx('step2t_calma'):(tx('step2t_prep')+': '+fmt(aportacion)),d:isCalma?tx('step2d_calma'):tx('step2d_prep')},
+    {e:'📅',t:tx('step3t'),d:tx('step3d')},
+    {e:'🧘',t:tx('step4t'),d:tx('step4d')},
+    {e:'📅',t:tx('step5t'),d:tx('step5d')}
   ];
+  let opsHTML=`<div class="stitle">${tx('ops_title')}</div><ul class="steps">`;
+  pasos.forEach(p=>{opsHTML+=`<li class="step"><div class="snum">${p.e}</div><div><div class="stitle2">${p.t}</div><div class="sdesc">${p.d}</div></div></li>`;});
+  opsHTML+='</ul>';
+  document.getElementById('planOps').innerHTML=opsHTML;
 
-  let stepsHTML='<div class="section-title">Cómo operar paso a paso</div><ul class="steps">';
-  pasos.forEach(p=>{stepsHTML+=`<li class="step"><div class="step-num">${p.e}</div><div><div class="step-title">${p.t}</div><div class="step-desc">${p.d}</div></div></li>`;});
-  stepsHTML+='</ul>';
-  document.getElementById('planOperativa').innerHTML=stepsHTML;
-
-  // RF INFO
-  if(rf>0){
-    document.getElementById('planRF').innerHTML=`
-      <div class="divider"></div>
-      <div class="section-title">Renta fija — tu hoja de ruta</div>
-      <div class="box-blue"><p>Con ${S.edad} años, tienes <strong>${rf}% en renta fija</strong>. A medida que pasen los años, ve aumentando este porcentaje gradualmente — unos pocos puntos cada 5 años. El objetivo es llegar a la jubilación con la volatilidad controlada sin sacrificar toda la rentabilidad.</p></div>
-    `;
-  }else{
-    document.getElementById('planRF').innerHTML=`
-      <div class="divider"></div>
-      <div class="box-blue"><p>Con tu edad, tu cartera puede ser <strong>100% renta variable</strong>. Tienes tiempo suficiente para capear cualquier volatilidad. Cuando te acerques a los 40-45 años, empieza a pensar en incorporar un pequeño porcentaje de renta fija.</p></div>
-    `;
-  }
+  document.getElementById('planRF').innerHTML=rf>0
+    ?`<div class="divider"></div><div class="stitle">${tx('rf_title')}</div><div class="box-blue"><p>${isEs?'Con '+S.edad+' años, tienes <strong>'+rf+'% de renta fija</strong>. A medida que pasen los años, ve aumentando este porcentaje gradualmente en tu revisión anual.':'At '+S.edad+' years old, you have <strong>'+rf+'% bonds</strong>. As the years go by, gradually increase this percentage in your annual review.'}</p></div>`
+    :`<div class="divider"></div><div class="box-blue"><p>${tx('rf_note_young')}</p></div>`;
 
   guardarSheet();
   goTo('s_plan');
 }
 
-// ============ AJUSTE FONDOS POR EDAD ============
-function ajustarPorEdad(fondos,rfPct,perfil){
+function ajustarRF(fondos,rfPct){
   if(rfPct===0)return fondos;
-  const base=JSON.parse(JSON.stringify(fondos));
   const rvTotal=100-rfPct;
-  const ajustados=base.map(f=>({...f,pct:Math.round(f.pct*rvTotal/100)}));
-  ajustados.push({pct:rfPct,name:'Vanguard Global Bond Index Fund EUR Acc',isin:'IE00B18GC888',color:'#8fa0b0',desc:'Bonos globales como estabilizador. Reduce la volatilidad de la cartera a medida que te acercas a la jubilación.'});
-  return ajustados;
+  const aj=fondos.map(f=>({...f,pct:Math.round(f.pct*rvTotal/100),bar:Math.round(f.pct*rvTotal/100)}));
+  aj.push({...RF_FUND,pct:rfPct,bar:rfPct});
+  return aj;
 }
 
-// ============ CALCULADORA RETIRADA ============
+// ====== CALCULADORA RETIRADA ======
 function updateW(val){
   const v=parseInt(val);
-  const rateEl=document.getElementById('wRate');
-  const rate=rateEl?parseFloat(rateEl.textContent)/100:0.04;
-  document.getElementById('wCapital').textContent=Math.round(v).toLocaleString('es-ES')+'€';
-  document.getElementById('wResult').textContent=Math.round(v*rate).toLocaleString('es-ES')+'€/año';
-  document.getElementById('wMonth').textContent=Math.round(v*rate/12).toLocaleString('es-ES')+'€ al mes · Capital sostenible indefinidamente';
+  const rEl=document.getElementById('wRate');
+  const rate=rEl?parseFloat(rEl.textContent)/100:0.04;
+  const isEs=S.lang==='es';
+  document.getElementById('wCap').textContent=Math.round(v).toLocaleString('es-ES')+'€';
+  document.getElementById('wRes').textContent=Math.round(v*rate).toLocaleString('es-ES')+'€/'+(isEs?'año':'year');
+  document.getElementById('wMon').textContent=Math.round(v*rate/12).toLocaleString('es-ES')+'€ '+(isEs?'al mes · Capital sostenible indefinidamente':'per month · Indefinitely sustainable capital');
 }
 function updateWRate(val){
   document.getElementById('wRate').textContent=val+'%';
@@ -956,58 +794,23 @@ function updateWRate(val){
   if(s)updateW(parseInt(s.value));
 }
 
-// ============ TOOLTIPS ============
-function toggleTT(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
-
-// ============ MODALES ============
-const MODAL_CONTENT={
-  m_inflacion:{title:'La inflación explicada a fondo',body:`<p>La inflación es el aumento general de precios de la economía. Cuando los precios suben, cada euro que tienes compra menos cosas que antes.</p><h4>¿Por qué es un problema para los ahorradores?</h4><p>Si tienes 10.000€ al 0% y la inflación es del 3%, al cabo de un año tu dinero vale nominalmente 10.000€ pero solo puede comprar lo equivalente a 9.700€ de hoy. En 10 años, el equivalente a 7.400€.</p><h4>¿Cómo se combate?</h4><p>Invirtiendo en activos que históricamente han superado la inflación. El MSCI World (índice de países desarrollados) ha rentado de media un 7-10% anual desde 1970, muy por encima de cualquier inflación histórica.</p>`},
-  m_compuesto:{title:'El interés compuesto a fondo',body:`<p>El interés compuesto es ganar intereses sobre los intereses. Parece simple, pero sus efectos a largo plazo son extraordinarios.</p><h4>Un ejemplo concreto</h4><p>Inviertes 1.000€ al 7% anual:<br>• Año 1: 1.070€<br>• Año 5: 1.403€<br>• Año 10: 1.967€<br>• Año 20: 3.870€<br>• Año 30: 7.612€</p><p>No has hecho nada. Solo esperar. <strong>Ese es el poder del tiempo.</strong></p><h4>¿Por qué es tan importante empezar pronto?</h4><p>Una persona que invierte 200€/mes de los 25 a los 35 años (120.000€ aportados) y luego no aporta nada, llegará a los 65 con más dinero que alguien que empieza a los 35 y aporta los 200€ hasta los 65 (72.000€ aportados). El tiempo es más valioso que el dinero.</p>`},
-  m_dca:{title:'DCA: Dollar Cost Averaging explicado',body:`<p>El DCA es una estrategia de inversión que consiste en invertir una cantidad fija de forma periódica, independientemente del precio del mercado.</p><h4>¿Por qué funciona?</h4><p>Cuando el mercado está caro, tu inversión fija compra menos participaciones. Cuando está barato, compra más. Al final, tu precio medio de compra tiende a ser más favorable que si hubieras invertido todo de golpe en un momento aleatorio.</p><h4>¿Por qué cada 6 meses y no cada mes?</h4><p>Esta app propone compras cada 6 meses para reducir la fricción y los costes de transacción. En fondos indexados, la diferencia entre mensual y semestral es mínima a largo plazo. Lo importante es la regularidad y no saltarse las compras cuando el mercado cae (precisamente cuando más interesa comprar).</p>`},
-  m_indexados:{title:'Fondos indexados vs activos: la evidencia',body:`<p>Esta no es una opinión — es uno de los hechos más documentados en finanzas.</p><h4>Los datos</h4><p>Según el informe SPIVA (S&P Indices Versus Active Funds), que compara fondos activos contra índices:<br>• <strong>A 1 año:</strong> el 64% de fondos activos pierde contra el índice<br>• <strong>A 5 años:</strong> el 78% pierde<br>• <strong>A 15 años:</strong> el 90% pierde</p><h4>¿Por qué?</h4><p>Las comisiones. Un fondo activo cobra ~1,5% anual. Un fondo indexado cobra ~0,15%. En 30 años, esa diferencia del 1,35% anual se come una parte enorme del capital final.</p><h4>¿Nadie puede batir al mercado?</h4><p>Algunos gestores sí baten al mercado. El problema es que es imposible saber de antemano cuáles serán, y los que lo han hecho en el pasado no necesariamente lo harán en el futuro. La estrategia indexada elimina ese riesgo.</p>`},
-  m_tiempo:{title:'El tiempo como escudo: datos históricos',body:`<p>La bolsa es impredecible a corto plazo. A largo plazo, su comportamiento ha sido notablemente consistente.</p><h4>MSCI World (1970-2024)</h4><p>• Cualquier período de <strong>1 año</strong>: 30% probabilidad de pérdida<br>• Cualquier período de <strong>5 años</strong>: 10% probabilidad de pérdida<br>• Cualquier período de <strong>10 años</strong>: 3% probabilidad de pérdida<br>• Cualquier período de <strong>15+ años</strong>: prácticamente 0%</p><h4>¿Qué significa esto en la práctica?</h4><p>Si tu horizonte de inversión es largo (más de 10 años), la probabilidad histórica de perder dinero es casi nula. El tiempo es el principal factor de riesgo — no el mercado en sí.</p>`},
-  m_caidas:{title:'Las grandes caídas: qué pasó y cómo se recuperó',body:`<p>La historia bursátil está llena de caídas dramáticas. Y de recuperaciones igualmente dramáticas.</p><h4>Dot-com 2000-2002</h4><p>Caída: -49% · Duración: 2,5 años · Recuperación sin DCA: ~7 años · Con DCA: ~4 años<br>Causa: burbuja de empresas tecnológicas sin beneficios reales.</p><h4>Crisis financiera 2008-2009</h4><p>Caída: -54% · Duración: 1,5 años · Recuperación sin DCA: ~6 años · Con DCA: ~3,5 años<br>Causa: crisis de hipotecas subprime y colapso del sistema bancario.</p><h4>COVID-19 2020</h4><p>Caída: -34% · Duración: 1 mes · Recuperación sin DCA: ~6 meses · Con DCA: ~4 meses<br>Causa: pánico global por la pandemia.</p><h4>¿Por qué el DCA acelera la recuperación?</h4><p>Porque durante la caída sigues comprando — a precios mucho más bajos. Cuando el mercado se recupera, esas participaciones compradas baratas se revalorizan más que las anteriores, acelerando tu vuelta al punto de inicio.</p>`},
-  m_fire:{title:'FIRE: Independencia Financiera explicada',body:`<p>FIRE son las siglas de <strong>Financial Independence, Retire Early</strong>. No significa necesariamente dejar de trabajar — significa llegar a un punto donde trabajas porque quieres, no porque tienes que hacerlo.</p><h4>¿Cómo funciona?</h4><p>Si acumulas suficiente capital invertido en activos que generan rentabilidad, puedes vivir de esa rentabilidad sin tocar el capital. La clave es la <strong>regla del 4%</strong>: históricamente, retirar el 4% anual de una cartera diversificada ha sido sostenible indefinidamente.</p><h4>Tu número FIRE</h4><p>Gasto mensual × 12 ÷ 0,04 = Capital necesario<br>Ejemplo: 2.000€/mes × 12 = 24.000€/año ÷ 0,04 = <strong>600.000€</strong></p><h4>¿Es realista?</h4><p>Para mucha gente, sí. Depende de cuánto ahorras, cuánto tiempo tienes y cuánto necesitas para vivir. Esta app te calcula cuándo podrías alcanzarlo con tus datos reales.</p>`},
-  m_rf:{title:'Renta fija: cómo y cuándo incorporarla',body:`<p>La renta fija son inversiones en deuda — principalmente bonos de gobiernos y empresas. Cuando compras un bono, le prestas dinero al emisor a cambio de un interés fijo.</p><h4>¿Por qué incluirla?</h4><p>Los bonos suelen moverse de forma diferente a las acciones. Cuando la bolsa cae, los bonos a menudo suben (o caen menos). Esto reduce la volatilidad de tu cartera.</p><h4>¿Cuándo incorporarla?</h4><p>Esta app usa una regla suave y progresiva:<br>• Menos de 40 años: 100% renta variable<br>• 40-50 años: ~10% renta fija<br>• 50-60 años: ~25% renta fija<br>• Más de 60 años: ~40% renta fija</p><h4>¿Cómo incorporarla?</h4><p>No de golpe. Gradualmente, año a año, vas aumentando el porcentaje de tu cartera en fondos de bonos y reduciendo el de renta variable. Tu portfolio final en la jubilación será más estable, aunque con algo menos de rentabilidad potencial.</p>`},
-  m_isin:{title:'El ISIN: cómo encontrar exactamente el fondo que buscas',body:`<p>El ISIN (International Securities Identification Number) es un código alfanumérico de 12 caracteres que identifica de forma única un valor financiero en todo el mundo.</p><h4>¿Por qué usarlo?</h4><p>Los nombres de los fondos pueden ser confusos — hay varios fondos con nombres similares de la misma gestora. El ISIN no tiene ambigüedad: introduce el ISIN en el buscador de tu plataforma y aparece exactamente ese fondo y ningún otro.</p><h4>Ejemplo práctico</h4><p><strong>IE00B03HD191</strong> → Vanguard Global Stock Index Fund EUR Acc<br><strong>IE0031786142</strong> → Vanguard Emerging Markets Stock Index Fund EUR Acc</p><h4>¿Dónde buscar?</h4><p>En el buscador de tu plataforma de inversión. Normalmente hay un campo de búsqueda donde puedes introducir el ISIN directamente. Si tu plataforma no lo encuentra, puede ser que ese fondo no esté disponible en ella.</p>`}
-};
-
+// ====== MODALES ======
 function openModal(id){
-  const content=MODAL_CONTENT[id];
-  if(!content)return;
-  document.getElementById('modalBody').innerHTML=`<div class="modal-title">${content.title}</div><div class="modal-body">${content.body}</div>`;
+  const m=MODALS[id];
+  if(!m)return;
+  const content=m[S.lang]||m.es;
+  document.getElementById('modalBody').innerHTML=`<div class="mc-title">${content.title}</div><div class="mc-body">${content.body}</div>`;
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+function closeModalOut(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
 
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-function closeModalOutside(e){
-  if(e.target===document.getElementById('modalOverlay'))closeModal();
-}
-
-// ============ GOOGLE SHEETS ============
-const SHEET_URL='TU_GOOGLE_APPS_SCRIPT_URL_AQUI';
-
+// ====== GOOGLE SHEETS ======
+const SHEET_URL='https://script.google.com/macros/s/AKfycbxXsJX3yWA05c1f4GV-lmT1ILV0QqcAy99fJqRFaRs28WwSJr3z91-m0Ib1N64zL01s/exec';
 function guardarSheet(){
-  if(SHEET_URL==='TU_GOOGLE_APPS_SCRIPT_URL_AQUI')return;
-  const msg=document.getElementById('msgAlex');
-  const data={
-    fecha:new Date().toISOString(),
-    mensaje_a_alex:msg?msg.value:'',
-    formacion_inicial:S.quiereFormacion?'Sí':'No',
-    edad:S.edad||'',
-    ahorros_actuales:S.ahorros||'',
-    ahorro_mensual:S.mensual||'',
-    gasto_mensual_jubilacion:S.gasto||'',
-    ritmo:S.ritmo||'',
-    capital_65:Math.round(S.capital65)||'',
-    numero_fire:Math.round(S.capitalFIRE)||'',
-    edad_fire:S.edadFIRE||''
-  };
+  if(SHEET_URL==='https://script.google.com/macros/s/AKfycbxXsJX3yWA05c1f4GV-lmT1ILV0QqcAy99fJqRFaRs28WwSJr3z91-m0Ib1N64zL01s/exec')return;
+  const data={fecha:new Date().toISOString(),idioma:S.lang,formacion:S.quiereFormacion?'Sí':'No',edad:S.edad||'',ahorros:S.ahorros||'',mensual:S.mensual||'',gasto:S.gasto||'',ritmo:S.ritmo||'',capital_65:Math.round(S.cap65)||'',numero_fire:Math.round(S.capFIRE)||'',edad_fire:S.edadFIRE||''};
   fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(()=>{});
 }
 </script>
