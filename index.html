@@ -86,7 +86,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 #s0{padding:2px 0}
 .s0-eyebrow-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem}
 .s0-headlines{margin-bottom:.5rem}
-.s0-headline{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:var(--text);line-height:1.15;margin-bottom:.3rem}
+.s0-headline{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:var(--text);line-height:1.15;margin-bottom:.3rem;white-space:nowrap}
 .s0-headline em{color:var(--sky-dark);font-style:italic}
 .s0-subline{font-size:.78rem;color:var(--text-sec);line-height:1.5;margin-bottom:.6rem}
 .principles{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.6rem}
@@ -109,14 +109,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
 /* ====== SCREEN 2: EDU CARDS ====== */
 #s_edu{padding:4px 0}
-.edu-slider-wrap{flex:1;overflow:hidden;position:relative;margin:0 -1rem}
-.edu-track{display:flex;height:100%;transition:transform .32s cubic-bezier(.4,0,.2,1)}
-.edu-card{min-width:100%;height:100%;padding:14px 1rem;display:flex;flex-direction:column}
-.edu-card-inner{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);padding:14px 16px;flex:1;display:flex;flex-direction:column;overflow:hidden}
+.edu-slider-wrap{overflow:hidden;position:relative;margin:0 -1rem}
+.edu-track{display:flex;transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.edu-card{min-width:100%;padding:14px 1rem;display:flex;flex-direction:column}
+.edu-card-inner{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);padding:14px 16px;display:flex;flex-direction:column}
 .edu-card-icon{font-size:1.6rem;margin-bottom:.4rem}
 .edu-card-title{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.4rem;line-height:1.2}
 .edu-card-body{font-size:.76rem;color:var(--text-sec);line-height:1.55;margin-bottom:.6rem}
-.edu-card-visual{margin-top:auto}
+.edu-card-visual{margin-top:.75rem}
 .edu-nav{display:flex;align-items:center;gap:8px;padding:.5rem 0;flex-shrink:0}
 .edu-nav-btn{width:32px;height:32px;border-radius:50%;background:var(--white);border:1.5px solid var(--border);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0;box-shadow:var(--sh)}
 .edu-nav-btn:hover{border-color:var(--sky);color:var(--sky-dark);background:var(--sky-light)}
@@ -188,7 +188,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
 /* ====== SCREEN 4: PROYECCION ====== */
 #s_proyeccion{padding:4px 0}
-.proj-results{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.proj-results{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.5rem}
 .proj-result{background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);padding:10px 12px;text-align:center}
 .proj-result-val{font-family:var(--fd);font-size:1.2rem;font-weight:800;color:var(--sky-dark)}
 .proj-result-lbl{font-size:.62rem;color:var(--text-sec);margin-top:2px;line-height:1.3}
@@ -221,7 +221,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
 /* ====== SCREEN 6: PLAN ====== */
 #s_plan{padding:4px 0}
-.plan-header{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.plan-header{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.plan-banner{background:linear-gradient(135deg,var(--amber-light),#fffdf5);border:1.5px solid var(--amber-mid);border-radius:var(--rs);padding:8px 12px;font-size:.7rem;color:#8a5a00;line-height:1.5;margin-bottom:.5rem;display:flex;gap:8px;align-items:flex-start}
+.plan-banner-icon{flex-shrink:0;font-size:.95rem}
 .plan-stat{background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);padding:9px 12px;text-align:center}
 .plan-stat-val{font-family:var(--fd);font-size:1.1rem;font-weight:800;color:var(--sky-dark)}
 .plan-stat-lbl{font-size:.6rem;color:var(--text-sec);margin-top:1px;line-height:1.3}
@@ -234,6 +236,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 .fund-meta{display:flex;gap:.4rem;flex-wrap:wrap}
 .fund-badge{font-size:.58rem;color:var(--text-sec);background:var(--cream);border-radius:4px;padding:1px 5px;border:1px solid var(--border)}
 .fund-isin{font-family:monospace;font-size:.58rem;color:var(--text-dim)}
+.funds-table-wrap{background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);overflow:hidden;margin-bottom:.6rem}
+.funds-table{width:100%;border-collapse:collapse;font-size:.67rem}
+.funds-table thead tr{background:var(--bg)}
+.funds-table th{text-align:left;color:var(--text-dim);font-weight:700;padding:5px 8px;border-bottom:1.5px solid var(--border);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.funds-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.3}
+.funds-table tbody tr:last-child td{border-bottom:none}
+.funds-table .col-name{font-weight:700;color:var(--text);min-width:120px}
+.funds-table .col-isin{font-family:monospace;font-size:.6rem;color:var(--text-dim);white-space:nowrap}
+.funds-table .col-ter{white-space:nowrap;color:var(--text-sec)}
+.funds-table .col-meta{color:var(--text-dim);font-size:.63rem}
+.funds-table .col-pct{text-align:center;font-weight:700;color:var(--sky-dark);white-space:nowrap}
+.funds-table .col-amount{text-align:right;font-weight:800;color:var(--sky-dark);white-space:nowrap;font-family:var(--fd)}
+.funds-table .row-fixed .col-pct,.funds-table .row-fixed .col-amount{color:var(--amber)}
 .steps-list{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-bottom:.55rem}
 .step-item{display:flex;align-items:flex-start;gap:8px;font-size:.72rem;color:var(--text-sec);line-height:1.4}
 .step-num{width:18px;height:18px;border-radius:50%;background:var(--sky-dark);color:#fff;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
@@ -271,7 +286,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 .modal-box{background:var(--white);border-radius:var(--r);box-shadow:var(--shl);max-width:500px;width:100%;max-height:80vh;overflow-y:auto;padding:20px 22px;position:relative;animation:fadeUp .25s ease}
 .modal-title{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.6rem;padding-right:28px}
 .modal-body{font-size:.78rem;color:var(--text-sec);line-height:1.65}
-.modal-body p{margin-bottom:.6rem}
+.modal-body p{margin-bottom:.9rem}
+.avz-card-body p{margin-bottom:.7rem}
+.avz-card-body p:last-child{margin-bottom:0}
+.modal-body p:last-child{margin-bottom:0}
 .modal-body strong{color:var(--text)}
 .modal-close{position:absolute;top:14px;right:14px;background:var(--cream);border:1.5px solid var(--border);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
 .modal-close:hover{background:var(--sky-light);border-color:var(--sky)}
@@ -333,7 +351,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
         <span class="eyebrow">Guía de inversión indexada</span>
       </div>
       <div class="s0-headlines">
-        <h1 class="s0-headline">Haz que tu dinero<br><em>trabaje por ti</em></h1>
+        <h1 class="s0-headline">Haz que tu dinero <em>trabaje por ti</em></h1>
         <p class="s0-subline">Esta es una guía para empezar a ahorrar y hacer crecer tu dinero. Está pensada para usarse junto a modelos de IA como ChatGPT o Claude, que pueden ayudarte a resolver dudas y aprender más a medida que avanzas.</p>
       </div>
       <div class="principles">
@@ -381,7 +399,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
         </div>
       </div>
       <div class="privacy-note">
-        Esta plataforma recoge datos anónimos con fines estadísticos para conocer cómo se usa y mejorarla. No se pide nombre ni email y, si lo prefieres, siempre puedes usar datos inventados.
+        Esta guía registra datos de uso anónimos (qué pantallas se visitan, qué opciones se eligen). Ningún dato financiero o personal sale de tu dispositivo.
       </div>
       <button class="btn-primary" onclick="goTo('s_edu_choice')">Empieza aquí →</button>
       <div class="s0-footer">Una app de Astro Cosas · v3.0</div>
@@ -597,7 +615,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
                   <div class="seq-block">Ahorrar</div>
                   <div class="seq-block">Invertir</div>
                   <div class="seq-block">Mantener</div>
-                  <div class="seq-block" style="opacity:1">Tiempo ⏳</div>
+                  <div class="seq-block" style="opacity:1">Tiempo</div>
                 </div>
               </div>
             </div>
@@ -630,7 +648,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
         <button class="edu-more-btn" id="edu-more" onclick="openEduModal()">💡 Saber más</button>
         <button class="edu-nav-btn" id="edu-next" onclick="eduNav(1)">→</button>
       </div>
-      <button class="btn-primary edu-end-btn" id="edu-end-btn" onclick="goTo('s_datos')">Esto ya lo sé, vamos al siguiente apartado →</button>
+      <button class="btn-primary edu-end-btn" id="edu-end-btn" onclick="goTo('s_datos')">Entendido, vamos al siguiente apartado →</button>
     </div>
 
     <!-- ====== S_DATOS: TUS DATOS ====== -->
@@ -663,16 +681,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
     <div class="screen" id="s_proyeccion">
       <div class="eyebrow">Tu proyección</div>
       <h1 class="headline" style="margin-bottom:.35rem">Así podría crecer tu dinero</h1>
-      <div class="proj-results">
-        <div class="proj-result">
-          <div class="proj-result-val" id="proj-val-65">—</div>
-          <div class="proj-result-lbl">Dinero estimado a los 65<br>(6% anual)</div>
-        </div>
-        <div class="proj-result">
-          <div class="proj-result-val" id="proj-val-fire">—</div>
-          <div class="proj-result-lbl">Objetivo de independencia financiera<br>(gasto × 12 ÷ 3%)</div>
-        </div>
-      </div>
+      <div class="proj-results" id="proj-results"></div>
       <div class="chart-toggles">
         <button class="toggle-btn t0" data-active="true" onclick="toggleLine(0)">0% (sin invertir)</button>
         <button class="toggle-btn t3" data-active="true" onclick="toggleLine(3)">3% (monetario)</button>
@@ -682,19 +691,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
         <canvas id="proj-chart"></canvas>
       </div>
       <div class="fire-section">
-        <div class="fire-title">🔥 <span class="kw" data-tip="fire">FIRE</span> — Independencia financiera</div>
+        <div class="fire-title">Independencia financiera</div>
         <div class="fire-grid">
           <div class="fire-item">
+            <div class="fire-val" id="fire-target">—</div>
+            <div class="fire-lbl">Capital necesario para la independencia</div>
+          </div>
+          <div class="fire-item">
             <div class="fire-val" id="fire-age">—</div>
-            <div class="fire-lbl">Edad estimada para alcanzar el objetivo</div>
+            <div class="fire-lbl">Edad estimada para alcanzarlo</div>
           </div>
           <div class="fire-item">
             <div class="fire-val" id="fire-wd3">—</div>
             <div class="fire-lbl">Retirada mensual sostenible al 3%</div>
-          </div>
-          <div class="fire-item">
-            <div class="fire-val" id="fire-wd4">—</div>
-            <div class="fire-lbl">Retirada mensual sostenible al 4%</div>
           </div>
         </div>
       </div>
@@ -732,18 +741,26 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="plan-stat-lbl">Inversión recurrente<br>cada 6 meses</div>
         </div>
         <div class="plan-stat">
-          <div class="plan-stat-val" id="plan-val65">—</div>
-          <div class="plan-stat-lbl">Dinero estimado<br>a los 65 (6% anual)</div>
+          <div class="plan-stat-val" id="plan-val5">—</div>
+          <div class="plan-stat-lbl" id="plan-lbl5">En 5 años<br><span style="font-size:.58rem;color:var(--text-dim)">indexado 6%</span></div>
         </div>
+        <div class="plan-stat">
+          <div class="plan-stat-val" id="plan-val10">—</div>
+          <div class="plan-stat-lbl" id="plan-lbl10">En 10 años<br><span style="font-size:.58rem;color:var(--text-dim)">indexado 6%</span></div>
+        </div>
+      </div>
+      <div class="plan-banner">
+        <span class="plan-banner-icon">💡</span>
+        <span>Cuando te sientas cómodo, considera aumentar la cantidad aportada o dar el salto al <a href="#" onclick="event.preventDefault();choosePlan('confi')" style="color:#8a5a00;font-weight:700;text-decoration:underline;cursor:pointer">Plan Confi</a>. Pequeños incrementos tienen un efecto grande a largo plazo gracias al interés compuesto.</span>
       </div>
       <div class="plan-section-title">Fondos recomendados</div>
       <div class="funds-list" id="funds-list"></div>
       <div class="plan-section-title">Pasos a seguir</div>
       <ol class="steps-list">
-        <li class="step-item"><span class="step-num">1</span>Abre cuenta en un broker con comisiones bajas. <strong>MyInvestor</strong> es una buena opción en España.</li>
-        <li class="step-item"><span class="step-num">2</span>Busca el fondo por su <span class="kw" data-tip="isin">ISIN</span> en el buscador del broker.</li>
-        <li class="step-item"><span class="step-num">3</span>Realiza la compra recurrente según el importe indicado <span id="plan-freq-text">cada 6 meses</span>.</li>
-        <li class="step-item"><span class="step-num">4</span>Repite. Sin cambios. Sin buscar el mejor momento.</li>
+        <li class="step-item"><span class="step-num">1</span><span>Abre cuenta en MyInvestor u otro broker con comisiones bajas.</span></li>
+        <li class="step-item"><span class="step-num">2</span><span>Busca el fondo por su <span class="kw" data-tip="isin">ISIN</span> en el buscador del broker.</span></li>
+        <li class="step-item"><span class="step-num">3</span><span id="plan-freq-text">Compra cada 6 meses el importe indicado arriba.</span></li>
+        <li class="step-item"><span class="step-num">4</span><span>Repite. Sin cambios. Sin buscar el mejor momento.</span></li>
       </ol>
       <div class="plan-actions">
         <button class="btn-primary" onclick="goTo('s_avanzado')">Guía avanzada →</button>
@@ -1064,11 +1081,11 @@ function parseVal(id) {
 }
 
 function checkForm() {
-  const a = parseVal('inp-edad');
-  const b = parseVal('inp-ahorros');
+  const edadInput = document.getElementById('inp-edad').value.trim();
+  const ahorrosInput = document.getElementById('inp-ahorros').value.trim();
   const c = parseVal('inp-mensual');
   const d = parseVal('inp-gasto');
-  document.getElementById('btn-proyeccion').disabled = !(a && b > 0 && c > 0 && d > 0);
+  document.getElementById('btn-proyeccion').disabled = !(edadInput !== '' && ahorrosInput !== '' && c > 0 && d > 0);
 }
 
 function goToProyeccion() {
@@ -1093,13 +1110,15 @@ function calcFV(pv, pmt, r, years) {
 }
 
 function fmtEur(n) {
-  if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + 'M€';
-  if (n >= 1000) return Math.round(n / 1000) + 'K€';
-  return Math.round(n) + '€';
+  if (!n || n <= 0) return '0€';
+  const mag = Math.floor(Math.log10(Math.abs(n)));
+  const factor = Math.pow(10, Math.max(0, mag - 2));
+  const rounded = Math.round(n / factor) * factor;
+  return rounded.toLocaleString('es-ES') + '€';
 }
 
 function fmtEurFull(n) {
-  return Math.round(n).toLocaleString('es-ES') + '€';
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '€';
 }
 
 function calcFireAge() {
@@ -1125,9 +1144,16 @@ function initChart() {
   const fireAge = calcFireAge();
   const fireVal = fireAge ? calcFV(state.savings, state.monthly, 0.06, fireAge - age) : null;
 
-  document.getElementById('proj-val-65').textContent = fmtEur(d6[years]);
-  document.getElementById('proj-val-fire').textContent = fmtEur(target3);
+  const milestones = [50, 55, 60, 65].filter(a => a > state.age);
+  const resultsEl = document.getElementById('proj-results');
+  resultsEl.innerHTML = milestones.map(a => {
+    const y = a - state.age;
+    const val = calcFV(state.savings, state.monthly, 0.06, y);
+    return '<div class="proj-result"><div class="proj-result-val">' + fmtEur(val) + '</div>' +
+           '<div class="proj-result-lbl">A los ' + a + ' años<br><span style="font-size:.58rem;color:var(--text-dim)">indexado 6%</span></div></div>';
+  }).join('');
 
+  document.getElementById('fire-target').textContent = fmtEur(target3);
   const fireAgeEl = document.getElementById('fire-age');
   if (fireAge && fireAge <= 65) {
     fireAgeEl.textContent = fireAge + ' años';
@@ -1135,7 +1161,6 @@ function initChart() {
     fireAgeEl.textContent = '+65';
   }
   document.getElementById('fire-wd3').textContent = fmtEur(target3 * 0.03 / 12) + '/mes';
-  document.getElementById('fire-wd4').textContent = fmtEur(target3 * 0.04 / 12) + '/mes';
 
   const wrap = document.getElementById('chart-wrap');
   const h = Math.max(160, Math.min(220, wrap.clientHeight - 20));
@@ -1155,11 +1180,24 @@ function initChart() {
     },
     options: {
       responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: 'rgba(13,74,115,.92)',
+          titleColor: '#a8d4ee',
+          bodyColor: '#fff',
+          padding: 10,
+          titleFont: { size: 11 },
+          bodyFont: { size: 12, weight: '600' },
           callbacks: {
-            label: ctx => ctx.dataset.label + ': ' + fmtEurFull(ctx.parsed.y)
+            title: items => 'Edad: ' + items[0].label,
+            label: ctx => {
+              if (ctx.dataset.hidden) return null;
+              return '  ' + ctx.dataset.label + ': ' + fmtEurFull(ctx.parsed.y);
+            }
           }
         }
       },
@@ -1208,35 +1246,71 @@ function renderPlan() {
   const equityRatio = 1 - fixedRatio;
 
   document.getElementById('plan-eyebrow').textContent = isSimple ? 'Plan Mega Sencillo' : 'Plan Confi';
-  document.getElementById('plan-headline').textContent = isSimple ? 'Tu plan: simple y efectivo' : 'Tu plan diversificado';
+  document.getElementById('plan-headline').textContent = isSimple ? 'Tu plan para empezar' : 'Tu plan diversificado';
+  document.querySelector('.plan-banner').style.display = isSimple ? '' : 'none';
+  const pmt = invest / 6;
   document.getElementById('plan-inversion').textContent = fmtEurFull(invest);
-  document.getElementById('plan-val65').textContent = fmtEur(val65);
+  if (isSimple) {
+    document.getElementById('plan-val5').textContent = fmtEur(calcFV(state.savings, pmt, 0.06, 5));
+    document.getElementById('plan-lbl5').innerHTML = 'En 5 años<br><span style="font-size:.58rem;color:var(--text-dim)">indexado 6%</span>';
+    document.getElementById('plan-val10').textContent = fmtEur(calcFV(state.savings, pmt, 0.06, 10));
+    document.getElementById('plan-lbl10').innerHTML = 'En 10 años<br><span style="font-size:.58rem;color:var(--text-dim)">indexado 6%</span>';
+  } else {
+    const years65 = 65 - state.age;
+    document.getElementById('plan-val5').textContent = fmtEur(calcFV(state.savings, state.monthly, 0.06, years65));
+    document.getElementById('plan-lbl5').innerHTML = 'A los 65 años<br><span style="font-size:.58rem;color:var(--text-dim)">indexado 6%</span>';
+    const fireAge = calcFireAge();
+    document.getElementById('plan-val10').textContent = fireAge ? fireAge + ' años' : '+65 años';
+    document.getElementById('plan-lbl10').innerHTML = 'Independencia<br><span style="font-size:.58rem;color:var(--text-dim)">financiera estimada</span>';
+  }
 
   const fundsHtml = buildFundsHtml(isSimple, invest, equityRatio, fixedRatio);
   document.getElementById('funds-list').innerHTML = fundsHtml;
 
-  document.getElementById('plan-freq-text').textContent = 'cada 6 meses';
 }
 
 function buildFundsHtml(isSimple, invest, equityRatio, fixedRatio) {
-  let html = '';
   if (isSimple) {
     const amt = invest * equityRatio;
-    html += fundRowHtml('Fidelity MSCI World Index P Acc', 'IE00BYX5NX33', '0,12%', '~1.500 empresas', '~8%', amt);
+    const simpleFunds = [
+      { name: 'Fidelity MSCI World Index P Acc', isin: 'IE00BYX5NX33', ter: '0,12%', meta: '~1.500 emp. · mercados desarrollados', pct: 100, amount: amt, fixed: false },
+    ];
     if (fixedRatio > 0) {
-      html += fundRowHtml('Vanguard Global Bond Index EUR Acc', 'IE00B18GC888', '0,10%', 'Renta fija global', '—', invest * fixedRatio, true);
+      simpleFunds.push({ name: 'Vanguard Global Bond Index EUR Acc', isin: 'IE00B18GC888', ter: '0,10%', meta: 'Bonos globales · renta fija', pct: Math.round(fixedRatio * 100), amount: invest * fixedRatio, fixed: true });
     }
-  } else {
-    const eq = invest * equityRatio;
-    html += fundRowHtml('Vanguard U.S. 500 Stock Index EUR Acc', 'IE0032620787', '0,10%', '500 empresas · ~10%', '50%', eq * 0.50);
-    html += fundRowHtml('Vanguard European Stock Index EUR Acc', 'IE0007987690', '0,12%', '~450 empresas · ~6%', '20%', eq * 0.20);
-    html += fundRowHtml('Vanguard Emerging Markets Index EUR Acc', 'IE0031786696', '0,23%', '~1.400 empresas · ~7%', '20%', eq * 0.20);
-    html += fundRowHtml('Vanguard Global Small-Cap Index EUR Acc', 'IE00B42W3S00', '0,29%', '~4.000 empresas · ~8,5%', '10%', eq * 0.10);
-    if (fixedRatio > 0) {
-      html += fundRowHtml('Vanguard Global Bond Index EUR Acc', 'IE00B18GC888', '0,10%', 'Renta fija global', Math.round(fixedRatio * 100) + '%', invest * fixedRatio, true);
-    }
+    return fundsTableHtml(simpleFunds);
   }
-  return html;
+
+  const eq = invest * equityRatio;
+  const funds = [
+    { name: 'Vanguard Global Stock Index EUR Acc', isin: 'IE00B03HD191', ter: '0,18%', meta: '~1.500 emp. · mercados desarrollados', pct: 50, amount: eq * 0.50, fixed: false },
+    { name: 'Vanguard European Stock Index EUR Acc', isin: 'IE0007987690', ter: '0,12%', meta: '~450 emp. · Europa', pct: 20, amount: eq * 0.20, fixed: false },
+    { name: 'Vanguard Emerging Markets Index EUR Acc', isin: 'IE0031786696', ter: '0,23%', meta: '~1.400 emp. · emergentes', pct: 20, amount: eq * 0.20, fixed: false },
+    { name: 'Vanguard Global Small-Cap Index EUR Acc', isin: 'IE00B42W3S00', ter: '0,29%', meta: '~4.000 emp. · pequeña capitalización', pct: 10, amount: eq * 0.10, fixed: false },
+  ];
+  if (fixedRatio > 0) {
+    funds.push({ name: 'Vanguard Global Bond Index EUR Acc', isin: 'IE00B18GC888', ter: '0,10%', meta: 'Bonos globales · renta fija', pct: Math.round(fixedRatio * 100), amount: invest * fixedRatio, fixed: true });
+  }
+
+  return fundsTableHtml(funds);
+}
+
+function fundsTableHtml(funds) {
+  return '<div class="funds-table-wrap">' +
+    '<table class="funds-table"><thead><tr>' +
+    '<th>Fondo</th><th><span class="kw" data-tip="isin">ISIN</span></th><th><span class="kw" data-tip="ter">TER</span></th><th>Cobertura</th><th>Peso</th><th>Aportación c/6m</th>' +
+    '</tr></thead><tbody>' +
+    funds.map(f =>
+      '<tr class="' + (f.fixed ? 'row-fixed' : '') + '">' +
+      '<td class="col-name">' + f.name + '</td>' +
+      '<td class="col-isin">' + f.isin + '</td>' +
+      '<td class="col-ter">' + f.ter + '</td>' +
+      '<td class="col-meta">' + f.meta + '</td>' +
+      '<td class="col-pct">' + f.pct + '%</td>' +
+      '<td class="col-amount">' + fmtEurFull(Math.round(f.amount)) + '</td>' +
+      '</tr>'
+    ).join('') +
+    '</tbody></table></div>';
 }
 
 function fundRowHtml(name, isin, ter, meta, pct, amount, isFixed) {
