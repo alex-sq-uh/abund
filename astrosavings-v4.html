@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstroSavings — Haz que tu dinero trabaje por ti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="aac3e707-6de1-464b-bc04-969301677ef6"></script>
+<style>
+/* ====== RESET & TOKENS ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-size:14px}
+@media(min-width:700px){html,body{font-size:16px}.topbar,.milestones,.screens{max-width:820px}}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030}
+:root{
+  --sky:#4a9fd4;--sky-light:#e6f3fb;--sky-mid:#a8d4ee;--sky-dark:#1e6fa3;--sky-deep:#0d4a73;
+  --white:#fff;--cream:#f4f8ff;--border:#d0e8f5;
+  --text:#1a2030;--text-sec:#4a5a72;--text-dim:#8096b0;
+  --green:#1a9e5c;--green-light:#e6f9f0;--green-mid:#7dd4a8;
+  --amber:#d4820a;--amber-mid:#f5dba0;--amber-light:#fff8ee;
+  --red:#c0392b;--red-light:#fdecea;
+  --r:14px;--rs:10px;--rxs:6px;
+  --sh:0 2px 10px rgba(30,111,163,.07);--shm:0 4px 20px rgba(30,111,163,.12);
+  --shl:0 8px 36px rgba(30,111,163,.16);
+  --fd:'Fraunces',serif;--fb:'Plus Jakarta Sans',sans-serif;
+  --tr:.18s cubic-bezier(.4,0,.2,1)
+}
+
+/* ====== LAYOUT ====== */
+#app{height:100vh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(155deg,#e8f4ff 0%,#eef5fb 60%,#e8f2f8 100%);overflow:hidden}
+#app::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sky),var(--sky-dark),var(--sky));z-index:300}
+.screens{flex:1;width:100%;max-width:680px;overflow:hidden;position:relative;padding:0 1rem}
+
+/* ====== TOPBAR ====== */
+.topbar{width:100%;max-width:680px;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem .4rem;flex-shrink:0}
+.logo{font-family:var(--fd);font-size:1.45rem;font-weight:800;color:var(--sky-dark);letter-spacing:-.03em;font-style:italic;cursor:pointer;user-select:none}
+.logo span{color:var(--sky)}
+.topbar-right{display:flex;align-items:center;gap:6px}
+.back-btn,.lang-btn{background:var(--white);border:1.5px solid var(--border);color:var(--text-sec);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:50px;cursor:pointer;transition:var(--tr);box-shadow:var(--sh)}
+.back-btn:hover,.lang-btn:hover{border-color:var(--sky);color:var(--sky-dark);background:var(--sky-light)}
+.back-btn.hidden{visibility:hidden;pointer-events:none}
+
+/* ====== MILESTONES ====== */
+.milestones{width:100%;max-width:680px;padding:0 1rem .5rem;display:flex;align-items:flex-start;flex-shrink:0}
+.ms-wrap{display:flex;align-items:flex-start;flex:1;position:relative}
+.ms{display:flex;flex-direction:column;align-items:center;flex:1}
+.ms-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--text-dim);transition:var(--tr);flex-shrink:0}
+.ms-label{font-size:.52rem;color:var(--text-dim);text-align:center;margin-top:3px;font-weight:500;line-height:1.3;max-width:54px;transition:var(--tr)}
+.ms-line{flex:1;height:2px;background:var(--border);margin-top:11px;transition:var(--tr);min-width:4px}
+.ms.done .ms-dot{background:var(--sky-mid);border-color:var(--sky);color:var(--sky-dark)}
+.ms.active .ms-dot{background:var(--sky-dark);border-color:var(--sky-dark);color:#fff;box-shadow:0 0 0 3px rgba(74,159,212,.22)}
+.ms.active .ms-label{color:var(--sky-dark);font-weight:700}
+.ms.done .ms-label{color:var(--sky)}
+.ms-line.done{background:var(--sky-mid)}
+
+/* ====== SCREENS ====== */
+.screen{display:none;position:absolute;inset:0;overflow:hidden;animation:fadeUp .3s ease forwards}
+.screen.active{display:flex;flex-direction:column}
+.screen.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:1rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ====== COMMON ====== */
+.eyebrow{font-size:.65rem;font-weight:700;color:var(--sky);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem}
+.headline{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:.4rem}
+.headline em{color:var(--sky-dark);font-style:italic}
+.subline{font-size:.8rem;color:var(--text-sec);line-height:1.5;margin-bottom:.75rem}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--sky-dark);color:#fff;font-family:var(--fb);font-size:.82rem;font-weight:700;padding:10px 22px;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);box-shadow:0 3px 12px rgba(30,111,163,.3);white-space:nowrap;text-decoration:none}
+.btn-primary:hover{background:var(--sky-deep);transform:translateY(-1px);box-shadow:0 5px 18px rgba(30,111,163,.38)}
+.btn-primary:disabled{opacity:.4;pointer-events:none;transform:none}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:transparent;color:var(--text-sec);font-family:var(--fb);font-size:.78rem;font-weight:600;padding:9px 18px;border-radius:50px;border:1.5px solid var(--border);cursor:pointer;transition:var(--tr)}
+.btn-ghost:hover{border-color:var(--sky);color:var(--sky-dark);background:var(--sky-light)}
+.card{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);padding:14px}
+.content-stack{display:flex;flex-direction:column;gap:.6rem}
+.cta-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-top:.7rem}
+
+/* ====== KEYWORDS / TOOLTIPS ====== */
+.kw{border-bottom:1.5px dashed var(--sky-mid);color:var(--sky-dark);cursor:pointer;font-weight:600;transition:var(--tr)}
+.kw:hover{background:var(--sky-light);border-radius:3px;padding:0 2px;margin:0 -2px}
+#tooltip{position:fixed;z-index:500;background:var(--sky-deep);color:#fff;border-radius:var(--rs);padding:10px 14px;max-width:240px;font-size:.76rem;line-height:1.5;box-shadow:var(--shl);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
+#tooltip.show{opacity:1;transform:translateY(0)}
+#tooltip strong{display:block;font-size:.8rem;margin-bottom:3px;color:var(--sky-mid)}
+
+/* ====== INFO BLOCKS ====== */
+.info-block{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);padding:13px 15px}
+.info-block-head{display:flex;align-items:center;gap:9px;margin-bottom:.4rem}
+.info-block-icon{font-size:1.4rem;flex-shrink:0;line-height:1}
+.info-block-title{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--text);line-height:1.2}
+.info-block-body{font-size:.76rem;color:var(--text-sec);line-height:1.55}
+.info-block-visual{margin-top:.6rem}
+
+/* ====== NOTE BOXES ====== */
+.note-box{display:flex;gap:9px;align-items:flex-start;border-radius:var(--rs);padding:10px 13px;font-size:.74rem;line-height:1.55}
+.note-box .nb-icon{flex-shrink:0;font-size:1rem;line-height:1.3}
+.note-box.blue{background:var(--sky-light);border:1px solid var(--sky-mid);color:#225a7d}
+.note-box.green{background:var(--green-light);border:1px solid #b2e8d0;color:#0f6e3e}
+.note-box.amber{background:var(--amber-light);border:1px solid var(--amber-mid);color:#8a5a00}
+.note-box strong{font-weight:700}
+
+/* ====== STAT BOXES ====== */
+.two-col-stat{display:flex;gap:8px}
+.stat-box{flex:1;border-radius:var(--rs);padding:9px;text-align:center}
+.stat-box.red{background:var(--red-light);border:1px solid #f5c6c2}
+.stat-box.green{background:var(--green-light);border:1px solid #b2e8d0}
+.stat-box.blue{background:var(--sky-light);border:1px solid var(--sky-mid)}
+.stat-num{display:block;font-family:var(--fd);font-size:1.3rem;font-weight:800;margin-bottom:2px}
+.stat-box.red .stat-num{color:var(--red)}
+.stat-box.green .stat-num{color:var(--green)}
+.stat-box.blue .stat-num{color:var(--sky-dark)}
+.stat-lbl{font-size:.6rem;color:var(--text-sec);line-height:1.3}
+
+/* ====== OPTION ROWS (paso 2) ====== */
+.opt-list{display:flex;flex-direction:column;gap:.4rem}
+.opt-row{display:flex;align-items:center;gap:10px;background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);padding:9px 12px}
+.opt-row.pick{border-color:var(--green);background:var(--green-light);box-shadow:0 3px 14px rgba(26,158,92,.13)}
+.opt-icon{font-size:1.3rem;flex-shrink:0;width:26px;text-align:center}
+.opt-main{flex:1;min-width:0}
+.opt-name{font-size:.8rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.opt-desc{font-size:.68rem;color:var(--text-sec);line-height:1.4;margin-top:1px}
+.risk-tag{font-size:.55rem;font-weight:700;border-radius:20px;padding:1px 7px;white-space:nowrap}
+.risk-tag.alto{background:var(--red-light);color:var(--red);border:1px solid #f5c6c2}
+.risk-tag.medio{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-mid)}
+.risk-tag.bajo{background:var(--green-light);color:var(--green);border:1px solid #b2e8d0}
+.pick-flag{font-size:.55rem;font-weight:700;color:#fff;background:var(--green);border-radius:20px;padding:1px 8px;white-space:nowrap}
+
+/* ====== CHOICE / OBJECTIVE CARDS ====== */
+.choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.4rem}
+.choice-card{background:var(--white);border-radius:var(--r);border:2px solid var(--border);padding:16px 13px;cursor:pointer;transition:var(--tr);text-align:center;box-shadow:var(--sh)}
+.choice-card:hover{border-color:var(--sky);box-shadow:var(--shm);transform:translateY(-2px)}
+.choice-card .cc-icon{font-size:1.7rem;margin-bottom:.4rem}
+.choice-card .cc-label{font-size:.85rem;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:.3rem}
+.choice-card .cc-desc{font-size:.7rem;color:var(--text-sec);line-height:1.4}
+
+/* ====== FORM ====== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem}
+.form-field{display:flex;flex-direction:column;gap:.3rem}
+.form-field.full{grid-column:1/-1}
+.form-label{font-size:.72rem;font-weight:700;color:var(--text-sec)}
+.form-input{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rs);padding:9px 12px;font-family:var(--fb);font-size:.85rem;color:var(--text);outline:none;transition:var(--tr);width:100%}
+.form-input:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(74,159,212,.15)}
+.form-input::placeholder{color:var(--text-dim)}
+.form-hint{font-size:.65rem;color:var(--text-dim);margin-bottom:.6rem;line-height:1.4}
+
+/* ====== RESULTS / CHART ====== */
+.proj-results{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:.5rem;margin-bottom:.5rem}
+.proj-result{background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);padding:9px 8px;text-align:center}
+.proj-result-val{font-family:var(--fd);font-size:1.1rem;font-weight:800;color:var(--sky-dark)}
+.proj-result-lbl{font-size:.58rem;color:var(--text-sec);margin-top:2px;line-height:1.3}
+.chart-box{position:relative;height:185px;background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);padding:8px 10px;margin:.4rem 0}
+.chart-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:.2rem 0 .4rem}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:.66rem;color:var(--text-sec);font-weight:600}
+.leg-dot{width:11px;height:3px;border-radius:2px}
+
+/* ====== KPI STRIP ====== */
+.kpi-strip{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:.5rem;margin:.3rem 0 .5rem}
+.kpi{background:linear-gradient(135deg,var(--sky-light),#eef8f2);border:1.5px solid var(--sky-mid);border-radius:var(--rs);padding:10px 8px;text-align:center}
+.kpi-val{font-family:var(--fd);font-size:1.15rem;font-weight:800;color:var(--sky-dark);line-height:1.1}
+.kpi-lbl{font-size:.58rem;color:var(--text-sec);margin-top:3px;line-height:1.3}
+
+/* ====== STEPS ====== */
+.steps-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.step-item{display:flex;align-items:flex-start;gap:9px;font-size:.76rem;color:var(--text-sec);line-height:1.45}
+.step-item b{color:var(--text)}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--sky-dark);color:#fff;font-size:.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* ====== FUNDS TABLE ====== */
+.section-title{font-size:.65rem;font-weight:700;color:var(--sky);text-transform:uppercase;letter-spacing:.08em;margin:.2rem 0 .35rem}
+.funds-table-wrap{background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);overflow:hidden}
+.funds-table{width:100%;border-collapse:collapse;font-size:.67rem}
+.funds-table th{text-align:center;color:var(--text-dim);font-weight:700;padding:5px 7px;border-bottom:1.5px solid var(--border);font-size:.58rem;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.funds-table th:first-child{text-align:left}
+.funds-table td{padding:7px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.3;text-align:center}
+.funds-table td:first-child{text-align:left}
+.funds-table tbody tr:last-child td{border-bottom:none}
+.funds-table .col-name{font-weight:700;color:var(--text);min-width:115px}
+.funds-table .col-isin{font-family:monospace;font-size:.6rem;color:var(--text-dim);white-space:nowrap}
+.funds-table .col-ter{white-space:nowrap;color:var(--text-sec)}
+.funds-table .col-scope{color:var(--text-dim);font-size:.62rem}
+.funds-table .col-pct{font-weight:700;color:var(--sky-dark);white-space:nowrap}
+.funds-table .col-amount{font-weight:800;color:var(--sky-dark);white-space:nowrap;font-family:var(--fd)}
+
+/* ====== TRAMOS TABLE ====== */
+.tramos-table{width:100%;border-collapse:collapse;font-size:.7rem}
+.tramos-table th{background:var(--sky-light);color:var(--sky-dark);font-weight:700;padding:5px 9px;border:1px solid var(--border);text-align:left}
+.tramos-table td{padding:5px 9px;border:1px solid var(--border);color:var(--text-sec)}
+
+/* ====== SLIDER / CALC ====== */
+.slider-row{display:flex;align-items:center;gap:10px;margin:.5rem 0 .3rem}
+.slider-input{flex:1;accent-color:var(--sky-dark)}
+.slider-val{font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--sky-dark);min-width:74px;text-align:right}
+
+/* ====== S0 PRINCIPLES ====== */
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.6rem}
+.principle{display:flex;align-items:center;gap:9px;padding:11px 12px;background:var(--cream);border-radius:var(--rs)}
+.principle-icon{font-size:1.3rem;flex-shrink:0}
+.principle-title{font-size:.74rem;font-weight:700;color:var(--text);display:block}
+.principle-desc{font-size:.64rem;color:var(--text-sec);line-height:1.35}
+.privacy-note{font-size:.66rem;color:var(--text-dim);background:var(--sky-light);border-radius:var(--rxs);padding:8px 11px;margin-bottom:.7rem;border:1px solid var(--border);line-height:1.45}
+.foot{font-size:.62rem;color:var(--text-dim);text-align:center;margin-top:.7rem}
+.disclaimer{font-size:.58rem;color:var(--text-dim);line-height:1.45;padding:8px 11px;background:var(--sky-light);border-radius:var(--rxs);border:1px solid var(--border);margin-top:.5rem}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ====== TOPBAR ====== -->
+  <div class="topbar">
+    <div class="logo" onclick="restart()">Astro<span>Savings</span></div>
+    <div class="topbar-right">
+      <button class="back-btn hidden" id="back-btn" onclick="goBack()">← Volver</button>
+      <button class="lang-btn">ES</button>
+    </div>
+  </div>
+
+  <!-- ====== MILESTONES ====== -->
+  <div class="milestones">
+    <div class="ms-wrap">
+      <div class="ms" id="ms-0"><div class="ms-dot">🤔</div><div class="ms-label">Por qué</div></div>
+      <div class="ms-line" id="ml-0"></div>
+      <div class="ms" id="ms-1"><div class="ms-dot">📊</div><div class="ms-label">Opciones</div></div>
+      <div class="ms-line" id="ml-1"></div>
+      <div class="ms" id="ms-2"><div class="ms-dot">📈</div><div class="ms-label">Cuánto</div></div>
+      <div class="ms-line" id="ml-2"></div>
+      <div class="ms" id="ms-3"><div class="ms-dot">🛒</div><div class="ms-label">Cómo</div></div>
+      <div class="ms-line" id="ml-3"></div>
+      <div class="ms" id="ms-4"><div class="ms-dot">💸</div><div class="ms-label">Retirar</div></div>
+      <div class="ms-line" id="ml-4"></div>
+      <div class="ms" id="ms-5"><div class="ms-dot">🎯</div><div class="ms-label">Objetivos</div></div>
+    </div>
+  </div>
+
+  <!-- ====== SCREENS ====== -->
+  <div class="screens">
+
+    <!-- ====== S0: BIENVENIDA ====== -->
+    <div class="screen scroll" id="s0">
+      <span class="eyebrow">Guía de inversión sencilla</span>
+      <h1 class="headline">Haz que tu dinero <em>trabaje por ti</em></h1>
+      <p class="subline">Una guía corta y clara para empezar a invertir tus ahorros sin complicaciones. Te acompañamos paso a paso: por qué hacerlo, qué opciones hay, cuánto puedes conseguir y cómo ponerlo en marcha.</p>
+      <div class="principles">
+        <div class="principle"><span class="principle-icon">✨</span><div><span class="principle-title">Sencillo</span><span class="principle-desc">Sin jerga. Solo lo imprescindible.</span></div></div>
+        <div class="principle"><span class="principle-icon">🧱</span><div><span class="principle-title">Paso a paso</span><span class="principle-desc">Empieza con poco y a tu ritmo.</span></div></div>
+        <div class="principle"><span class="principle-icon">🌍</span><div><span class="principle-title">Diversificado</span><span class="principle-desc">No apuestas: compras el mundo entero.</span></div></div>
+        <div class="principle"><span class="principle-icon">🛡️</span><div><span class="principle-title">Regulado</span><span class="principle-desc">Solo fondos con supervisión europea.</span></div></div>
+      </div>
+      <div class="privacy-note">Esta guía registra datos de uso anónimos (qué pantallas se visitan). Ningún dato financiero o personal sale de tu dispositivo.</div>
+      <button class="btn-primary" onclick="goTo('s1')">Empezar →</button>
+      <div class="foot">Una app de Astro Cosas · v4.1</div>
+    </div>
+
+    <!-- ====== S1: POR QUÉ INVERTIR ====== -->
+    <div class="screen scroll" id="s1">
+      <div class="eyebrow">Paso 1 · Por qué invertir</div>
+      <h1 class="headline">¿Por qué molestarse en invertir?</h1>
+      <p class="subline">Tres motivos por los que dejar el dinero quieto en el banco te cuesta más de lo que crees.</p>
+      <div class="content-stack">
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🔥</span><span class="info-block-title">La inflación se come tus ahorros</span></div>
+          <div class="info-block-body">Cada año las cosas cuestan un poco más. Lo que hoy compras con 100€, en 10 años puede costarte unos 135€. Si tu dinero está parado en la cuenta, no se mueve… pero cada año compra un poco menos. No lo notas de un día para otro, pero el efecto a 10 o 20 años es enorme.</div>
+          <div class="info-block-visual">
+            <div class="two-col-stat">
+              <div class="stat-box red"><span class="stat-num">−26%</span><span class="stat-lbl">poder de compra perdido en 10 años con el dinero parado</span></div>
+              <div class="stat-box green"><span class="stat-num">x2</span><span class="stat-lbl">aprox. lo que ha crecido un índice global en 10 años de media</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🏛️</span><span class="info-block-title">La pensión pública es una incógnita</span></div>
+          <div class="info-block-body">El sistema de pensiones depende de que haya muchos trabajadores por cada jubilado. Hace décadas había unos 4; hoy estamos cerca de 2, y la tendencia sigue bajando. Nadie sabe cómo serán las pensiones dentro de 20 o 30 años. Depender solo de ellas para tu futuro es arriesgado.</div>
+          <div class="info-block-visual">
+            <div class="two-col-stat">
+              <div class="stat-box blue"><span class="stat-num">~4</span><span class="stat-lbl">trabajadores por jubilado hace décadas</span></div>
+              <div class="stat-box red"><span class="stat-num">~2</span><span class="stat-lbl">trabajadores por jubilado hoy (y bajando)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🌱</span><span class="info-block-title">Invertir es protegerte y crecer</span></div>
+          <div class="info-block-body">Invertir bien no es apostar ni hacerse rico de la noche a la mañana. Es poner tu dinero a trabajar para que, poco a poco, crezca más rápido que la inflación y construyas un colchón para lo que venga. Cuanto antes empieces, más tiempo tiene para crecer.</div>
+        </div>
+
+      </div>
+      <button class="btn-primary" style="margin-top:.7rem" onclick="goTo('s2')">Lo entiendo, ¿qué opciones hay? →</button>
+    </div>
+
+    <!-- ====== S2: QUÉ OPCIONES HAY ====== -->
+    <div class="screen scroll" id="s2">
+      <div class="eyebrow">Paso 2 · Tus opciones</div>
+      <h1 class="headline">¿Dónde puedes poner tu dinero?</h1>
+      <p class="subline">Hay muchas formas de invertir. Estas son las más comunes, con su pega principal.</p>
+      <div class="opt-list">
+        <div class="opt-row">
+          <span class="opt-icon">📈</span>
+          <div class="opt-main"><div class="opt-name">Acciones sueltas <span class="risk-tag alto">Riesgo alto</span></div><div class="opt-desc">Comprar empresas una a una. Alto potencial, pero concentras el riesgo en pocas y necesitas tiempo y conocimiento para acertar.</div></div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-icon">₿</span>
+          <div class="opt-main"><div class="opt-name">Criptomonedas <span class="risk-tag alto">Riesgo muy alto</span></div><div class="opt-desc">Muy volátiles: pueden multiplicarse o desplomarse en semanas. Más apuesta que inversión. Como mucho, una parte muy pequeña.</div></div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-icon">🏢</span>
+          <div class="opt-main"><div class="opt-name">Pisos <span class="risk-tag medio">Riesgo medio</span></div><div class="opt-desc">Algo tangible, pero caro de entrar, difícil de vender rápido y con mucha gestión (inquilinos, averías, impuestos).</div></div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-icon">🤝</span>
+          <div class="opt-main"><div class="opt-name">Negocios de conocidos <span class="risk-tag alto">Riesgo alto</span></div><div class="opt-desc">Suena bien meter dinero en el negocio de un amigo, pero el riesgo es altísimo, no hay garantías y muchos acaban mal (y con la amistad de paso).</div></div>
+        </div>
+        <div class="opt-row pick">
+          <span class="opt-icon">📊</span>
+          <div class="opt-main"><div class="opt-name">Fondos indexados <span class="pick-flag">Nuestra elección</span></div><div class="opt-desc">Compras un trocito de miles de empresas a la vez. Diversificación instantánea, coste muy bajo y sin mantenimiento.</div></div>
+        </div>
+      </div>
+      <div class="note-box green" style="margin-top:.7rem">
+        <span class="nb-icon">✅</span>
+        <span>Por eso elegimos <strong>fondos indexados</strong>. En lugar de apostar por una empresa o un país, un <span class="kw" data-tip="indexado">fondo indexado</span> compra automáticamente miles de empresas de todo el mundo, a un coste bajísimo y sin que tengas que estar pendiente. Históricamente, es lo que mejor ha funcionado para la mayoría de la gente.</span>
+      </div>
+      <button class="btn-primary" style="margin-top:.7rem" onclick="goTo('s_datos')">Ver cuánto puedo conseguir →</button>
+    </div>
+
+    <!-- ====== S_DATOS ====== -->
+    <div class="screen scroll" id="s_datos">
+      <div class="eyebrow">Paso 3 · Cuánto puedes conseguir</div>
+      <h1 class="headline">Cuéntanos tu situación</h1>
+      <p class="subline">Tres datos y te mostramos cómo podría crecer tu dinero. Puedes usar aproximaciones.</p>
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="form-label" for="inp-edad">Tu edad</label>
+          <input class="form-input" id="inp-edad" type="text" inputmode="numeric" placeholder="35" oninput="onlyDigits(this);checkForm()" onblur="checkForm()">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="inp-ahorros">Ahorros actuales (€)</label>
+          <input class="form-input" id="inp-ahorros" type="text" inputmode="numeric" placeholder="10000" oninput="onlyDigits(this)" onblur="fmtBlur(this);checkForm()">
+        </div>
+        <div class="form-field full">
+          <label class="form-label" for="inp-mensual">¿Cuánto puedes ahorrar al mes? (€)</label>
+          <input class="form-input" id="inp-mensual" type="text" inputmode="numeric" placeholder="300" oninput="onlyDigits(this)" onblur="fmtBlur(this);checkForm()">
+        </div>
+      </div>
+      <div class="form-hint">La proyección llega hasta los 65 años, así que esta parte está pensada para edades entre 18 y 64.</div>
+      <button class="btn-primary" id="btn-cuanto" disabled onclick="goToCuanto()">Ver mi proyección →</button>
+    </div>
+
+    <!-- ====== S_CUANTO ====== -->
+    <div class="screen scroll" id="s_cuanto">
+      <div class="eyebrow">Paso 3 · Cuánto puedes conseguir</div>
+      <h1 class="headline" style="margin-bottom:.35rem">Así puede crecer tu dinero</h1>
+      <p class="subline">Comparado con dejarlo parado, e invirtiéndolo en un índice global. Suponemos un crecimiento medio del 6% anual.</p>
+      <div class="proj-results" id="cuanto-results"></div>
+      <div class="chart-legend">
+        <div class="leg-item"><span class="leg-dot" style="background:#94a3b8"></span>Sin invertir</div>
+        <div class="leg-item"><span class="leg-dot" style="background:#1a9e5c"></span>Invertido (6%)</div>
+      </div>
+      <div class="chart-box"><canvas id="chart-cuanto"></canvas></div>
+      <div class="note-box blue"><span class="nb-icon">💡</span><span>La diferencia no es magia: es el <span class="kw" data-tip="ic">interés compuesto</span> trabajando año tras año. Cuanto más tiempo dejas el dinero, más se nota.</span></div>
+      <button class="btn-primary" style="margin-top:.7rem" onclick="goTo('s_como_1')">¿Y cómo empiezo? →</button>
+    </div>
+
+    <!-- ====== S_COMO_1: EMPEZAR ====== -->
+    <div class="screen scroll" id="s_como_1">
+      <div class="eyebrow">Paso 4 · Cómo invertir (1/2)</div>
+      <h1 class="headline">Empieza con poco y un solo fondo</h1>
+      <p class="subline">La idea es coger confianza viendo cómo funciona. Sin prisa, sin grandes cantidades.</p>
+      <ol class="steps-list" style="margin-bottom:.7rem">
+        <li class="step-item"><span class="step-num">1</span><span><b>Abre una cuenta</b> en un <span class="kw" data-tip="broker">broker</span> con comisiones bajas (por ejemplo MyInvestor). Es gratis y se hace online en unos minutos.</span></li>
+        <li class="step-item"><span class="step-num">2</span><span><b>Empieza con un solo fondo global</b> y una cantidad pequeña. <b>100€ al mes es un gran comienzo</b>: lo justo para meterte de lleno sin jugarte mucho.</span></li>
+      </ol>
+
+      <div class="note-box amber" style="margin-bottom:.6rem">
+        <span class="nb-icon">📅</span>
+        <span><strong>Compra cada 6 meses, el mismo importe.</strong> Invierte de forma regular pase lo que pase, sin intentar adivinar el mejor momento. Al empezar, 100€/mes equivalen a <strong>600€ cada 6 meses</strong>.</span>
+      </div>
+
+      <div class="note-box blue" style="margin-bottom:.7rem">
+        <span class="nb-icon">🌊</span>
+        <span><strong>El dinero sube y baja (y no pasa nada).</strong> El mercado fluctúa todo el tiempo, pero a lo largo de la historia ha subido mucho más de lo que ha bajado. Cuando baja, lo peor que puedes hacer es vender con miedo: si no tocas nada y sigues comprando, compras más barato y, históricamente, siempre se ha recuperado. Caídas del 20-30% son normales cada cierto tiempo; quien aguantó, recuperó.</span>
+      </div>
+
+      <div class="section-title">Tu fondo para empezar</div>
+      <div id="como-starter"></div>
+
+      <button class="btn-primary" style="margin-top:.8rem" onclick="goTo('s_como_2')">Cuando me sienta cómodo, ¿qué hago? →</button>
+    </div>
+
+    <!-- ====== S_COMO_2: PORTFOLIO COMPLETO ====== -->
+    <div class="screen scroll" id="s_como_2">
+      <div class="eyebrow">Paso 4 · Cómo invertir (2/2)</div>
+      <h1 class="headline">Cuando estés cómodo, amplía el plan</h1>
+      <p class="subline">Después de unos meses viendo cómo funciona, llega el momento de subir el ritmo y diversificar más.</p>
+      <ol class="steps-list" style="margin-bottom:.7rem">
+        <li class="step-item"><span class="step-num">3</span><span><b>Sube la aportación.</b> Cuando ya tengas confianza, aporta lo que puedas permitirte cada mes y que <b>no vayas a necesitar a corto plazo</b>. No hace falta que sea muchísimo: lo importante es ser constante.</span></li>
+        <li class="step-item"><span class="step-num">4</span><span><b>Pasa al portfolio de 4 fondos</b> para diversificar también por regiones y por tamaños de empresa. Sigues teniendo una cartera muy sencilla, solo que un poco más completa.</span></li>
+      </ol>
+
+      <div class="note-box amber" style="margin-bottom:.7rem">
+        <span class="nb-icon">📅</span>
+        <span><strong>Mantén la regla de los 6 meses.</strong> Sigue comprando dos veces al año, el mismo importe en cada fondo según su peso. Si más adelante puedes aportar más, lo subes y listo — sin tocar la estrategia.</span>
+      </div>
+
+      <div class="section-title">Tu portfolio diversificado — 4 fondos</div>
+      <div id="como-funds"></div>
+
+      <button class="btn-primary" style="margin-top:.8rem" onclick="goTo('s_sacar')">¿Y si necesito el dinero? →</button>
+    </div>
+
+    <!-- ====== S_SACAR ====== -->
+    <div class="screen scroll" id="s_sacar">
+      <div class="eyebrow">Paso 5 · Cómo recuperar tu dinero</div>
+      <h1 class="headline">¿Y si necesito sacarlo?</h1>
+      <p class="subline">Tu dinero no se queda atrapado. Esto es lo que pasa cuando quieres recuperarlo.</p>
+      <div class="content-stack">
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🔓</span><span class="info-block-title">Puedes sacarlo cuando quieras</span></div>
+          <div class="info-block-body">No hay permanencia ni penalización. Cuando vendes (se llama <span class="kw" data-tip="reembolso">reembolso</span>), el dinero suele tardar alrededor de un día hábil en llegar a tu cuenta. No está bloqueado: simplemente da mejor resultado dejarlo crecer.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🧾</span><span class="info-block-title">Solo pagas impuestos por lo que ganas</span></div>
+          <div class="info-block-body">Cuando vendes con beneficio, pagas impuestos únicamente sobre la <span class="kw" data-tip="plusvalia">ganancia</span>, no sobre el dinero que pusiste. Mientras no vendas, no pagas nada. Y en España puedes <strong>traspasar entre fondos sin tributar</strong>, así que solo pasas por Hacienda cuando sacas el dinero de verdad.</div>
+          <div class="info-block-visual">
+            <table class="tramos-table">
+              <tr><th>Ganancia</th><th>Impuesto</th></tr>
+              <tr><td>Hasta 6.000€</td><td>19%</td></tr>
+              <tr><td>6.001€ – 50.000€</td><td>21%</td></tr>
+              <tr><td>50.001€ – 200.000€</td><td>23%</td></tr>
+              <tr><td>Más de 200.000€</td><td>27%</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="note-box green"><span class="nb-icon">✅</span><span>Consejo sencillo: <strong>vende solo lo que necesites, cuando lo necesites.</strong> El resto que siga trabajando.</span></div>
+      </div>
+      <button class="btn-primary" style="margin-top:.7rem" onclick="goTo('s_objetivos')">¿Para qué quiero el dinero? →</button>
+    </div>
+
+    <!-- ====== S_OBJETIVOS ====== -->
+    <div class="screen scroll" id="s_objetivos">
+      <div class="eyebrow">Paso 6 · Tus objetivos</div>
+      <h1 class="headline">¿Para qué quieres el dinero?</h1>
+      <p class="subline">Elige lo que más te interese. Puedes mirar varios escenarios.</p>
+      <div class="choice-cards">
+        <div class="choice-card" onclick="chooseObjetivo('imprevistos')"><div class="cc-icon">🦷</div><div class="cc-label">Para imprevistos</div><div class="cc-desc">Un colchón para lo inesperado</div></div>
+        <div class="choice-card" onclick="chooseObjetivo('piso')"><div class="cc-icon">🏠</div><div class="cc-label">Para comprar un piso</div><div class="cc-desc">Calcula la entrada en X años</div></div>
+        <div class="choice-card" onclick="chooseObjetivo('jubilacion')"><div class="cc-icon">🌅</div><div class="cc-label">Para mi jubilación</div><div class="cc-desc">Cuánto tendrás a los 65</div></div>
+        <div class="choice-card" onclick="chooseObjetivo('fi')"><div class="cc-icon">🔥</div><div class="cc-label">Para ser independiente</div><div class="cc-desc">Vivir de tus inversiones</div></div>
+      </div>
+      <div class="cta-row" style="justify-content:center">
+        <button class="btn-ghost" onclick="restart()">Empezar de nuevo</button>
+      </div>
+    </div>
+
+    <!-- ====== OBJ: IMPREVISTOS ====== -->
+    <div class="screen scroll" id="s_obj_imprevistos">
+      <div class="eyebrow">Objetivo · Imprevistos</div>
+      <h1 class="headline">Son raros, pero ocurren</h1>
+      <p class="subline">Una avería, el dentista, quedarte sin trabajo… para eso necesitas dinero disponible al momento.</p>
+      <div class="content-stack">
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🛡️</span><span class="info-block-title">Tu colchón de seguridad</span></div>
+          <div class="info-block-body">Antes de invertir, ten guardado en una cuenta el equivalente a <strong>entre 3 y 6 meses de tus gastos</strong>. Así puedes invertir el resto con tranquilidad, sabiendo que un susto no te obliga a vender en mal momento. Y en el peor de los casos, recuerda que <strong>puedes vender tus fondos de un día para otro</strong>.</div>
+          <div class="info-block-visual">
+            <label class="form-label">¿Cuánto gastas al mes? (€)</label>
+            <input class="form-input" id="inp-colchon-gasto" type="text" inputmode="numeric" placeholder="1500" style="margin-top:.3rem" oninput="onlyDigits(this);updateColchon()">
+            <div class="two-col-stat" id="colchon-out" style="display:none;margin-top:.6rem">
+              <div class="stat-box blue"><span class="stat-num" id="colchon-3">—</span><span class="stat-lbl">colchón de 3 meses</span></div>
+              <div class="stat-box green"><span class="stat-num" id="colchon-6">—</span><span class="stat-lbl">colchón de 6 meses</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-ghost" style="margin-top:.7rem" onclick="goBack()">← Otros objetivos</button>
+    </div>
+
+    <!-- ====== OBJ: PISO ====== -->
+    <div class="screen scroll" id="s_obj_piso">
+      <div class="eyebrow">Objetivo · Comprar un piso</div>
+      <h1 class="headline">¿Cuánto tardas en juntar el dinero?</h1>
+      <p class="subline">Pon el precio del piso y te decimos cuántos años necesitas en dos escenarios: pagar solo la entrada y gastos (con hipoteca) o pagarlo entero (sin hipoteca).</p>
+      <div class="form-field" style="margin-bottom:.6rem">
+        <label class="form-label" for="inp-piso-precio">Precio del piso (€)</label>
+        <input class="form-input" id="inp-piso-precio" type="text" inputmode="numeric" placeholder="200000" oninput="onlyDigits(this);updatePiso()">
+      </div>
+      <div id="piso-output" style="display:none">
+        <div class="kpi-strip">
+          <div class="kpi">
+            <div class="kpi-val" id="piso-hipo-years">—</div>
+            <div class="kpi-lbl">con hipoteca<br><span style="font-size:.56rem;color:var(--text-dim)">necesitas <span id="piso-hipo-target">—</span></span></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" id="piso-full-years">—</div>
+            <div class="kpi-lbl">sin hipoteca<br><span style="font-size:.56rem;color:var(--text-dim)">necesitas <span id="piso-full-target">—</span></span></div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="leg-item"><span class="leg-dot" style="background:#1e6fa3"></span>Tu cartera (neto)</div>
+          <div class="leg-item"><span class="leg-dot" style="width:16px;height:2px;border-radius:0;background:repeating-linear-gradient(to right,#1a9e5c 0 5px,transparent 5px 8px)"></span>Meta con hipoteca</div>
+          <div class="leg-item"><span class="leg-dot" style="width:16px;height:2px;border-radius:0;background:repeating-linear-gradient(to right,#d4820a 0 5px,transparent 5px 8px)"></span>Meta sin hipoteca</div>
+        </div>
+        <div class="chart-box"><canvas id="chart-piso"></canvas></div>
+        <div class="note-box blue"><span class="nb-icon">🧮</span><span>Las metas incluyen <strong>20% de entrada + 10% de impuestos + 2% de gastos</strong> (notaría, registro, etc.). En "sin hipoteca" sumamos también el resto del precio. La línea de tu cartera ya descuenta el IRPF estimado por vender los fondos.</span></div>
+        <div class="note-box amber" id="piso-note" style="display:none;margin-top:.5rem"><span class="nb-icon">⏱️</span><span>Para plazos cortos (menos de 5 años) el mercado puede no tener tiempo de recuperarse de una caída. Para ese dinero, valora opciones más conservadoras o mantén una parte sin invertir.</span></div>
+      </div>
+      <button class="btn-ghost" style="margin-top:.7rem" onclick="goBack()">← Otros objetivos</button>
+    </div>
+
+    <!-- ====== OBJ: JUBILACIÓN ====== -->
+    <div class="screen scroll" id="s_obj_jubilacion">
+      <div class="eyebrow">Objetivo · Jubilación</div>
+      <h1 class="headline">Tu dinero a los 65</h1>
+      <p class="subline">Manteniendo tu ahorro actual e invirtiendo al 6% anual de media hasta los 65.</p>
+      <div class="kpi-strip">
+        <div class="kpi"><div class="kpi-val" id="jub-pot">—</div><div class="kpi-lbl">tendrías a los 65</div></div>
+        <div class="kpi"><div class="kpi-val" id="jub-income">—</div><div class="kpi-lbl">Ingreso extra de tus ahorros</div></div>
+      </div>
+      <div class="chart-box"><canvas id="chart-jub"></canvas></div>
+      <div class="note-box blue" id="jub-note"><span class="nb-icon">🌅</span><span></span></div>
+      <button class="btn-ghost" style="margin-top:.7rem" onclick="goBack()">← Otros objetivos</button>
+    </div>
+
+    <!-- ====== OBJ: INDEPENDENCIA FINANCIERA ====== -->
+    <div class="screen scroll" id="s_obj_fi">
+      <div class="eyebrow">Objetivo · Independencia financiera</div>
+      <h1 class="headline">Vivir de tus inversiones</h1>
+      <p class="subline">Independencia financiera es tener suficiente invertido como para que sus rendimientos cubran tus gastos. Trabajar pasa a ser opcional.</p>
+      <div class="form-field" style="margin-bottom:.6rem">
+        <label class="form-label" for="inp-fi-gasto">¿Cuánto gastas al mes? (€)</label>
+        <input class="form-input" id="inp-fi-gasto" type="text" inputmode="numeric" placeholder="1800" oninput="onlyDigits(this);updateFI()">
+      </div>
+      <div id="fi-output" style="display:none">
+        <div class="kpi-strip">
+          <div class="kpi"><div class="kpi-val" id="fi-target">—</div><div class="kpi-lbl">ahorros necesarios</div></div>
+          <div class="kpi"><div class="kpi-val" id="fi-years">—</div><div class="kpi-lbl" id="fi-years-lbl">para conseguirlo</div></div>
+        </div>
+        <div class="chart-box"><canvas id="chart-fi"></canvas></div>
+        <div class="note-box green" id="fi-note"><span class="nb-icon">🔥</span><span></span></div>
+      </div>
+      <button class="btn-ghost" style="margin-top:.7rem" onclick="goBack()">← Otros objetivos</button>
+    </div>
+
+  </div><!-- /screens -->
+
+</div><!-- /app -->
+
+<!-- ====== TOOLTIP ====== -->
+<div id="tooltip"></div>
+
+<script>
+// ====== STATE ======
+const state = {
+  age: 0, savings: 0, monthly: 0,
+  history: [],
+  charts: { cuanto: null, piso: null, jub: null, fi: null }
+};
+const RATE = 0.06;      // crecimiento medio anual asumido
+const WD = 0.035;       // tasa de retirada sostenible (no se comenta en la UI)
+
+// ====== NAVIGATION ======
+const MILESTONE_MAP = {
+  s0: 0, s1: 0, s2: 1, s_datos: 2, s_cuanto: 2,
+  s_como_1: 3, s_como_2: 3, s_sacar: 4, s_objetivos: 5,
+  s_obj_imprevistos: 5, s_obj_piso: 5, s_obj_jubilacion: 5, s_obj_fi: 5
+};
+const SCREEN_TITLES = {
+  s0: 'Inicio', s1: 'Por qué', s2: 'Opciones', s_datos: 'Datos', s_cuanto: 'Cuánto',
+  s_como_1: 'Cómo/Empezar', s_como_2: 'Cómo/Portfolio',
+  s_sacar: 'Retirar', s_objetivos: 'Objetivos',
+  s_obj_imprevistos: 'Obj/Imprevistos', s_obj_piso: 'Obj/Piso',
+  s_obj_jubilacion: 'Obj/Jubilación', s_obj_fi: 'Obj/Independencia'
+};
+
+function track(event, data) { if (typeof umami !== 'undefined') umami.track(event, data); }
+
+function goTo(id) {
+  const cur = document.querySelector('.screen.active');
+  if (cur) cur.classList.remove('active');
+  const next = document.getElementById(id);
+  if (!next) return;
+  next.classList.add('active');
+  next.scrollTop = 0;
+  state.history.push(id);
+  setMilestone(MILESTONE_MAP[id] ?? 0);
+  document.getElementById('back-btn').classList.toggle('hidden', state.history.length <= 1);
+  if (id === 's_cuanto') initCuantoChart();
+  if (id === 's_como_1') renderComoStarter();
+  if (id === 's_como_2') renderComoFull();
+  if (id === 's_obj_piso') renderPiso();
+  if (id === 's_obj_jubilacion') renderJubilacion();
+  if (id === 's_obj_fi') renderFI();
+  if (id === 's_obj_imprevistos') updateColchon();
+  track(props => ({ ...props, url: '/' + id, title: SCREEN_TITLES[id] || id }));
+}
+
+function goBack() {
+  if (state.history.length <= 1) return;
+  state.history.pop();
+  const prev = state.history[state.history.length - 1];
+  const cur = document.querySelector('.screen.active');
+  if (cur) cur.classList.remove('active');
+  const target = document.getElementById(prev);
+  if (target) { target.classList.add('active'); target.scrollTop = 0; }
+  setMilestone(MILESTONE_MAP[prev] ?? 0);
+  document.getElementById('back-btn').classList.toggle('hidden', state.history.length <= 1);
+}
+
+function restart() {
+  state.history = [];
+  ['inp-edad','inp-ahorros','inp-mensual','inp-colchon-gasto','inp-fi-gasto','inp-piso-precio'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.getElementById('btn-cuanto').disabled = true;
+  document.querySelectorAll('.screen.active').forEach(s => s.classList.remove('active'));
+  document.getElementById('back-btn').classList.add('hidden');
+  setMilestone(0);
+  goTo('s0');
+}
+
+// ====== MILESTONES ======
+function setMilestone(activeIdx) {
+  for (let i = 0; i < 6; i++) {
+    const ms = document.getElementById('ms-' + i);
+    ms.classList.remove('active', 'done');
+    if (i < activeIdx) ms.classList.add('done');
+    else if (i === activeIdx) ms.classList.add('active');
+  }
+  for (let i = 0; i < 5; i++) {
+    document.getElementById('ml-' + i).classList.toggle('done', i < activeIdx);
+  }
+}
+
+// ====== TOOLTIPS ======
+const TIPS = {
+  indexado: { title: 'Fondo indexado', text: 'Un fondo que copia automáticamente un índice (por ejemplo, las mayores empresas del mundo). No intenta acertar: simplemente compra todo. Por eso es barato y diversificado.' },
+  ic: { title: 'Interés compuesto', text: 'Los rendimientos generan más rendimientos. Año tras año tu dinero crece sobre el total acumulado, no solo sobre lo que pusiste al principio.' },
+  broker: { title: 'Broker', text: 'La plataforma (banco o app) desde la que compras y vendes fondos. Conviene elegir uno con comisiones bajas y que permita fondos indexados.' },
+  reembolso: { title: 'Reembolso', text: 'Vender participaciones de un fondo para recuperar tu dinero. Suele tardar alrededor de un día hábil en llegar a tu cuenta.' },
+  plusvalia: { title: 'Ganancia', text: 'La diferencia entre lo que vendes y lo que invertiste. Solo tributa esa diferencia, no el capital que pusiste.' },
+  isin: { title: 'ISIN', text: 'Código identificador único de un fondo, como el ISBN de un libro. Sirve para buscarlo en cualquier broker.' },
+  ter: { title: 'TER', text: 'La comisión anual del fondo. Se descuenta poco a poco de forma automática. Cuanto más baja, mejor.' }
+};
+document.addEventListener('click', function(e) {
+  const kw = e.target.closest('.kw');
+  if (!kw) { hideTooltip(); return; }
+  const tip = TIPS[kw.dataset.tip];
+  if (!tip) return;
+  e.stopPropagation();
+  showTooltip(tip, kw);
+});
+function showTooltip(tip, el) {
+  const t = document.getElementById('tooltip');
+  t.innerHTML = '<strong>' + tip.title + '</strong>' + tip.text;
+  t.classList.add('show');
+  const r = el.getBoundingClientRect();
+  let left = r.left, top = r.bottom + 8;
+  if (left + 240 > window.innerWidth) left = window.innerWidth - 248;
+  if (top + 90 > window.innerHeight) top = r.top - 90;
+  t.style.left = Math.max(8, left) + 'px';
+  t.style.top = top + 'px';
+}
+function hideTooltip() { document.getElementById('tooltip').classList.remove('show'); }
+
+// ====== INPUT HELPERS ======
+function onlyDigits(el) { el.value = el.value.replace(/\D/g, ''); }
+function fmtBlur(el) { const raw = parseInt(el.value.replace(/\D/g, ''), 10); if (!isNaN(raw)) el.value = raw.toLocaleString('es-ES'); }
+function parseVal(id) { return parseInt(document.getElementById(id).value.replace(/\./g, '').replace(/,/g, ''), 10) || 0; }
+
+function checkForm() {
+  const edad = parseVal('inp-edad');
+  const ahorros = document.getElementById('inp-ahorros').value.trim();
+  const mensual = parseVal('inp-mensual');
+  const ok = edad >= 18 && edad <= 64 && ahorros !== '' && mensual > 0;
+  document.getElementById('btn-cuanto').disabled = !ok;
+}
+
+function goToCuanto() {
+  state.age = parseVal('inp-edad');
+  state.savings = parseVal('inp-ahorros');
+  state.monthly = parseVal('inp-mensual');
+  track('datos-introducidos', { edad: state.age });
+  goTo('s_cuanto');
+}
+
+// ====== CALCULATIONS ======
+function calcFV(pv, pmt, r, years) {
+  const n = years * 12, mr = r / 12;
+  if (mr === 0) return pv + pmt * n;
+  return pv * Math.pow(1 + mr, n) + pmt * (Math.pow(1 + mr, n) - 1) / mr;
+}
+function fmtThousands(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+function fmtEur(n) {
+  if (!n || n <= 0) return '0€';
+  const mag = Math.floor(Math.log10(Math.abs(n)));
+  const factor = Math.pow(10, Math.max(0, mag - 2));
+  const rounded = Math.round(n / factor) * factor;
+  return fmtThousands(rounded) + '€';
+}
+function fmtEurFull(n) { return fmtThousands(n) + '€'; }
+
+// ====== CHART HELPER ======
+function baseOpts(titlePrefix, xIsYear) {
+  return {
+    responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        mode: 'index', intersect: false, backgroundColor: 'rgba(13,74,115,.92)',
+        titleColor: '#a8d4ee', bodyColor: '#fff', padding: 10,
+        titleFont: { size: 11 }, bodyFont: { size: 12, weight: '600' },
+        callbacks: {
+          title: items => (titlePrefix || '') + items[0].label + (xIsYear ? '' : ''),
+          label: ctx => '  ' + ctx.dataset.label + ': ' + fmtEurFull(ctx.parsed.y)
+        }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(0,0,0,.05)' }, ticks: { font: { size: 10 }, callback: v => fmtEur(v) } }
+    }
+  };
+}
+function drawChart(key, labels, datasets, titlePrefix, xIsYear) {
+  if (state.charts[key]) state.charts[key].destroy();
+  const canvas = document.getElementById('chart-' + key);
+  state.charts[key] = new Chart(canvas, { type: 'line', data: { labels, datasets }, options: baseOpts(titlePrefix, xIsYear) });
+}
+
+// ====== S_CUANTO ======
+function initCuantoChart() {
+  const age = state.age, years = Math.max(1, 65 - age);
+  const labels = Array.from({ length: years + 1 }, (_, i) => age + i);
+  const d0 = labels.map((_, i) => Math.round(calcFV(state.savings, state.monthly, 0, i)));
+  const d6 = labels.map((_, i) => Math.round(calcFV(state.savings, state.monthly, RATE, i)));
+
+  const ages = [...new Set([age + 10, age + 20, 65])].filter(a => a > age && a <= 65);
+  document.getElementById('cuanto-results').innerHTML = ages.map(a => {
+    const val = calcFV(state.savings, state.monthly, RATE, a - age);
+    return '<div class="proj-result"><div class="proj-result-val">' + fmtEur(val) + '</div>' +
+           '<div class="proj-result-lbl">a los ' + a + ' años</div></div>';
+  }).join('');
+
+  drawChart('cuanto', labels, [
+    { label: 'Sin invertir', data: d0, borderColor: '#94a3b8', backgroundColor: 'rgba(148,163,184,.06)', tension: .4, pointRadius: 0, borderWidth: 1.5 },
+    { label: 'Invertido', data: d6, borderColor: '#1a9e5c', backgroundColor: 'rgba(26,158,92,.12)', tension: .4, pointRadius: 0, borderWidth: 2.2, fill: true }
+  ], 'Edad: ');
+}
+
+// ====== S_COMO ======
+const STARTER_FUND = { name: 'Fidelity MSCI World Index P Acc', isin: 'IE00BYX5NX33', ter: '0,12%', scope: 'mundo desarrollado', pct: 100 };
+const FULL_FUNDS = [
+  { name: 'Vanguard Global Stock Index EUR Acc', isin: 'IE00B03HD191', ter: '0,18%', scope: 'mundo desarrollado', pct: 50 },
+  { name: 'Vanguard European Stock Index EUR Acc', isin: 'IE0007987690', ter: '0,12%', scope: 'Europa', pct: 20 },
+  { name: 'Vanguard Emerging Markets Index EUR Acc', isin: 'IE0031786696', ter: '0,23%', scope: 'emergentes', pct: 20 },
+  { name: 'Vanguard Global Small-Cap Index EUR Acc', isin: 'IE00B42W3S00', ter: '0,29%', scope: 'pequeñas empresas', pct: 10 }
+];
+function fundsTableHtml(funds, per6) {
+  const showAmt = per6 > 0;
+  return '<div class="funds-table-wrap"><table class="funds-table"><thead><tr>' +
+    '<th>Fondo</th><th><span class="kw" data-tip="isin">ISIN</span></th><th><span class="kw" data-tip="ter">TER</span></th><th>Cobertura</th><th>Peso</th>' +
+    (showAmt ? '<th>cada 6m</th>' : '') + '</tr></thead><tbody>' +
+    funds.map(f =>
+      '<tr><td class="col-name">' + f.name + '</td>' +
+      '<td class="col-isin">' + f.isin + '</td>' +
+      '<td class="col-ter">' + f.ter + '</td>' +
+      '<td class="col-scope">' + f.scope + '</td>' +
+      '<td class="col-pct">' + f.pct + '%</td>' +
+      (showAmt ? '<td class="col-amount">' + fmtEurFull(Math.round(per6 * f.pct / 100)) + '</td>' : '') +
+      '</tr>'
+    ).join('') + '</tbody></table></div>';
+}
+function renderComoStarter() {
+  // En el paso 1 recomendamos siempre 100€/mes (600€ cada 6 meses).
+  document.getElementById('como-starter').innerHTML = fundsTableHtml([STARTER_FUND], 600);
+}
+function renderComoFull() {
+  const per6 = (state.monthly || 0) * 6;
+  document.getElementById('como-funds').innerHTML = fundsTableHtml(FULL_FUNDS, per6);
+}
+
+// ====== OBJ: IMPREVISTOS ======
+function updateColchon() {
+  const g = parseVal('inp-colchon-gasto');
+  const out = document.getElementById('colchon-out');
+  if (!g) { out.style.display = 'none'; return; }
+  out.style.display = 'flex';
+  document.getElementById('colchon-3').textContent = fmtEur(g * 3);
+  document.getElementById('colchon-6').textContent = fmtEur(g * 6);
+}
+
+// ====== OBJ: PISO ======
+// Tramos de IRPF sobre ganancias del ahorro (movables).
+function capitalGainsTax(gains) {
+  if (gains <= 0) return 0;
+  const brackets = [[6000, 0.19], [44000, 0.21], [150000, 0.23], [Infinity, 0.27]];
+  let tax = 0, remaining = gains;
+  for (const [size, rate] of brackets) {
+    const slice = Math.min(remaining, size);
+    tax += slice * rate;
+    remaining -= slice;
+    if (remaining <= 0) break;
+  }
+  return tax;
+}
+// Pot neto en el año y: lo que quedaría si vendieras todo y pagaras impuestos sobre la ganancia.
+function netPotAt(y) {
+  const pot = calcFV(state.savings, state.monthly, RATE, y);
+  const contributed = state.savings + state.monthly * 12 * y;
+  const gains = Math.max(0, pot - contributed);
+  return pot - capitalGainsTax(gains);
+}
+function yearsToNetTarget(target, maxYears) {
+  for (let y = 0; y <= maxYears; y++) if (netPotAt(y) >= target) return y;
+  return null;
+}
+
+function renderPiso() { updatePiso(); }
+function updatePiso() {
+  const precio = parseVal('inp-piso-precio');
+  const out = document.getElementById('piso-output');
+  if (!precio) { out.style.display = 'none'; return; }
+  out.style.display = 'block';
+
+  // Con hipoteca: 20% entrada + 10% impuestos + 2% gastos = 32% del precio.
+  const targetHipo = precio * (0.20 + 0.10 + 0.02);
+  // Sin hipoteca: 100% + 10% impuestos + 2% gastos = 112% del precio.
+  const targetFull = precio * (1.00 + 0.10 + 0.02);
+
+  const MAX = 60;
+  const yHipo = yearsToNetTarget(targetHipo, MAX);
+  const yFull = yearsToNetTarget(targetFull, MAX);
+
+  document.getElementById('piso-hipo-target').textContent = fmtEur(targetHipo);
+  document.getElementById('piso-full-target').textContent = fmtEur(targetFull);
+  document.getElementById('piso-hipo-years').textContent = yHipo !== null ? (yHipo + (yHipo === 1 ? ' año' : ' años')) : '+60 años';
+  document.getElementById('piso-full-years').textContent = yFull !== null ? (yFull + (yFull === 1 ? ' año' : ' años')) : '+60 años';
+
+  document.getElementById('piso-note').style.display = (yHipo !== null && yHipo < 5) ? 'flex' : 'none';
+
+  const span = Math.min(yFull !== null ? Math.max(yFull, 1) : 40, 40);
+  const labels = Array.from({ length: span + 1 }, (_, i) => i);
+  const dNet = labels.map(i => Math.round(netPotAt(i)));
+  const tHipo = labels.map(() => Math.round(targetHipo));
+  const tFull = labels.map(() => Math.round(targetFull));
+  drawChart('piso', labels, [
+    { label: 'Tu cartera (neto)', data: dNet, borderColor: '#1e6fa3', backgroundColor: 'rgba(30,111,163,.12)', tension: .4, pointRadius: 0, borderWidth: 2.2, fill: true },
+    { label: 'Meta con hipoteca', data: tHipo, borderColor: '#1a9e5c', borderDash: [6, 4], pointRadius: 0, borderWidth: 1.5 },
+    { label: 'Meta sin hipoteca', data: tFull, borderColor: '#d4820a', borderDash: [6, 4], pointRadius: 0, borderWidth: 1.5 }
+  ], 'Año ', true);
+}
+
+// ====== OBJ: JUBILACIÓN ======
+function renderJubilacion() {
+  const age = state.age, years = Math.max(1, 65 - age);
+  const labels = Array.from({ length: years + 1 }, (_, i) => age + i);
+  const d = labels.map((_, i) => Math.round(calcFV(state.savings, state.monthly, RATE, i)));
+  const pot = d[d.length - 1];
+  const income = pot * WD / 12;
+  document.getElementById('jub-pot').textContent = fmtEur(pot);
+  document.getElementById('jub-income').textContent = fmtEur(income) + '/mes';
+  document.querySelector('#jub-note span:last-child').innerHTML =
+    'A los 65 podrías tener alrededor de <strong>' + fmtEur(pot) + '</strong>. Eso te permitiría disponer de unos <strong>' + fmtEur(income) + ' al mes</strong> de forma sostenida, complementando cualquier otro ingreso, sin quedarte sin capital.';
+  drawChart('jub', labels, [
+    { label: 'Tu cartera', data: d, borderColor: '#1a9e5c', backgroundColor: 'rgba(26,158,92,.12)', tension: .4, pointRadius: 0, borderWidth: 2.2, fill: true }
+  ], 'Edad: ');
+}
+
+// ====== OBJ: INDEPENDENCIA FINANCIERA ======
+function renderFI() { updateFI(); }
+function updateFI() {
+  const expense = parseVal('inp-fi-gasto');
+  const out = document.getElementById('fi-output');
+  if (!expense) { out.style.display = 'none'; return; }
+  out.style.display = 'block';
+
+  const target = expense * 12 / WD;
+  let yfi = null;
+  for (let y = 0; y <= 60; y++) {
+    if (calcFV(state.savings, state.monthly, RATE, y) >= target) { yfi = y; break; }
+  }
+  document.getElementById('fi-target').textContent = fmtEur(target);
+  const yearsEl = document.getElementById('fi-years');
+  const lblEl = document.getElementById('fi-years-lbl');
+  if (yfi !== null) {
+    yearsEl.textContent = 'En ' + yfi + (yfi === 1 ? ' año' : ' años');
+    lblEl.textContent = 'a los ' + (state.age + yfi) + ' años';
+  } else {
+    yearsEl.textContent = 'En +60 años';
+    lblEl.textContent = 'sube tu ahorro';
+  }
+
+  const noteEl = document.querySelector('#fi-note span:last-child');
+  if (yfi !== null) {
+    noteEl.innerHTML = 'Necesitarías unos <strong>' + fmtEur(target) + '</strong> invertidos. Con tu ritmo actual los alcanzarías en torno a <strong>' + yfi + (yfi === 1 ? ' año' : ' años') + '</strong> (a los ' + (state.age + yfi) + '). A partir de ahí, los rendimientos cubrirían tus gastos y trabajar sería opcional.';
+  } else {
+    noteEl.innerHTML = 'Con el ahorro actual tardarías más de 60 años. Si puedes, sube la aportación mensual: cada euro extra adelanta mucho la meta gracias al interés compuesto.';
+  }
+
+  const span = Math.min(yfi !== null ? Math.max(yfi, 1) : 40, 40);
+  const labels = Array.from({ length: span + 1 }, (_, i) => i);
+  const d = labels.map(i => Math.round(calcFV(state.savings, state.monthly, RATE, i)));
+  const tline = labels.map(() => Math.round(target));
+  drawChart('fi', labels, [
+    { label: 'Tu cartera', data: d, borderColor: '#1a9e5c', backgroundColor: 'rgba(26,158,92,.12)', tension: .4, pointRadius: 0, borderWidth: 2.2, fill: true },
+    { label: 'Meta', data: tline, borderColor: '#8096b0', borderDash: [6, 4], pointRadius: 0, borderWidth: 1.5 }
+  ], 'Año ', true);
+}
+
+// ====== OBJETIVOS ======
+function chooseObjetivo(type) {
+  track('objetivo-elegido', { tipo: type });
+  goTo('s_obj_' + type);
+}
+
+// ====== INIT ======
+window.addEventListener('DOMContentLoaded', () => { goTo('s0'); });
+</script>
+</body>
+</html>

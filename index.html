@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dinerite — Haz que tu dinero trabaje por ti</title>
+<title>AstroSavings — Haz que tu dinero trabaje por ti</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
 /* ====== RESET & TOKENS ====== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-size:14px}
+@media(min-width:700px){html,body{font-size:16px}.topbar,.milestones,.screens{max-width:780px}}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030}
 :root{
   --sky:#4a9fd4;--sky-light:#e6f3fb;--sky-mid:#a8d4ee;--sky-dark:#1e6fa3;--sky-deep:#0d4a73;
@@ -89,9 +90,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 .s0-headline{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:var(--text);line-height:1.15;margin-bottom:.3rem;white-space:nowrap}
 .s0-headline em{color:var(--sky-dark);font-style:italic}
 .s0-subline{font-size:.78rem;color:var(--text-sec);line-height:1.5;margin-bottom:.6rem}
-.principles{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.6rem}
-.principle{display:flex;align-items:flex-start;gap:8px;padding:9px 10px;background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border)}
-.principle-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.principles{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:.45rem;margin-bottom:.6rem}
+.principle{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:12px 10px;background:var(--cream);border-radius:var(--rs);border:none}
+.principle-icon{font-size:1.4rem;flex-shrink:0}
 .principle-title{font-size:.75rem;font-weight:700;color:var(--text);display:block;margin-bottom:1px}
 .principle-desc{font-size:.67rem;color:var(--text-sec);line-height:1.4}
 .privacy-note{font-size:.67rem;color:var(--text-dim);background:var(--sky-light);border-radius:var(--rxs);padding:7px 10px;margin-bottom:.7rem;border:1px solid var(--border);line-height:1.4}
@@ -239,15 +240,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 .funds-table-wrap{background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);overflow:hidden;margin-bottom:.6rem}
 .funds-table{width:100%;border-collapse:collapse;font-size:.67rem}
 .funds-table thead tr{background:var(--bg)}
-.funds-table th{text-align:left;color:var(--text-dim);font-weight:700;padding:5px 8px;border-bottom:1.5px solid var(--border);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
-.funds-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.3}
+.funds-table th{text-align:center;color:var(--text-dim);font-weight:700;padding:5px 8px;border-bottom:1.5px solid var(--border);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.funds-table th:first-child{text-align:left}
+.funds-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.3;text-align:center}
+.funds-table td:first-child{text-align:left}
 .funds-table tbody tr:last-child td{border-bottom:none}
 .funds-table .col-name{font-weight:700;color:var(--text);min-width:120px}
 .funds-table .col-isin{font-family:monospace;font-size:.6rem;color:var(--text-dim);white-space:nowrap}
 .funds-table .col-ter{white-space:nowrap;color:var(--text-sec)}
-.funds-table .col-meta{color:var(--text-dim);font-size:.63rem}
-.funds-table .col-pct{text-align:center;font-weight:700;color:var(--sky-dark);white-space:nowrap}
-.funds-table .col-amount{text-align:right;font-weight:800;color:var(--sky-dark);white-space:nowrap;font-family:var(--fd)}
+.funds-table .col-meta{display:flex;flex-direction:column;gap:1px;align-items:center}
+.funds-table .col-meta-cos{color:var(--text-sec);font-size:.63rem;font-weight:600}
+.funds-table .col-meta-scope{color:var(--text-dim);font-size:.6rem}
+.funds-table .col-pct{font-weight:700;color:var(--sky-dark);white-space:nowrap}
+.funds-table .col-amount{font-weight:800;color:var(--sky-dark);white-space:nowrap;font-family:var(--fd)}
 .funds-table .row-fixed .col-pct,.funds-table .row-fixed .col-amount{color:var(--amber)}
 .steps-list{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-bottom:.55rem}
 .step-item{display:flex;align-items:flex-start;gap:8px;font-size:.72rem;color:var(--text-sec);line-height:1.4}
@@ -300,7 +305,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
   <!-- ====== TOPBAR ====== -->
   <div class="topbar">
-    <div class="logo" onclick="restart()">Diner<span>ite</span></div>
+    <div class="logo" onclick="restart()">Astro<span>Savings</span></div>
     <div class="topbar-right">
       <button class="back-btn hidden" id="back-btn" onclick="goBack()">← Volver</button>
       <button class="lang-btn">ES</button>
@@ -402,7 +407,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
         Esta guía registra datos de uso anónimos (qué pantallas se visitan, qué opciones se eligen). Ningún dato financiero o personal sale de tu dispositivo.
       </div>
       <button class="btn-primary" onclick="goTo('s_edu_choice')">Empieza aquí →</button>
-      <div class="s0-footer">Una app de Astro Cosas · v3.0</div>
+      <div class="s0-footer">Una app de Astro Cosas · v3.1</div>
     </div>
 
     <!-- ====== S_EDU_CHOICE: ELECCIÓN EDU ====== -->
@@ -769,7 +774,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <div class="plan-disclaimer">
         Esta guía tiene fines informativos y educativos. No es asesoramiento financiero personalizado. Consulta a un asesor regulado antes de tomar decisiones de inversión.
       </div>
-      <div class="plan-footer">Una app de Astro Cosas · v3.0</div>
+      <div class="plan-footer">Una app de Astro Cosas · v3.1</div>
     </div>
 
     <!-- ====== S_AVANZADO: GUÍA AVANZADA ====== -->
@@ -1029,7 +1034,7 @@ const EDU_MODALS = [
   },
   {
     title: '📅 DCA vs. inversión de golpe',
-    body: '<p>Estudios de Vanguard muestran que invertir todo el dinero de una vez (lump sum) supera al DCA aproximadamente el 67% de las veces, porque el mercado sube más que baja a largo plazo.</p><p><strong>Entonces, ¿por qué Dinerite propone DCA cada 6 meses?</strong></p><p>Porque la mayoría de personas no tiene grandes sumas de dinero para invertir de golpe. El ahorro es mensual, y el DCA es la forma más natural de invertir ese ahorro. Además, elimina psicológicamente el miedo a "entrar en el peor momento".</p>'
+    body: '<p>Estudios de Vanguard muestran que invertir todo el dinero de una vez (lump sum) supera al DCA aproximadamente el 67% de las veces, porque el mercado sube más que baja a largo plazo.</p><p><strong>Entonces, ¿por qué AstroSavings propone DCA cada 6 meses?</strong></p><p>Porque la mayoría de personas no tiene grandes sumas de dinero para invertir de golpe. El ahorro es mensual, y el DCA es la forma más natural de invertir ese ahorro. Además, elimina psicológicamente el miedo a "entrar en el peor momento".</p>'
   },
   {
     title: '🧠 Sesgos cognitivos del inversor',
@@ -1273,23 +1278,23 @@ function buildFundsHtml(isSimple, invest, equityRatio, fixedRatio) {
   if (isSimple) {
     const amt = invest * equityRatio;
     const simpleFunds = [
-      { name: 'Fidelity MSCI World Index P Acc', isin: 'IE00BYX5NX33', ter: '0,12%', meta: '~1.500 emp. · mercados desarrollados', pct: 100, amount: amt, fixed: false },
+      { name: 'Fidelity MSCI World Index P Acc', isin: 'IE00BYX5NX33', ter: '0,12%', cos: '~1.500 emp.', scope: 'mercados desarrollados', pct: 100, amount: amt, fixed: false },
     ];
     if (fixedRatio > 0) {
-      simpleFunds.push({ name: 'Vanguard Global Bond Index EUR Acc', isin: 'IE00B18GC888', ter: '0,10%', meta: 'Bonos globales · renta fija', pct: Math.round(fixedRatio * 100), amount: invest * fixedRatio, fixed: true });
+      simpleFunds.push({ name: 'Vanguard Global Bond Index EUR Acc', isin: 'IE00B18GC888', ter: '0,10%', cos: 'bonos globales', scope: 'renta fija', pct: Math.round(fixedRatio * 100), amount: invest * fixedRatio, fixed: true });
     }
     return fundsTableHtml(simpleFunds);
   }
 
   const eq = invest * equityRatio;
   const funds = [
-    { name: 'Vanguard Global Stock Index EUR Acc', isin: 'IE00B03HD191', ter: '0,18%', meta: '~1.500 emp. · mercados desarrollados', pct: 50, amount: eq * 0.50, fixed: false },
-    { name: 'Vanguard European Stock Index EUR Acc', isin: 'IE0007987690', ter: '0,12%', meta: '~450 emp. · Europa', pct: 20, amount: eq * 0.20, fixed: false },
-    { name: 'Vanguard Emerging Markets Index EUR Acc', isin: 'IE0031786696', ter: '0,23%', meta: '~1.400 emp. · emergentes', pct: 20, amount: eq * 0.20, fixed: false },
-    { name: 'Vanguard Global Small-Cap Index EUR Acc', isin: 'IE00B42W3S00', ter: '0,29%', meta: '~4.000 emp. · pequeña capitalización', pct: 10, amount: eq * 0.10, fixed: false },
+    { name: 'Vanguard Global Stock Index EUR Acc', isin: 'IE00B03HD191', ter: '0,18%', cos: '~1.500 emp.', scope: 'mercados desarrollados', pct: 50, amount: eq * 0.50, fixed: false },
+    { name: 'Vanguard European Stock Index EUR Acc', isin: 'IE0007987690', ter: '0,12%', cos: '~450 emp.', scope: 'Europa', pct: 20, amount: eq * 0.20, fixed: false },
+    { name: 'Vanguard Emerging Markets Index EUR Acc', isin: 'IE0031786696', ter: '0,23%', cos: '~1.400 emp.', scope: 'emergentes', pct: 20, amount: eq * 0.20, fixed: false },
+    { name: 'Vanguard Global Small-Cap Index EUR Acc', isin: 'IE00B42W3S00', ter: '0,29%', cos: '~4.000 emp.', scope: 'pequeña capitalización', pct: 10, amount: eq * 0.10, fixed: false },
   ];
   if (fixedRatio > 0) {
-    funds.push({ name: 'Vanguard Global Bond Index EUR Acc', isin: 'IE00B18GC888', ter: '0,10%', meta: 'Bonos globales · renta fija', pct: Math.round(fixedRatio * 100), amount: invest * fixedRatio, fixed: true });
+    funds.push({ name: 'Vanguard Global Bond Index EUR Acc', isin: 'IE00B18GC888', ter: '0,10%', cos: 'bonos globales', scope: 'renta fija', pct: Math.round(fixedRatio * 100), amount: invest * fixedRatio, fixed: true });
   }
 
   return fundsTableHtml(funds);
@@ -1305,7 +1310,7 @@ function fundsTableHtml(funds) {
       '<td class="col-name">' + f.name + '</td>' +
       '<td class="col-isin">' + f.isin + '</td>' +
       '<td class="col-ter">' + f.ter + '</td>' +
-      '<td class="col-meta">' + f.meta + '</td>' +
+      '<td class="col-meta"><span class="col-meta-cos">' + f.cos + '</span><span class="col-meta-scope">' + f.scope + '</span></td>' +
       '<td class="col-pct">' + f.pct + '%</td>' +
       '<td class="col-amount">' + fmtEurFull(Math.round(f.amount)) + '</td>' +
       '</tr>'
