@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AstroSavings — Haz que tu dinero trabaje por ti</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 }
 
 /* ====== LAYOUT ====== */
-#app{height:100vh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(155deg,#e8f4ff 0%,#eef5fb 60%,#e8f2f8 100%);overflow:hidden}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(155deg,#e8f4ff 0%,#eef5fb 60%,#e8f2f8 100%);overflow:hidden}
 #app::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sky),var(--sky-dark),var(--sky));z-index:300}
 .screens{flex:1;width:100%;max-width:680px;overflow:hidden;position:relative;padding:0 1rem}
 
@@ -59,7 +59,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 /* ====== SCREENS ====== */
 .screen{display:none;position:absolute;inset:0;overflow:hidden;animation:fadeUp .3s ease forwards}
 .screen.active{display:flex;flex-direction:column}
-.screen.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:1rem}
+.screen.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(1rem + env(safe-area-inset-bottom, 0px))}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
 /* ====== COMMON ====== */
@@ -113,17 +113,18 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
 /* ====== OPTION ROWS (paso 2) ====== */
 .opt-list{display:flex;flex-direction:column;gap:.4rem}
-.opt-row{display:flex;align-items:center;gap:10px;background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border);padding:9px 12px}
-.opt-row.pick{border-color:var(--green);background:var(--green-light);box-shadow:0 3px 14px rgba(26,158,92,.13)}
-.opt-icon{font-size:1.3rem;flex-shrink:0;width:26px;text-align:center}
+.opt-row{display:flex;align-items:flex-start;gap:11px;background:var(--white);border-radius:var(--rs);border:1px solid var(--border);padding:10px 12px}
+.opt-row.pick{border:1.5px solid var(--green);box-shadow:0 2px 10px rgba(26,158,92,.10)}
+.opt-icon{font-size:1.25rem;flex-shrink:0;width:24px;text-align:center;line-height:1.4}
 .opt-main{flex:1;min-width:0}
-.opt-name{font-size:.8rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.opt-desc{font-size:.68rem;color:var(--text-sec);line-height:1.4;margin-top:1px}
-.risk-tag{font-size:.55rem;font-weight:700;border-radius:20px;padding:1px 7px;white-space:nowrap}
-.risk-tag.alto{background:var(--red-light);color:var(--red);border:1px solid #f5c6c2}
-.risk-tag.medio{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-mid)}
-.risk-tag.bajo{background:var(--green-light);color:var(--green);border:1px solid #b2e8d0}
-.pick-flag{font-size:.55rem;font-weight:700;color:#fff;background:var(--green);border-radius:20px;padding:1px 8px;white-space:nowrap}
+.opt-name{font-size:.82rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.opt-meta{font-size:.62rem;color:var(--text-dim);margin-bottom:3px;font-weight:600;letter-spacing:.02em}
+.opt-meta .sep{margin:0 6px;color:var(--border)}
+.opt-meta .v-low{color:var(--red)}
+.opt-meta .v-med{color:var(--amber)}
+.opt-meta .v-high{color:var(--green)}
+.opt-desc{font-size:.68rem;color:var(--text-sec);line-height:1.45}
+.pick-flag{font-size:.55rem;font-weight:700;color:#fff;background:var(--green);border-radius:20px;padding:1px 8px;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
 
 /* ====== CHOICE / OBJECTIVE CARDS ====== */
 .choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.4rem}
@@ -200,6 +201,24 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 .privacy-note{font-size:.66rem;color:var(--text-dim);background:var(--sky-light);border-radius:var(--rxs);padding:8px 11px;margin-bottom:.7rem;border:1px solid var(--border);line-height:1.45}
 .foot{font-size:.62rem;color:var(--text-dim);text-align:center;margin-top:.7rem}
 .disclaimer{font-size:.58rem;color:var(--text-dim);line-height:1.45;padding:8px 11px;background:var(--sky-light);border-radius:var(--rxs);border:1px solid var(--border);margin-top:.5rem}
+
+/* ====== FEEDBACK MODAL ====== */
+.fb-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,50,.55);z-index:1000;align-items:center;justify-content:center;padding:1rem;animation:fbFade .2s ease}
+.fb-overlay.show{display:flex}
+@keyframes fbFade{from{opacity:0}to{opacity:1}}
+.fb-modal{background:var(--white);border-radius:var(--r);padding:1.4rem 1.2rem 1.2rem;max-width:420px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;animation:fbPop .25s ease}
+@keyframes fbPop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.fb-close{position:absolute;top:.5rem;right:.7rem;background:none;border:none;font-size:1.6rem;color:var(--text-dim);cursor:pointer;line-height:1;padding:4px 8px;border-radius:50%}
+.fb-close:hover{background:var(--sky-light);color:var(--text)}
+.fb-title{font-size:1.1rem;font-weight:800;color:var(--text);margin:0 0 .3rem;text-align:center}
+.fb-sub{font-size:.72rem;color:var(--text-sec);margin:0 0 1rem;text-align:center;line-height:1.5}
+.fb-label{font-size:.66rem;font-weight:700;color:var(--text-sec);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
+.fb-stars{display:flex;gap:.3rem;justify-content:center}
+.fb-star{background:none;border:none;font-size:2rem;color:#e0e6ee;cursor:pointer;padding:2px 4px;line-height:1;transition:var(--tr)}
+.fb-star:hover,.fb-star.active{color:#f5b800;transform:scale(1.08)}
+.fb-textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--rs);padding:9px 11px;font-family:inherit;font-size:.78rem;color:var(--text);resize:vertical;min-height:80px;background:var(--white);transition:var(--tr);box-sizing:border-box}
+.fb-textarea:focus{outline:none;border-color:var(--sky)}
+.fb-err{font-size:.66rem;color:var(--red);margin-top:.4rem;min-height:.9rem}
 </style>
 </head>
 <body>
@@ -248,7 +267,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <div class="privacy-note">Esta guía registra datos de uso anónimos (qué pantallas se visitan). Ningún dato financiero o personal sale de tu dispositivo.</div>
       <div class="privacy-note">Está pensada para usarse junto a modelos de IA como ChatGPT o Claude, que pueden ayudarte a resolver dudas y aprender más a medida que avanzas.</div>
       <button class="btn-primary" onclick="goTo('s1')">Empezar →</button>
-      <div class="foot">Una app de Astro Cosas · v4.3</div>
+      <div class="foot">Una app de Astro Cosas · v4.4</div>
     </div>
 
     <!-- ====== S1: POR QUÉ INVERTIR ====== -->
@@ -260,11 +279,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">🔥</span><span class="info-block-title">La inflación se come tus ahorros</span></div>
-          <div class="info-block-body">Cada año las cosas cuestan un poco más. Lo que hoy compras con 100€, en 10 años puede costarte unos 135€. Si tu dinero está parado en la cuenta, no se mueve… pero cada año compra un poco menos. No lo notas de un día para otro, pero el efecto a 10 o 20 años es enorme.</div>
+          <div class="info-block-body">Cada año las cosas cuestan un poco más. Lo que hoy compras con 100€, en 10 años puede costarte unos 135€. Si tu dinero está parado en la cuenta, no se mueve… y poco a poco puedes comprar menos con él. No lo notas de un día para otro, pero el efecto a 10 o 20 años es enorme.</div>
           <div class="info-block-visual">
             <div class="two-col-stat">
               <div class="stat-box red"><span class="stat-num">−26%</span><span class="stat-lbl">poder de compra perdido en 10 años con el dinero parado</span></div>
-              <div class="stat-box green"><span class="stat-num">+100%</span><span class="stat-lbl">aprox. lo que ha crecido un índice global en 10 años de media</span></div>
             </div>
           </div>
         </div>
@@ -293,33 +311,112 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
     <div class="screen scroll" id="s2">
       <div class="eyebrow">Paso 2 · Tus opciones</div>
       <h1 class="headline">¿Dónde puedes poner tu dinero?</h1>
-      <p class="subline">Hay muchas formas de invertir. Estas son las más comunes, con su pega principal.</p>
+      <p class="subline">Hay muchas formas de invertir. Estas son las más comunes:</p>
       <div class="opt-list">
         <div class="opt-row">
-          <span class="opt-icon">📈</span>
-          <div class="opt-main"><div class="opt-name">Acciones sueltas <span class="risk-tag alto">Riesgo alto</span></div><div class="opt-desc">Comprar empresas una a una. Alto potencial, pero concentras el riesgo en pocas y necesitas tiempo y conocimiento para acertar.</div></div>
+          <span class="opt-icon">🤝</span>
+          <div class="opt-main">
+            <div class="opt-name">Negocios de conocidos</div>
+            <div class="opt-meta">Rentabilidad <span class="v-low">baja</span><span class="sep">·</span>Riesgo <span class="v-low">muy alto</span></div>
+            <div class="opt-desc">Suena bien meter dinero en el negocio de un amigo, pero el riesgo es altísimo, no hay garantías y muchos acaban mal (y con la amistad de paso).</div>
+          </div>
         </div>
         <div class="opt-row">
           <span class="opt-icon">₿</span>
-          <div class="opt-main"><div class="opt-name">Criptomonedas <span class="risk-tag alto">Riesgo muy alto</span></div><div class="opt-desc">Muy volátiles: pueden multiplicarse o desplomarse en semanas. Más apuesta que inversión. Como mucho, una parte muy pequeña.</div></div>
+          <div class="opt-main">
+            <div class="opt-name">Criptomonedas</div>
+            <div class="opt-meta">Rentabilidad <span class="v-high">alta</span><span class="sep">·</span>Riesgo <span class="v-low">muy alto</span></div>
+            <div class="opt-desc">Muy volátiles: pueden multiplicarse o desplomarse en semanas. Más apuesta que inversión.</div>
+          </div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-icon">📈</span>
+          <div class="opt-main">
+            <div class="opt-name">Acciones sueltas</div>
+            <div class="opt-meta">Rentabilidad <span class="v-med">media</span><span class="sep">·</span>Riesgo <span class="v-low">alto</span></div>
+            <div class="opt-desc">Comprar empresas una a una. Alto potencial, pero concentras el riesgo en pocas y necesitas tiempo y conocimiento para acertar.</div>
+          </div>
         </div>
         <div class="opt-row">
           <span class="opt-icon">🏢</span>
-          <div class="opt-main"><div class="opt-name">Pisos <span class="risk-tag medio">Riesgo medio</span></div><div class="opt-desc">Algo tangible, pero caro de entrar, difícil de vender rápido y con mucha gestión (inquilinos, averías, impuestos).</div></div>
+          <div class="opt-main">
+            <div class="opt-name">Pisos</div>
+            <div class="opt-meta">Rentabilidad <span class="v-med">media</span><span class="sep">·</span>Riesgo <span class="v-med">medio</span><span class="sep">·</span>Gestión <span class="v-low">compleja</span></div>
+            <div class="opt-desc">Algo tangible, pero caro de entrar (necesitas un buen ahorro o hipoteca), difícil de vender rápido y con mucha gestión: inquilinos, averías e impuestos.</div>
+          </div>
         </div>
         <div class="opt-row">
-          <span class="opt-icon">🤝</span>
-          <div class="opt-main"><div class="opt-name">Negocios de conocidos <span class="risk-tag alto">Riesgo muy alto</span></div><div class="opt-desc">Suena bien meter dinero en el negocio de un amigo, pero el riesgo es altísimo, no hay garantías y muchos acaban mal (y con la amistad de paso).</div></div>
+          <span class="opt-icon">🪙</span>
+          <div class="opt-main">
+            <div class="opt-name">Fondos monetarios</div>
+            <div class="opt-meta">Rentabilidad <span class="v-low">baja</span><span class="sep">·</span>Riesgo <span class="v-high">muy bajo</span><span class="sep">·</span>Gestión <span class="v-high">sencilla</span></div>
+            <div class="opt-desc">Como tener el dinero en el banco, pero ganando intereses (en torno al 3-4% anual según los tipos del BCE). Sin sobresaltos. Ideal para el colchón de emergencia y dinero que necesitarás pronto.</div>
+          </div>
         </div>
         <div class="opt-row pick">
           <span class="opt-icon">📊</span>
-          <div class="opt-main"><div class="opt-name">Fondos indexados <span class="pick-flag">Nuestra elección</span></div><div class="opt-desc">Compras un trocito de miles de empresas a la vez. Diversificación instantánea, coste muy bajo y sin mantenimiento.</div></div>
+          <div class="opt-main">
+            <div class="opt-name">Fondos indexados <span class="pick-flag">Recomendado</span></div>
+            <div class="opt-meta">Rentabilidad <span class="v-med">media</span><span class="sep">·</span>Riesgo <span class="v-med">medio</span><span class="sep">·</span>Gestión <span class="v-high">sencilla</span></div>
+            <div class="opt-desc">Compras un trocito de miles de empresas a la vez. Diversificación instantánea, coste muy bajo y sin mantenimiento. Ideal para hacer crecer tu dinero a largo plazo.</div>
+          </div>
         </div>
       </div>
-      <div class="note-box green" style="margin-top:.7rem">
-        <span class="nb-icon">✅</span>
-        <span>Por eso elegimos <strong>fondos indexados</strong>. En lugar de apostar por una empresa o un país, un <span class="kw" data-tip="indexado">fondo indexado</span> compra automáticamente miles de empresas de todo el mundo, a un coste bajísimo y sin que tengas que estar pendiente. Históricamente, es lo que mejor ha funcionado para la mayoría de la gente.</span>
+      <button class="btn-primary" style="margin-top:.7rem" onclick="goTo('s_indexados')">Entender mejor los fondos indexados →</button>
+    </div>
+
+    <!-- ====== S_INDEXADOS: EXPLICACIÓN FONDOS INDEXADOS ====== -->
+    <div class="screen scroll" id="s_indexados">
+      <div class="eyebrow">Paso 2 · Cómo funciona</div>
+      <h1 class="headline">¿Cómo funciona un fondo indexado?</h1>
+      <p class="subline">Antes de seguir, vale la pena entender qué estás comprando exactamente, qué te dan a cambio y a qué te expones.</p>
+      <div class="content-stack">
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">📊</span><span class="info-block-title">¿Qué es exactamente?</span></div>
+          <div class="info-block-body">Imagina una cesta que contiene un trocito de miles de empresas a la vez. Eso es un fondo indexado. En lugar de elegir empresas una por una, compras la cesta entera y te toca un poquito de cada una. De los más populares son los que replican al índice <strong>MSCI World</strong>, que contiene unas 1.500 empresas de 23 países desarrollados: Apple, Nestlé, Toyota, Inditex… Si esas empresas en conjunto suben un 7%, tu fondo sube aproximadamente lo mismo.</div>
+          <div class="info-block-visual">
+            <div class="two-col-stat">
+              <div class="stat-box blue"><span class="stat-num">~1.500</span><span class="stat-lbl">empresas dentro de un fondo MSCI World</span></div>
+              <div class="stat-box blue"><span class="stat-num">23</span><span class="stat-lbl">países desarrollados representados</span></div>
+              <div class="stat-box blue"><span class="stat-num">~85%</span><span class="stat-lbl">de la bolsa mundial cotizada<br>(países desarrollados)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">🛒</span><span class="info-block-title">Comprar y vender es sencillo</span></div>
+          <div class="info-block-body">Cuando inviertes, compras <strong>participaciones</strong> del fondo (algo así como acciones del propio fondo). Su precio cambia cada día según suben o bajan las empresas que contiene. Puedes vender cuando quieras y recibir el dinero en tu cuenta en pocos días. No hay penalizaciones por sacarlo antes de tiempo, pero sí pagas impuestos sobre las ganancias cuando vendes (no antes).</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">✨</span><span class="info-block-title">Por qué funcionan tan bien</span></div>
+          <div class="info-block-body">
+            <ul style="margin:0;padding-left:1.1rem;line-height:1.6">
+              <li><strong>Se renueva solo:</strong> cuando una empresa va mal, acaba saliendo del índice y entra otra que lo está haciendo mejor. No tienes que estar tú decidiendo nada.</li>
+              <li><strong>Coste muy bajo:</strong> comisiones del 0,1 % al 0,3 % anual.</li>
+              <li><strong>Sin decisiones:</strong> el fondo replica el índice automáticamente. No tienes que elegir empresas ni vigilar nada.</li>
+              <li><strong>Mejor a largo plazo:</strong> está estudiado y demostrado que, a largo plazo, ofrecen mejor rentabilidad y menor riesgo que el resto de fondos.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-head"><span class="info-block-icon">⚠️</span><span class="info-block-title">El riesgo: el valor sube y baja</span></div>
+          <div class="info-block-body">A largo plazo el MSCI World ha subido de media en torno a un <strong>8 % anual</strong> (desde 1979), pero hay años muy malos. En la crisis de 2008 cayó cerca de un <strong>40 %</strong> en un solo año, y tardó unos <strong>5 años</strong> en recuperar el nivel previo. En la burbuja puntocom (2000-2002) cayó un 47 % acumulado y tardó unos 7 años en recuperarse. En 2020 cayó un 34 % en pocas semanas, pero se recuperó en 6 meses.</div>
+          <div class="info-block-visual">
+            <div class="two-col-stat">
+              <div class="stat-box green"><span class="stat-num">~+8%</span><span class="stat-lbl">rentabilidad anual media histórica del MSCI World</span></div>
+              <div class="stat-box red"><span class="stat-num">−40%</span><span class="stat-lbl">peor caída reciente (2008)</span></div>
+            </div>
+            <div class="two-col-stat" style="margin-top:.5rem">
+              <div class="stat-box blue"><span class="stat-num">~5 años</span><span class="stat-lbl">en recuperar el nivel pre-crisis de 2008</span></div>
+            </div>
+          </div>
+        </div>
+
       </div>
+      <div class="note-box amber" style="margin-top:.7rem"><span class="nb-icon">⏱️</span><span>Por eso solo conviene invertir dinero que <strong>no vayas a necesitar a corto plazo</strong> (idealmente, 5-10 años o más). Si lo dejas tranquilo y sigues aportando incluso cuando cae, históricamente siempre se ha recuperado. Es más: <strong>seguir aportando cuando el mercado está bajo acelera la recuperación</strong>, porque compras participaciones más baratas que luego subirán.</span></div>
       <button class="btn-primary" style="margin-top:.7rem" onclick="goTo('s_datos')">Ver cuánto puedo conseguir →</button>
     </div>
 
@@ -367,22 +464,24 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <h1 class="headline">Empieza con poco y un solo fondo</h1>
       <p class="subline">La idea es coger confianza viendo cómo funciona. Sin prisa, sin grandes cantidades.</p>
       <ol class="steps-list" style="margin-bottom:.7rem">
-        <li class="step-item"><span class="step-num">1</span><span><b>Abre una cuenta</b> en un <span class="kw" data-tip="broker">broker</span> con comisiones bajas (por ejemplo MyInvestor). Es gratis y se hace online en unos minutos.</span></li>
-        <li class="step-item"><span class="step-num">2</span><span><b>Empieza con un solo fondo global</b> y una cantidad pequeña. <b>100€ al mes es un gran comienzo</b>: lo justo para meterte de lleno sin jugarte mucho.</span></li>
+        <li class="step-item"><span class="step-num">1</span><span><b>Abre una cuenta</b> en un <span class="kw" data-tip="broker">broker</span> con <span class="kw" data-tip="comisiones">comisiones bajas</span> (por ejemplo MyInvestor o Trade Republic, aunque el segundo tiene menos variedad de fondos). Es gratis y se hace online en unos minutos.</span></li>
+        <li class="step-item"><span class="step-num">2</span><span><b>Transfiere dinero a tu cuenta del broker.</b> Lo ideal es <b>automatizar la transferencia</b> desde tu banco, por ejemplo el día siguiente al cobro de la nómina. Así no depende de que te acuerdes y tratas el ahorro como un gasto fijo más.</span></li>
+        <li class="step-item"><span class="step-num">3</span><span><b>Empieza con un solo fondo global</b> y una cantidad pequeña. <b>100€ al mes es un gran comienzo</b>: lo justo para meterte de lleno sin jugarte mucho.</span></li>
       </ol>
 
       <div class="note-box amber" style="margin-bottom:.6rem">
         <span class="nb-icon">📅</span>
-        <span><strong>Compra cada 6 meses, el mismo importe.</strong> Invierte de forma regular pase lo que pase, sin intentar adivinar el mejor momento. Al empezar, 100€/mes equivalen a <strong>600€ cada 6 meses</strong>.</span>
+        <span><strong>Opción 1 — Compra manual, por ejemplo 600€ cada 6 meses (100€/mes).</strong> <span class="pick-flag">La preferida cuando empiezas</span><br>Invierte el mismo importe de forma regular pase lo que pase, sin intentar adivinar el mejor momento. Hacerlo a mano te ayuda a entender qué está pasando con tu dinero.</span>
+      </div>
+      <div class="note-box amber" style="margin-bottom:.6rem">
+        <span class="nb-icon">🔁</span>
+        <span><strong>Opción 2 — Automatiza la compra periódica.</strong><br>La mayoría de brokers permiten programar una compra mensual o trimestral del mismo fondo y por el mismo importe. Pones el piloto automático y te olvidas: cada mes se descuenta de tu cuenta y se invierte solo. Ideal cuando ya tienes confianza en lo que estás haciendo.</span>
       </div>
 
-      <div class="note-box blue" style="margin-bottom:.7rem">
-        <span class="nb-icon">🌊</span>
-        <span><strong>El dinero sube y baja (y no pasa nada).</strong> El mercado fluctúa todo el tiempo, pero a lo largo de la historia ha subido mucho más de lo que ha bajado. Cuando baja, lo peor que puedes hacer es vender con miedo: si no tocas nada y sigues comprando, compras más barato y, históricamente, siempre se ha recuperado. Caídas del 20-30% son normales cada cierto tiempo; quien aguantó, recuperó.</span>
-      </div>
 
       <div class="section-title">Tu fondo para empezar</div>
       <div id="como-starter"></div>
+      <div class="note-box blue" style="margin-top:.6rem"><span class="nb-icon">🔎</span><span>Para encontrarlo en tu broker, copia el código <span class="kw" data-tip="isin">ISIN</span> (la columna ISIN de la tabla) y pégalo en el buscador de fondos de la plataforma. Es un código único, así te aseguras de comprar exactamente este fondo y no otro parecido.</span></div>
 
       <button class="btn-primary" style="margin-top:.8rem" onclick="goTo('s_como_2')">Cuando me sienta cómodo, ¿qué hago? →</button>
     </div>
@@ -393,14 +492,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <h1 class="headline">Cuando estés cómodo, amplía la aportación y el plan</h1>
       <p class="subline">Después de unos meses viendo cómo funciona, llega el momento de subir el ritmo y diversificar más.</p>
       <ol class="steps-list" style="margin-bottom:.7rem">
-        <li class="step-item"><span class="step-num">3</span><span><b>Sube la aportación.</b> Cuando ya tengas confianza, aporta lo que puedas permitirte cada mes y que <b>no vayas a necesitar a corto plazo</b>. No hace falta que sea muchísimo: lo importante es ser constante.</span></li>
-        <li class="step-item"><span class="step-num">4</span><span><b>Pasa al portfolio de 4 fondos</b> para diversificar también por regiones y por tamaños de empresa. Sigues teniendo una cartera muy sencilla, solo que un poco más completa.</span></li>
+        <li class="step-item"><span class="step-num">4</span><span><b>Sube la aportación.</b> Cuando ya tengas confianza, aporta lo que puedas permitirte cada mes y que <b>no vayas a necesitar a corto plazo</b>. No hace falta que sea muchísimo: lo importante es ser constante.</span></li>
+        <li class="step-item"><span class="step-num">5</span><span><b>Pasa al portfolio de 4 fondos</b> para diversificar también por regiones y por tamaños de empresa. Sigues teniendo una cartera muy sencilla, solo que un poco más completa.</span></li>
       </ol>
 
-      <div class="note-box amber" style="margin-bottom:.7rem">
-        <span class="nb-icon">📅</span>
-        <span><strong>Mantén la regla de los 6 meses.</strong> Sigue comprando dos veces al año, el mismo importe en cada fondo según su peso. Si más adelante puedes aportar más, lo subes y listo — sin tocar la estrategia.</span>
-      </div>
 
       <div class="section-title">Tu portfolio diversificado — 4 fondos</div>
       <div id="como-funds"></div>
@@ -450,7 +545,41 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <div class="cta-row" style="justify-content:center">
         <button class="btn-ghost" onclick="restart()">Empezar de nuevo</button>
       </div>
+      <div class="cta-row" style="justify-content:center;margin-top:.4rem">
+        <button class="btn-ghost" onclick="openFeedback()">💬 Enviar feedback</button>
+      </div>
     </div>
+
+  <!-- ====== FEEDBACK MODAL ====== -->
+  <div class="fb-overlay" id="fb-overlay" onclick="if(event.target===this)closeFeedback()">
+    <div class="fb-modal" role="dialog" aria-modal="true" aria-labelledby="fb-title">
+      <button class="fb-close" onclick="closeFeedback()" aria-label="Cerrar">×</button>
+      <div id="fb-form-wrap">
+        <h2 class="fb-title" id="fb-title">¿Te ha sido útil?</h2>
+        <p class="fb-sub">Tu opinión nos ayuda a mejorar la guía.</p>
+        <form id="fb-form" onsubmit="submitFeedback(event)">
+          <div class="fb-label">Puntúa tu experiencia</div>
+          <div class="fb-stars" id="fb-stars">
+            <button type="button" class="fb-star" data-val="1" onclick="setRating(1)">★</button>
+            <button type="button" class="fb-star" data-val="2" onclick="setRating(2)">★</button>
+            <button type="button" class="fb-star" data-val="3" onclick="setRating(3)">★</button>
+            <button type="button" class="fb-star" data-val="4" onclick="setRating(4)">★</button>
+            <button type="button" class="fb-star" data-val="5" onclick="setRating(5)">★</button>
+          </div>
+          <div class="fb-label" style="margin-top:.6rem">Comentarios (opcional)</div>
+          <textarea id="fb-msg" class="fb-textarea" rows="4" placeholder="¿Qué te ha gustado? ¿Qué mejorarías?" maxlength="2000"></textarea>
+          <div class="fb-err" id="fb-err"></div>
+          <button type="submit" class="btn-primary" id="fb-submit" style="margin-top:.7rem;width:100%">Enviar feedback</button>
+        </form>
+      </div>
+      <div id="fb-success" style="display:none;text-align:center;padding:1rem 0">
+        <div style="font-size:2.5rem;margin-bottom:.5rem">✅</div>
+        <h2 class="fb-title">¡Gracias!</h2>
+        <p class="fb-sub">Tu feedback nos ayuda muchísimo.</p>
+        <button class="btn-primary" onclick="closeFeedback()" style="margin-top:.7rem">Cerrar</button>
+      </div>
+    </div>
+  </div>
 
     <!-- ====== OBJ: IMPREVISTOS ====== -->
     <div class="screen scroll" id="s_obj_imprevistos">
@@ -463,7 +592,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="info-block-body">Antes de invertir, ten guardado en una cuenta el equivalente a <strong>entre 3 y 6 meses de tus gastos</strong>. Así puedes invertir el resto con tranquilidad, sabiendo que un susto no te obliga a vender en mal momento. Y en el peor de los casos, recuerda que <strong>puedes vender tus fondos de un día para otro</strong>.</div>
           <div class="info-block-visual">
             <label class="form-label">¿Cuánto gastas al mes? (€)</label>
-            <input class="form-input" id="inp-colchon-gasto" type="text" inputmode="numeric" placeholder="1500" style="margin-top:.3rem" oninput="onlyDigits(this);updateColchon()">
+            <input class="form-input" id="inp-colchon-gasto" type="text" inputmode="numeric" placeholder="1500" style="margin-top:.3rem" oninput="onlyDigits(this);updateColchon()" onblur="fmtBlur(this);updateColchon()">
             <div class="two-col-stat" id="colchon-out" style="display:none;margin-top:.6rem">
               <div class="stat-box blue"><span class="stat-num" id="colchon-3">—</span><span class="stat-lbl">colchón de 3 meses</span></div>
               <div class="stat-box green"><span class="stat-num" id="colchon-6">—</span><span class="stat-lbl">colchón de 6 meses</span></div>
@@ -481,17 +610,17 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <p class="subline">Pon el precio del piso y te decimos cuántos años necesitas en dos escenarios: pagar solo la entrada y gastos (con hipoteca) o pagarlo entero (sin hipoteca).</p>
       <div class="form-field" style="margin-bottom:.6rem">
         <label class="form-label" for="inp-piso-precio">Precio del piso (€)</label>
-        <input class="form-input" id="inp-piso-precio" type="text" inputmode="numeric" placeholder="200000" oninput="onlyDigits(this);updatePiso()">
+        <input class="form-input" id="inp-piso-precio" type="text" inputmode="numeric" placeholder="200000" oninput="onlyDigits(this);updatePiso()" onblur="fmtBlur(this);updatePiso()">
       </div>
       <div id="piso-output" style="display:none">
         <div class="kpi-strip">
           <div class="kpi">
             <div class="kpi-val" id="piso-hipo-years">—</div>
-            <div class="kpi-lbl">con hipoteca<br><span style="font-size:.56rem;color:var(--text-dim)">necesitas <span id="piso-hipo-target">—</span></span></div>
+            <div class="kpi-lbl">con hipoteca<br><span style="font-size:.56rem;color:var(--text-dim)">necesitarás <span id="piso-hipo-target">—</span></span></div>
           </div>
           <div class="kpi">
             <div class="kpi-val" id="piso-full-years">—</div>
-            <div class="kpi-lbl">sin hipoteca<br><span style="font-size:.56rem;color:var(--text-dim)">necesitas <span id="piso-full-target">—</span></span></div>
+            <div class="kpi-lbl">sin hipoteca<br><span style="font-size:.56rem;color:var(--text-dim)">necesitarás <span id="piso-full-target">—</span></span></div>
           </div>
         </div>
         <div class="chart-legend">
@@ -527,7 +656,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <p class="subline">Independencia financiera es tener suficiente invertido como para que sus rendimientos cubran tus gastos. Trabajar pasa a ser opcional.</p>
       <div class="form-field" style="margin-bottom:.6rem">
         <label class="form-label" for="inp-fi-gasto">¿Cuánto gastas al mes? (€)</label>
-        <input class="form-input" id="inp-fi-gasto" type="text" inputmode="numeric" placeholder="1800" oninput="onlyDigits(this);updateFI()">
+        <input class="form-input" id="inp-fi-gasto" type="text" inputmode="numeric" placeholder="1800" oninput="onlyDigits(this);updateFI()" onblur="fmtBlur(this);updateFI()">
       </div>
       <div id="fi-output" style="display:none">
         <div class="kpi-strip">
@@ -559,12 +688,12 @@ const WD = 0.03;        // tasa de retirada sostenible neta de impuestos (no se 
 
 // ====== NAVIGATION ======
 const MILESTONE_MAP = {
-  s0: 0, s1: 0, s2: 1, s_datos: 2, s_cuanto: 2,
+  s0: 0, s1: 0, s2: 1, s_indexados: 1, s_datos: 2, s_cuanto: 2,
   s_como_1: 3, s_como_2: 3, s_sacar: 4, s_objetivos: 5,
   s_obj_imprevistos: 5, s_obj_piso: 5, s_obj_jubilacion: 5, s_obj_fi: 5
 };
 const SCREEN_TITLES = {
-  s0: 'Inicio', s1: 'Por qué', s2: 'Opciones', s_datos: 'Datos', s_cuanto: 'Cuánto',
+  s0: 'Inicio', s1: 'Por qué', s2: 'Opciones', s_indexados: 'Indexados', s_datos: 'Datos', s_cuanto: 'Cuánto',
   s_como_1: 'Cómo/Empezar', s_como_2: 'Cómo/Portfolio',
   s_sacar: 'Retirar', s_objetivos: 'Objetivos',
   s_obj_imprevistos: 'Obj/Imprevistos', s_obj_piso: 'Obj/Piso',
@@ -638,7 +767,8 @@ const TIPS = {
   reembolso: { title: 'Reembolso', text: 'Vender participaciones de un fondo para recuperar tu dinero. Suele tardar alrededor de un día hábil en llegar a tu cuenta.' },
   plusvalia: { title: 'Ganancia', text: 'La diferencia entre lo que vendes y lo que invertiste. Solo tributa esa diferencia, no el capital que pusiste.' },
   isin: { title: 'ISIN', text: 'Código identificador único de un fondo, como el ISBN de un libro. Sirve para buscarlo en cualquier broker.' },
-  ter: { title: 'TER', text: 'La comisión anual del fondo. Se descuenta poco a poco de forma automática. Cuanto más baja, mejor.' }
+  ter: { title: 'TER', text: 'La comisión anual del fondo. Se descuenta poco a poco de forma automática. Cuanto más baja, mejor.' },
+  comisiones: { title: 'Comisiones del broker', text: 'Lo que el broker te cobra por operar o por tener tu dinero ahí. Hay tres tipos: compra/venta (al invertir o vender), custodia o mantenimiento (un porcentaje anual solo por tener la cuenta) y traspaso (al mover el dinero a otro sitio). Sobre todo evita las de mantenimiento: te van comiendo el dinero aunque no muevas nada. Los buenos brokers cobran 0 € por mantener fondos indexados.' }
 };
 document.addEventListener('click', function(e) {
   const kw = e.target.closest('.kw');
@@ -748,11 +878,11 @@ function initCuantoChart() {
 }
 
 // ====== S_COMO ======
-const STARTER_FUND = { name: 'Fidelity MSCI World Index P Acc', isin: 'IE00BYX5NX33', ter: '0,12%', scope: 'mundo desarrollado', pct: 100 };
+const STARTER_FUND = { name: 'Vanguard Global Stock Index EUR Acc', isin: 'IE00B03HD191', ter: '0,18%', scope: 'mundo desarrollado', pct: 100 };
 const FULL_FUNDS = [
-  { name: 'Vanguard Global Stock Index EUR Acc', isin: 'IE00B03HD191', ter: '0,18%', scope: 'mundo desarrollado', pct: 50 },
-  { name: 'Vanguard European Stock Index EUR Acc', isin: 'IE0007987690', ter: '0,12%', scope: 'Europa', pct: 20 },
-  { name: 'Vanguard Emerging Markets Index EUR Acc', isin: 'IE0031786696', ter: '0,23%', scope: 'emergentes', pct: 20 },
+  { name: 'Fidelity MSCI World Index P Acc', isin: 'IE00BYX5NX33', ter: '0,12%', scope: 'mundo desarrollado', pct: 50 },
+  { name: 'iShares Developed Europe Index (IE)', isin: 'IE00B14X4N27', ter: '0,12%', scope: 'Europa', pct: 20 },
+  { name: 'iShares Emerging Markets Index Fund (IE)', isin: 'IE00BD0NCM55', ter: '0,18%', scope: 'emergentes', pct: 20 },
   { name: 'Vanguard Global Small-Cap Index EUR Acc', isin: 'IE00B42W3S00', ter: '0,29%', scope: 'pequeñas empresas', pct: 10 }
 ];
 function fundsTableHtml(funds, per6) {
@@ -911,6 +1041,66 @@ function updateFI() {
 function chooseObjetivo(type) {
   track('objetivo-elegido', { tipo: type });
   goTo('s_obj_' + type);
+}
+
+// ====== FEEDBACK ======
+// Endpoint de Formsubmit (modo hash, sin exponer el email).
+// Sustituir __FORMSUBMIT_HASH__ por el hash recibido al activar el formulario.
+const FEEDBACK_ENDPOINT = 'https://formsubmit.co/ajax/31181a9b83dda38926ace2532e4a9aba';
+let fbRating = 0;
+function openFeedback() {
+  fbRating = 0;
+  document.querySelectorAll('.fb-star').forEach(s => s.classList.remove('active'));
+  document.getElementById('fb-msg').value = '';
+  document.getElementById('fb-err').textContent = '';
+  document.getElementById('fb-form-wrap').style.display = '';
+  document.getElementById('fb-success').style.display = 'none';
+  document.getElementById('fb-submit').disabled = false;
+  document.getElementById('fb-submit').textContent = 'Enviar feedback';
+  document.getElementById('fb-overlay').classList.add('show');
+  track('feedback_open');
+}
+function closeFeedback() { document.getElementById('fb-overlay').classList.remove('show'); }
+function setRating(n) {
+  fbRating = n;
+  document.querySelectorAll('.fb-star').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.val, 10) <= n);
+  });
+}
+async function submitFeedback(e) {
+  e.preventDefault();
+  const msg = document.getElementById('fb-msg').value.trim();
+  const err = document.getElementById('fb-err');
+  if (fbRating === 0 && !msg) {
+    err.textContent = 'Pon al menos una puntuación o un comentario.';
+    return;
+  }
+  err.textContent = '';
+  const btn = document.getElementById('fb-submit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+  try {
+    const res = await fetch(FEEDBACK_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `Feedback AstroSavings (${fbRating || '—'}/5)`,
+        _captcha: 'false',
+        rating: fbRating || 'sin puntuación',
+        mensaje: msg || '(sin comentario)',
+        url: window.location.href,
+        userAgent: navigator.userAgent
+      })
+    });
+    if (!res.ok) throw new Error('Respuesta no OK');
+    track('feedback_sent', { rating: fbRating });
+    document.getElementById('fb-form-wrap').style.display = 'none';
+    document.getElementById('fb-success').style.display = '';
+  } catch (e2) {
+    err.textContent = 'No se pudo enviar. Intenta de nuevo en un momento.';
+    btn.disabled = false;
+    btn.textContent = 'Enviar feedback';
+  }
 }
 
 // ====== INIT ======
