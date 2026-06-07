@@ -89,6 +89,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 .info-block-icon{font-size:1.4rem;flex-shrink:0;line-height:1}
 .info-block-title{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--text);line-height:1.2}
 .info-block-body{font-size:.76rem;color:var(--text-sec);line-height:1.55}
+.info-collapse{margin:.1rem 0 .2rem}
+.info-collapse summary{cursor:pointer;font-size:.7rem;color:var(--sky-dark);font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:5px;padding:3px 0;user-select:none}
+.info-collapse summary::-webkit-details-marker{display:none}
+.info-collapse summary::marker{content:''}
+.info-collapse summary::before{content:'▸';font-size:.7rem;transition:transform .2s ease;display:inline-block;color:var(--sky-dark)}
+.info-collapse[open] summary::before{transform:rotate(90deg)}
+.info-collapse summary:hover{color:var(--sky)}
+.info-collapse .info-block-body{margin-top:.4rem}
 .info-block-visual{margin-top:.6rem}
 
 /* ====== NOTE BOXES ====== */
@@ -267,7 +275,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
       <div class="privacy-note">Esta guía registra datos de uso anónimos (qué pantallas se visitan). Ningún dato financiero o personal sale de tu dispositivo.</div>
       <div class="privacy-note">Está pensada para usarse junto a modelos de IA como ChatGPT o Claude, que pueden ayudarte a resolver dudas y aprender más a medida que avanzas.</div>
       <button class="btn-primary" onclick="goTo('s1')">Empezar →</button>
-      <div class="foot">Una app de Astro Cosas · v4.4</div>
+      <div class="foot">Una app de Astro Cosas · v4.5</div>
     </div>
 
     <!-- ====== S1: POR QUÉ INVERTIR ====== -->
@@ -279,17 +287,21 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">🔥</span><span class="info-block-title">La inflación se come tus ahorros</span></div>
+          <details class="info-collapse"><summary>Ver explicación</summary>
           <div class="info-block-body">Cada año las cosas cuestan un poco más. Lo que hoy compras con 100€, en 10 años puede costarte unos 135€. Si tu dinero está parado en la cuenta, no se mueve… y poco a poco puedes comprar menos con él. No lo notas de un día para otro, pero el efecto a 10 o 20 años es enorme.</div>
+          </details>
           <div class="info-block-visual">
             <div class="two-col-stat">
-              <div class="stat-box red"><span class="stat-num">−26%</span><span class="stat-lbl">poder de compra perdido en 10 años con el dinero parado</span></div>
+              <div class="stat-box red"><span class="stat-num">−26%</span><span class="stat-lbl">lo que podrás comprar con el mismo dinero 10 años después</span></div>
             </div>
           </div>
         </div>
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">🏛️</span><span class="info-block-title">La pensión pública es una incógnita</span></div>
+          <details class="info-collapse"><summary>Ver explicación</summary>
           <div class="info-block-body">El sistema de pensiones depende de que haya muchos trabajadores por cada jubilado. Hace décadas había unos 4; hoy estamos cerca de 2, y la tendencia sigue bajando. Nadie sabe cómo serán las pensiones dentro de 20 o 30 años. Depender solo de ellas para tu futuro es arriesgado.</div>
+          </details>
           <div class="info-block-visual">
             <div class="two-col-stat">
               <div class="stat-box blue"><span class="stat-num">~4</span><span class="stat-lbl">trabajadores por jubilado hace décadas</span></div>
@@ -300,7 +312,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">🌱</span><span class="info-block-title">Invertir es protegerte y crecer</span></div>
+          <details class="info-collapse"><summary>Ver explicación</summary>
           <div class="info-block-body">Invertir bien no es apostar ni hacerse rico de la noche a la mañana. Es poner tu dinero a trabajar para que, poco a poco, crezca más rápido que la inflación y construyas un colchón para lo que venga. Cuanto antes empieces, más tiempo tiene para crecer.</div>
+          </details>
         </div>
 
       </div>
@@ -318,7 +332,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="opt-main">
             <div class="opt-name">Negocios de conocidos</div>
             <div class="opt-meta">Rentabilidad <span class="v-low">baja</span><span class="sep">·</span>Riesgo <span class="v-low">muy alto</span></div>
-            <div class="opt-desc">Suena bien meter dinero en el negocio de un amigo, pero el riesgo es altísimo, no hay garantías y muchos acaban mal (y con la amistad de paso).</div>
+            <details class="info-collapse"><summary>Ver descripción</summary><div class="opt-desc">Suena bien meter dinero en el negocio de un amigo, pero el riesgo es altísimo, no hay garantías y muchos acaban mal (y con la amistad de paso).</div></details>
           </div>
         </div>
         <div class="opt-row">
@@ -326,7 +340,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="opt-main">
             <div class="opt-name">Criptomonedas</div>
             <div class="opt-meta">Rentabilidad <span class="v-high">alta</span><span class="sep">·</span>Riesgo <span class="v-low">muy alto</span></div>
-            <div class="opt-desc">Muy volátiles: pueden multiplicarse o desplomarse en semanas. Más apuesta que inversión.</div>
+            <details class="info-collapse"><summary>Ver descripción</summary><div class="opt-desc">Muy volátiles: pueden multiplicarse o desplomarse en semanas. Más apuesta que inversión.</div></details>
           </div>
         </div>
         <div class="opt-row">
@@ -334,7 +348,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="opt-main">
             <div class="opt-name">Acciones sueltas</div>
             <div class="opt-meta">Rentabilidad <span class="v-med">media</span><span class="sep">·</span>Riesgo <span class="v-low">alto</span></div>
-            <div class="opt-desc">Comprar empresas una a una. Alto potencial, pero concentras el riesgo en pocas y necesitas tiempo y conocimiento para acertar.</div>
+            <details class="info-collapse"><summary>Ver descripción</summary><div class="opt-desc">Comprar empresas una a una. Alto potencial, pero concentras el riesgo en pocas y necesitas tiempo y conocimiento para acertar.</div></details>
           </div>
         </div>
         <div class="opt-row">
@@ -342,7 +356,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="opt-main">
             <div class="opt-name">Pisos</div>
             <div class="opt-meta">Rentabilidad <span class="v-med">media</span><span class="sep">·</span>Riesgo <span class="v-med">medio</span><span class="sep">·</span>Gestión <span class="v-low">compleja</span></div>
-            <div class="opt-desc">Algo tangible, pero caro de entrar (necesitas un buen ahorro o hipoteca), difícil de vender rápido y con mucha gestión: inquilinos, averías e impuestos.</div>
+            <details class="info-collapse"><summary>Ver descripción</summary><div class="opt-desc">Algo tangible, pero caro de entrar (necesitas un buen ahorro o hipoteca), difícil de vender rápido y con mucha gestión: inquilinos, averías e impuestos.</div></details>
           </div>
         </div>
         <div class="opt-row">
@@ -350,13 +364,13 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
           <div class="opt-main">
             <div class="opt-name">Fondos monetarios</div>
             <div class="opt-meta">Rentabilidad <span class="v-low">baja</span><span class="sep">·</span>Riesgo <span class="v-high">muy bajo</span><span class="sep">·</span>Gestión <span class="v-high">sencilla</span></div>
-            <div class="opt-desc">Como tener el dinero en el banco, pero ganando intereses (en torno al 3-4% anual según los tipos del BCE). Sin sobresaltos. Ideal para el colchón de emergencia y dinero que necesitarás pronto.</div>
+            <details class="info-collapse"><summary>Ver descripción</summary><div class="opt-desc">Como tener el dinero en el banco, pero ganando intereses (en torno al 3-4% anual según los tipos del BCE). Sin sobresaltos. Ideal para el colchón de emergencia y dinero que necesitarás pronto.</div></details>
           </div>
         </div>
         <div class="opt-row pick">
           <span class="opt-icon">📊</span>
           <div class="opt-main">
-            <div class="opt-name">Fondos indexados <span class="pick-flag">Recomendado</span></div>
+            <div class="opt-name">Fondos indexados <span class="pick-flag">Lo que te explicaremos</span></div>
             <div class="opt-meta">Rentabilidad <span class="v-med">media</span><span class="sep">·</span>Riesgo <span class="v-med">medio</span><span class="sep">·</span>Gestión <span class="v-high">sencilla</span></div>
             <div class="opt-desc">Compras un trocito de miles de empresas a la vez. Diversificación instantánea, coste muy bajo y sin mantenimiento. Ideal para hacer crecer tu dinero a largo plazo.</div>
           </div>
@@ -374,7 +388,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">📊</span><span class="info-block-title">¿Qué es exactamente?</span></div>
+          <details class="info-collapse" open><summary>Ver explicación</summary>
           <div class="info-block-body">Imagina una cesta que contiene un trocito de miles de empresas a la vez. Eso es un fondo indexado. En lugar de elegir empresas una por una, compras la cesta entera y te toca un poquito de cada una. De los más populares son los que replican al índice <strong>MSCI World</strong>, que contiene unas 1.500 empresas de 23 países desarrollados: Apple, Nestlé, Toyota, Inditex… Si esas empresas en conjunto suben un 7%, tu fondo sube aproximadamente lo mismo.</div>
+          </details>
           <div class="info-block-visual">
             <div class="two-col-stat">
               <div class="stat-box blue"><span class="stat-num">~1.500</span><span class="stat-lbl">empresas dentro de un fondo MSCI World</span></div>
@@ -386,11 +402,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">🛒</span><span class="info-block-title">Comprar y vender es sencillo</span></div>
+          <details class="info-collapse"><summary>Ver explicación</summary>
           <div class="info-block-body">Cuando inviertes, compras <strong>participaciones</strong> del fondo (algo así como acciones del propio fondo). Su precio cambia cada día según suben o bajan las empresas que contiene. Puedes vender cuando quieras y recibir el dinero en tu cuenta en pocos días. No hay penalizaciones por sacarlo antes de tiempo, pero sí pagas impuestos sobre las ganancias cuando vendes (no antes).</div>
+          </details>
         </div>
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">✨</span><span class="info-block-title">Por qué funcionan tan bien</span></div>
+          <details class="info-collapse"><summary>Ver explicación</summary>
           <div class="info-block-body">
             <ul style="margin:0;padding-left:1.1rem;line-height:1.6">
               <li><strong>Se renueva solo:</strong> cuando una empresa va mal, acaba saliendo del índice y entra otra que lo está haciendo mejor. No tienes que estar tú decidiendo nada.</li>
@@ -399,11 +418,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
               <li><strong>Mejor a largo plazo:</strong> está estudiado y demostrado que, a largo plazo, ofrecen mejor rentabilidad y menor riesgo que el resto de fondos.</li>
             </ul>
           </div>
+          </details>
         </div>
 
         <div class="info-block">
           <div class="info-block-head"><span class="info-block-icon">⚠️</span><span class="info-block-title">El riesgo: el valor sube y baja</span></div>
+          <details class="info-collapse"><summary>Ver explicación</summary>
           <div class="info-block-body">A largo plazo el MSCI World ha subido de media en torno a un <strong>8 % anual</strong> (desde 1979), pero hay años muy malos. En la crisis de 2008 cayó cerca de un <strong>40 %</strong> en un solo año, y tardó unos <strong>5 años</strong> en recuperar el nivel previo. En la burbuja puntocom (2000-2002) cayó un 47 % acumulado y tardó unos 7 años en recuperarse. En 2020 cayó un 34 % en pocas semanas, pero se recuperó en 6 meses.</div>
+          </details>
           <div class="info-block-visual">
             <div class="two-col-stat">
               <div class="stat-box green"><span class="stat-num">~+8%</span><span class="stat-lbl">rentabilidad anual media histórica del MSCI World</span></div>
@@ -447,7 +469,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#eef5fb;color:#1a2030
     <div class="screen scroll" id="s_cuanto">
       <div class="eyebrow">Paso 3 · Cuánto puedes conseguir</div>
       <h1 class="headline" style="margin-bottom:.35rem">Así puede crecer tu dinero</h1>
-      <p class="subline">Comparado con dejarlo parado, e invirtiéndolo en un índice global. Suponemos un crecimiento medio del 6% anual.</p>
+      <p class="subline">Si en el futuro pasa lo mismo que lleva ocurriendo desde hace más de 100 años, tus ahorros invertidos en fondos indexados crecerán de media un 6% cada año.</p>
       <div class="proj-results" id="cuanto-results"></div>
       <div class="chart-legend">
         <div class="leg-item"><span class="leg-dot" style="background:#94a3b8"></span>Sin invertir</div>
